@@ -314,11 +314,14 @@
     scroll-behavior: smooth;
     scrollbar-width: none;
     -ms-overflow-style: none;
-    padding: 4px 0 16px;
-    margin-left: -48px;
-    margin-right: -48px;
-    padding-left: 48px;
-    padding-right: 48px;
+    /* Full bleed: make grid viewport-wide regardless of parent max-width */
+    width: 100vw;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+    /* Align first card with section header above */
+    padding: 4px max(24px, calc((100vw - 1100px) / 2 + 48px)) 16px max(24px, calc((100vw - 1100px) / 2 + 48px));
+    box-sizing: border-box;
   }
   .project-grid::-webkit-scrollbar,
   .project-grid-scroll::-webkit-scrollbar { display: none; }
@@ -333,8 +336,6 @@
   @media (max-width: 600px) {
     .project-grid,
     .project-grid-scroll {
-      margin-left: -16px;
-      margin-right: -16px;
       padding-left: 16px;
       padding-right: 16px;
       gap: 16px;
@@ -594,7 +595,6 @@
     nav { padding: 0 16px; }
     .hero, .container, .cs-hero, .cs-body, .contact-section { padding-left: 16px; padding-right: 16px; }
     .hero { padding-top: 96px; padding-bottom: 48px; }
-    section[id="work-section"], section { padding-left: 16px !important; padding-right: 16px !important; }
     .project-card { padding: 16px; }
     .card-image { height: 140px; }
     .card-title { font-size: 22px; }
@@ -733,22 +733,24 @@
   <section id="work-section" style="padding:40px 0 100px;max-width:1100px;margin:0 auto;overflow:visible">
 
     <!-- Kodo -->
-    <div style="margin-bottom:80px;padding:0 48px">
-      <div class="divider reveal">
-        <div class="divider-dot"></div><div class="divider-line"></div>
-        <span class="label">Work — Section 01</span>
-        <div class="divider-line"></div><div class="divider-diamond"></div>
-      </div>
-      <div class="section-header reveal">
-        <div>
-          <h2>KODO TECHNOLOGIES</h2>
-          <span class="label">DEC 2025 – PRESENT · B2B SPEND MANAGEMENT · FINTECH</span>
+    <div style="margin-bottom:80px">
+      <div style="padding:0 48px">
+        <div class="divider reveal">
+          <div class="divider-dot"></div><div class="divider-line"></div>
+          <span class="label">Work — Section 01</span>
+          <div class="divider-line"></div><div class="divider-diamond"></div>
         </div>
-        <div class="section-header-right">
-          <span class="label" style="opacity:0.4">5 PROJECTS</span>
-          <div class="scroll-arrows">
-            <button class="scroll-arrow" onclick="scrollCards('kodo-grid', -1)">←</button>
-            <button class="scroll-arrow" onclick="scrollCards('kodo-grid', 1)">→</button>
+        <div class="section-header reveal">
+          <div>
+            <h2>KODO TECHNOLOGIES</h2>
+            <span class="label">DEC 2025 – PRESENT · B2B SPEND MANAGEMENT · FINTECH</span>
+          </div>
+          <div class="section-header-right">
+            <span class="label" style="opacity:0.4">5 PROJECTS</span>
+            <div class="scroll-arrows">
+              <button class="scroll-arrow" onclick="scrollCards('kodo-grid', -1)">←</button>
+              <button class="scroll-arrow" onclick="scrollCards('kodo-grid', 1)">→</button>
+            </div>
           </div>
         </div>
       </div>
@@ -878,7 +880,7 @@
     </div>
 
     <!-- PayNearby -->
-    <div style="padding:0 48px">
+    <div style="padding:0 48px 0">
       <div class="divider reveal">
         <div class="divider-dot"></div><div class="divider-line"></div>
         <span class="label">Work — Section 02</span>
@@ -891,7 +893,8 @@
         </div>
         <span class="label" style="opacity:0.4">3 PROJECTS</span>
       </div>
-      <div class="project-grid" id="paynearby-grid">
+    </div>
+    <div class="project-grid" id="paynearby-grid">
         <!-- PN-01 -->
         <a class="project-card reveal" onclick="showPage('apply-pan-cs')" style="transition-delay:0s">
           <div class="card-corner tl"></div><div class="card-corner tr"></div>
@@ -963,7 +966,8 @@
         </div>
         <span class="label" style="opacity:0.4">1 STUDY</span>
       </div>
-      <div class="project-grid">
+    </div>
+    <div class="project-grid">
         <!-- CS-01 -->
         <a class="project-card reveal" onclick="showPage('mytransactions-cs')" style="transition-delay:0s">
           <div class="card-corner tl"></div><div class="card-corner tr"></div>
