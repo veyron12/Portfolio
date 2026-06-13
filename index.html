@@ -198,13 +198,13 @@
   .reveal.visible { opacity: 1; transform: translateY(0); }
 
   /* ── CONTAINER ── */
-  .container { max-width: 1440px; margin: 0 auto; padding: 0 48px; }
+  .container { max-width: 1100px; margin: 0 auto; padding: 0 48px; }
 
   /* ── HOME HERO ── */
   .hero {
     min-height: 100vh; display: flex; flex-direction: column;
     justify-content: center; padding: 120px 48px 80px;
-    max-width: 1440px; margin: 0 auto; position: relative;
+    max-width: 1100px; margin: 0 auto; position: relative;
   }
   .status-badge {
     display: inline-flex; align-items: center; gap: 10px;
@@ -311,17 +311,14 @@
     display: flex;
     gap: 24px;
     overflow-x: auto;
-    overflow-y: visible;
+    overflow-y: hidden;
     scroll-behavior: smooth;
     scrollbar-width: none;
     -ms-overflow-style: none;
-    /* Full bleed: make grid viewport-wide regardless of parent max-width */
-    width: 100vw;
-    position: relative;
-    left: 50%;
-    transform: translateX(-50%);
-    /* Align first card with section header above */
-    padding: 4px max(24px, calc((100vw - 1440px) / 2 + 48px)) 16px max(24px, calc((100vw - 1440px) / 2 + 48px));
+    margin-left: -48px;
+    margin-right: -48px;
+    padding: 4px 24px 16px 48px;
+    width: calc(100% + 96px);
     box-sizing: border-box;
   }
   .project-grid::-webkit-scrollbar,
@@ -337,8 +334,11 @@
   @media (max-width: 600px) {
     .project-grid,
     .project-grid-scroll {
+      margin-left: -16px;
+      margin-right: -16px;
       padding-left: 16px;
       padding-right: 16px;
+      width: calc(100% + 32px);
       gap: 16px;
     }
     .project-grid .project-card,
@@ -446,7 +446,7 @@
   .card-open-line { flex: 1; height: 1px; background: rgba(255,255,255,0.2); }
 
   /* ── CONTACT SECTION ── */
-  .contact-section { padding: 80px 48px 100px; max-width: 1440px; margin: 0 auto; }
+  .contact-section { padding: 80px 48px 100px; max-width: 1100px; margin: 0 auto; }
   .contact-inner { display: flex; justify-content: space-between; align-items: flex-start; gap: 40px; flex-wrap: wrap; }
   .contact-heading h2 {
     font-family: var(--display);
@@ -498,7 +498,7 @@
   }
 
   /* ── CASE STUDY PAGE ── */
-  .cs-hero { padding: 120px 48px 80px; max-width: 1440px; margin: 0 auto; }
+  .cs-hero { padding: 120px 48px 80px; max-width: 1100px; margin: 0 auto; }
   .cs-meta { display: inline-flex; align-items: center; gap: 10px; margin-bottom: 32px; }
   .cs-meta-sep { width: 20px; height: 1px; background: rgba(255,255,255,0.2); }
   .cs-title {
@@ -514,7 +514,7 @@
     font-size: 17px; color: rgba(255,255,255,0.65); max-width: 680px;
     line-height: 1.8; font-weight: 300; animation: fadeUp 0.7s ease 0.1s both;
   }
-  .cs-body { max-width: 1440px; margin: 0 auto; padding: 0 48px 120px; }
+  .cs-body { max-width: 1100px; margin: 0 auto; padding: 0 48px 120px; }
   .cs-two-col { display: grid; grid-template-columns: 1fr 2fr; gap: 48px; align-items: start; }
   .cs-section-title { font-family: var(--display); font-size: 36px; letter-spacing: 3px; color: #fff; }
   .cs-body-text { font-size: 15px; color: rgba(255,255,255,0.6); line-height: 1.85; font-weight: 300; }
@@ -699,7 +699,7 @@
   </div>
 
   <!-- Approach -->
-  <section style="padding:24px 48px 40px;max-width:1440px;margin:0 auto">
+  <section style="padding:24px 48px 40px;max-width:1100px;margin:0 auto">
     <div class="divider reveal">
       <div class="divider-dot"></div><div class="divider-line"></div>
       <span class="label">Design Process</span>
@@ -731,12 +731,11 @@
   </section>
 
   <!-- Work -->
-  <section id="work-section" style="padding:40px 0 100px;max-width:1440px;margin:0 auto;overflow:visible">
+  <section id="work-section" style="padding:40px 48px 100px;max-width:1100px;margin:0 auto;overflow:visible">
 
     <!-- Kodo -->
     <div style="margin-bottom:80px">
-      <div style="padding:0 48px">
-        <div class="divider reveal">
+      <div class="divider reveal">
           <div class="divider-dot"></div><div class="divider-line"></div>
           <span class="label">Work — Section 01</span>
           <div class="divider-line"></div><div class="divider-diamond"></div>
@@ -754,7 +753,6 @@
             </div>
           </div>
         </div>
-      </div>
       <div class="project-grid-scroll" id="kodo-grid">
         <!-- KD-01 LOGIN -->
         <a class="project-card reveal" onclick="showPage('login-cs')" style="transition-delay:0s">
@@ -881,7 +879,7 @@
     </div>
 
     <!-- PayNearby -->
-    <div style="padding:0 48px 0">
+    <div>
       <div class="divider reveal">
         <div class="divider-dot"></div><div class="divider-line"></div>
         <span class="label">Work — Section 02</span>
@@ -954,7 +952,7 @@
     </div>
 
     <!-- Case Studies -->
-    <div style="margin-top:80px;padding:0 48px">
+    <div style="margin-top:80px">
       <div class="divider reveal">
         <div class="divider-dot"></div><div class="divider-line"></div>
         <span class="label">Deep Dives — Section 03</span>
