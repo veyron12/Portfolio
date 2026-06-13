@@ -318,6 +318,7 @@
     margin-left: -48px;
     margin-right: -48px;
     width: calc(100% + 96px);
+    scroll-padding-left: 48px;
   }
   .project-grid::-webkit-scrollbar,
   .project-grid-scroll::-webkit-scrollbar { display: none; }
@@ -1788,6 +1789,8 @@
     document.querySelectorAll('.page').forEach(p => p.classList.remove('active'))
     document.getElementById('page-' + id).classList.add('active')
     window.scrollTo({ top: 0, behavior: 'instant' })
+    // Reset all card container scroll positions
+    document.querySelectorAll('.project-grid, .project-grid-scroll').forEach(el => el.scrollLeft = 0)
     setTimeout(initReveal, 100)
   }
 
