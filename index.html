@@ -1,0 +1,1847 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Harshal Rathod — Senior Product Designer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=JetBrains+Mono:wght@300;400;500&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,400&display=swap" />
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  ::-webkit-scrollbar { width: 3px; }
+  ::-webkit-scrollbar-track { background: #050505; }
+  ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 2px; }
+
+  :root {
+    --bg: #050505;
+    --white: #ffffff;
+    --mono: 'JetBrains Mono', 'Courier New', monospace;
+    --display: 'Bebas Neue', sans-serif;
+    --body: 'DM Sans', sans-serif;
+  }
+
+  /* ── LOADER ── */
+  #loader {
+    position: fixed;
+    inset: 0;
+    background: var(--bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9998;
+    transition: opacity 0.6s ease, visibility 0.6s ease;
+    opacity: 1;
+    visibility: visible;
+  }
+  #loader.hidden {
+    opacity: 0;
+    visibility: hidden;
+  }
+  .loader-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+  }
+  .loader-circle-wrapper {
+    position: relative;
+    width: 140px;
+    height: 140px;
+  }
+  .loader-circle-bg {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    border: 2px solid rgba(255,255,255,0.1);
+  }
+  .loader-circle-progress {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    border: 2px solid transparent;
+    border-top-color: rgba(255,255,255,0.8);
+    border-right-color: rgba(255,255,255,0.6);
+    animation: rotate 2s linear infinite;
+  }
+  .loader-text {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+  }
+  .loader-percent {
+    font-family: var(--mono);
+    font-size: 18px;
+    color: rgba(255,255,255,0.9);
+    font-weight: 500;
+    letter-spacing: 2px;
+  }
+  .loader-label {
+    font-family: var(--mono);
+    font-size: 9px;
+    color: rgba(255,255,255,0.4);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-top: 2px;
+  }
+  .loader-dots {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: rgba(255,255,255,0.5);
+    letter-spacing: 3px;
+    animation: dots 1.4s steps(4, end) infinite;
+  }
+  @keyframes rotate { to { transform: rotate(360deg); } }
+  @keyframes dots { 0%, 20% { content: ''; } 40% { content: '.'; } 60% { content: '..'; } 80%, 100% { content: '...'; } }
+
+  body {
+    background: var(--bg);
+    color: var(--white);
+    font-family: var(--body);
+    min-height: 100vh;
+    cursor: none;
+    overflow-x: clip;
+  }
+
+  /* ── CURSOR ── */
+  #cursor {
+    position: fixed;
+    width: 400px; height: 400px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(255,255,255,0.055) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%, -50%);
+    transition: left 0.08s linear, top 0.08s linear;
+    left: -300px; top: -300px;
+  }
+  #cursor-dot {
+    position: fixed;
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: #ffffff;
+    pointer-events: none;
+    z-index: 10000;
+    transform: translate(-50%, -50%);
+    left: -20px; top: -20px;
+    mix-blend-mode: difference;
+  }
+
+  /* ── GRID BG ── */
+  #grid-bg {
+    position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  }
+
+  /* ── PAGES ── */
+  .page { display: none; position: relative; z-index: 2; opacity: 1; transition: opacity 0.6s ease; }
+  .page.active { display: block; }
+  body.page-loaded .page.active { opacity: 1; }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    height: 56px; display: flex; align-items: center;
+    justify-content: space-between; padding: 0 48px;
+    transition: background 0.4s, border-color 0.4s, backdrop-filter 0.4s;
+    border-bottom: 1px solid transparent;
+    opacity: 0;
+    transition: opacity 0.6s ease 0.3s, background 0.4s, border-color 0.4s, backdrop-filter 0.4s;
+  }
+  body.page-loaded nav { opacity: 1; }
+  nav.scrolled {
+    background: rgba(5,5,5,0.95);
+    backdrop-filter: blur(12px);
+    border-bottom-color: rgba(255,255,255,0.07);
+  }
+  .nav-logo { display: flex; align-items: center; gap: 12px; cursor: pointer; text-decoration: none; }
+  .nav-links { display: flex; gap: 32px; }
+  .nav-links a {
+    font-family: var(--mono); font-size: 11px; letter-spacing: 1.5px;
+    text-transform: uppercase; color: rgba(255,255,255,0.5);
+    text-decoration: none; transition: color 0.2s;
+  }
+  .nav-links a:hover { color: #fff; }
+
+  /* ── LABEL ── */
+  .label {
+    font-family: var(--mono); font-size: 10px; letter-spacing: 1.5px;
+    text-transform: uppercase; color: rgba(255,255,255,0.5);
+  }
+
+  /* ── DIVIDER ── */
+  .divider {
+    display: flex; align-items: center; gap: 16px;
+    margin: 40px 0 28px;
+    opacity: 0; transform: translateY(10px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .divider.visible { opacity: 1; transform: translateY(0); }
+  .divider-dot {
+    width: 10px; height: 10px; border: 1px solid rgba(255,255,255,0.4);
+    border-radius: 50%; flex-shrink: 0;
+  }
+  .divider-diamond {
+    width: 10px; height: 10px; border: 1px solid rgba(255,255,255,0.4);
+    transform: rotate(45deg); flex-shrink: 0;
+  }
+  .divider-line { flex: 1; height: 1px; background: rgba(255,255,255,0.1); }
+
+  /* ── REVEAL ── */
+  .reveal {
+    opacity: 0; transform: translateY(28px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  /* ── CONTAINER ── */
+  .container { max-width: 1100px; margin: 0 auto; padding: 0 48px; }
+
+  /* ── HOME HERO ── */
+  .hero {
+    min-height: 100vh; display: flex; flex-direction: column;
+    justify-content: center; padding: 120px 48px 80px;
+    max-width: 1100px; margin: 0 auto; position: relative;
+  }
+  .status-badge {
+    display: inline-flex; align-items: center; gap: 10px;
+    margin-bottom: 48px;
+    animation: fadeUp 0.6s ease both;
+  }
+  .status-dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: #fff; opacity: 0.9;
+    animation: blink 2.4s ease infinite;
+  }
+  .hero-name h1 {
+    font-family: var(--display);
+    font-size: clamp(72px, 12vw, 156px);
+    font-weight: 400; line-height: 0.92; letter-spacing: 4px;
+  }
+  .hero-name h1.solid { color: #fff; animation: fadeUp 0.7s ease 0.1s both; }
+  .hero-name h1.outline {
+    color: transparent;
+    -webkit-text-stroke: 1px rgba(255,255,255,0.5);
+    animation: fadeUp 0.7s ease 0.15s both;
+  }
+  .hero-name-row { display: flex; align-items: center; gap: 20px; }
+  .hero-role { display: flex; flex-direction: column; gap: 4px; opacity: 0.35; padding-top: 8px; }
+  .hero-role-line { width: 40px; height: 1px; background: #fff; }
+  .hero-tagline {
+    display: flex; align-items: flex-start; gap: 32px;
+    animation: fadeUp 0.7s ease 0.25s both; margin-bottom: 40px; margin-top: 32px;
+  }
+  .tagline-rule { width: 1px; height: 60px; background: rgba(255,255,255,0.15); flex-shrink: 0; margin-top: 4px; }
+  .tagline-tick { width: 6px; height: 1px; background: rgba(255,255,255,0.2); }
+  .hero-tagline p {
+    font-size: 15px; color: rgba(255,255,255,0.65); max-width: 440px;
+    line-height: 1.8; font-weight: 300;
+  }
+  .hero-ctas { display: flex; gap: 16px; animation: fadeUp 0.7s ease 0.35s both; padding-left: 33px; }
+  .btn-primary {
+    display: inline-flex; align-items: center; gap: 10px;
+    border: 1px solid rgba(255,255,255,0.35); color: #fff;
+    padding: 11px 24px; text-decoration: none;
+    font-family: var(--mono); font-size: 11px; letter-spacing: 2px; text-transform: uppercase;
+    transition: background 0.2s, border-color 0.2s; cursor: none;
+  }
+  .btn-primary:hover { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.6); }
+  .btn-ghost {
+    display: inline-flex; align-items: center;
+    color: rgba(255,255,255,0.5); padding: 11px 24px;
+    text-decoration: none; font-family: var(--mono);
+    font-size: 11px; letter-spacing: 2px; text-transform: uppercase;
+    transition: color 0.2s; cursor: none;
+  }
+  .btn-ghost:hover { color: #fff; }
+  .scroll-hint {
+    position: absolute; bottom: 40px; right: 0;
+    display: flex; align-items: center; gap: 10px;
+    animation: fadeUp 0.7s ease 0.5s both;
+  }
+  .scroll-hint-line { width: 24px; height: 1px; background: rgba(255,255,255,0.2); }
+
+  /* ── APPROACH ── */
+  .approach-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+  }
+  .approach-item {
+    padding: 20px 24px;
+    border: 1px solid rgba(255,255,255,0.08);
+    border-right: none;
+    position: relative;
+    overflow: hidden;
+  }
+  .approach-item:last-child { border-right: 1px solid rgba(255,255,255,0.08); }
+  .approach-item::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0;
+    width: 0; height: 1px;
+    background: rgba(255,255,255,0.4);
+    transition: width 0.5s ease;
+  }
+  .approach-item.visible::after { width: 100%; }
+  .approach-item-top {
+    display: flex; flex-direction: column; align-items: flex-start; gap: 8px; margin-bottom: 10px;
+  }
+  .approach-item h3 {
+    font-family: var(--display); font-size: 22px; letter-spacing: 3px;
+    color: rgba(255,255,255,0.9); margin: 0;
+  }
+  .approach-item p {
+    font-size: 12px; color: rgba(255,255,255,0.45); line-height: 1.65;
+    font-weight: 300; margin: 0;
+  }
+
+  /* ── WORK SECTION ── */
+  .section-header { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 32px; flex-wrap: wrap; gap: 8px; }
+  .section-header h2 { font-family: var(--display); font-size: 42px; letter-spacing: 4px; color: #fff; }
+  .section-header h2.dim { color: rgba(255,255,255,0.7); }
+
+  /* ── PROJECT GRID ── */
+  /* ── ALL CARD CONTAINERS — UNIFIED ── */
+  .project-grid,
+  .project-grid-scroll {
+    display: flex;
+    gap: 24px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-behavior: smooth;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    margin-left: -48px;
+    margin-right: -48px;
+    padding: 4px 24px 16px 48px;
+    width: calc(100% + 96px);
+    box-sizing: border-box;
+  }
+  .project-grid::-webkit-scrollbar,
+  .project-grid-scroll::-webkit-scrollbar { display: none; }
+
+  /* ── ALL CARDS — UNIFIED SIZE ── */
+  .project-grid .project-card,
+  .project-grid-scroll .project-card {
+    flex: 0 0 clamp(260px, 28vw, 340px);
+    min-width: 0;
+  }
+
+  @media (max-width: 600px) {
+    .project-grid,
+    .project-grid-scroll {
+      margin-left: -16px;
+      margin-right: -16px;
+      padding-left: 16px;
+      padding-right: 16px;
+      width: calc(100% + 32px);
+      gap: 16px;
+    }
+    .project-grid .project-card,
+    .project-grid-scroll .project-card {
+      flex: 0 0 clamp(220px, 75vw, 280px);
+    }
+  }
+
+  /* ── HORIZONTAL SCROLL ── */
+  /* ── SCROLL ARROWS ── */
+  .section-header-right {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .scroll-arrows {
+    display: flex;
+    gap: 8px;
+  }
+  .scroll-arrow {
+    width: 32px;
+    height: 32px;
+    border: 1px solid rgba(255,255,255,0.2);
+    background: transparent;
+    color: rgba(255,255,255,0.6);
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .scroll-arrow:hover {
+    border-color: rgba(255,255,255,0.5);
+    color: #fff;
+    background: rgba(255,255,255,0.05);
+  }
+
+  /* ── PROJECT CARD ── */
+  .project-card {
+    position: relative;
+    border: 1px solid rgba(255,255,255,0.1);
+    padding: 24px; cursor: pointer;
+    transition: border-color 0.3s, background 0.3s;
+    overflow: hidden; text-decoration: none;
+    color: inherit;
+    display: flex; flex-direction: column;
+    min-height: 420px;
+  }
+  .project-card:hover { border-color: rgba(255,255,255,0.25); background: rgba(255,255,255,0.04); }
+  .card-corner { position: absolute; width: 12px; height: 12px; transition: border-color 0.3s; }
+  .card-corner.tl { top: -1px; left: -1px; border-top: 2px solid rgba(255,255,255,0.3); border-left: 2px solid rgba(255,255,255,0.3); }
+  .card-corner.tr { top: -1px; right: -1px; border-top: 2px solid rgba(255,255,255,0.3); border-right: 2px solid rgba(255,255,255,0.3); }
+  .card-corner.bl { bottom: -1px; left: -1px; border-bottom: 2px solid rgba(255,255,255,0.3); border-left: 2px solid rgba(255,255,255,0.3); }
+  .card-corner.br { bottom: -1px; right: -1px; border-bottom: 2px solid rgba(255,255,255,0.3); border-right: 2px solid rgba(255,255,255,0.3); }
+  .project-card:hover .card-corner { border-color: rgba(255,255,255,0.6); }
+
+  .card-image {
+    width: 100%; height: 180px; margin-bottom: 20px;
+    border: 1px dashed rgba(255,255,255,0.1);
+    position: relative; display: flex; align-items: center; justify-content: center;
+    overflow: hidden; background: #0a0a0a;
+    flex-shrink: 0;
+  }
+  .card-image img {
+    width: 100%; height: 100%; object-fit: cover;
+    opacity: 0.4; filter: grayscale(100%);
+    transition: transform 0.6s ease, opacity 0.3s;
+  }
+  .project-card:hover .card-image img { transform: scale(1.05); opacity: 0.6; }
+  .card-image-overlay {
+    position: absolute; inset: 0; pointer-events: none;
+  }
+  .card-crosshair-h { position: absolute; top: 50%; left: 0; right: 0; height: 1px; background: rgba(255,255,255,0.05); }
+  .card-crosshair-v { position: absolute; left: 50%; top: 0; bottom: 0; width: 1px; background: rgba(255,255,255,0.05); }
+  .card-placeholder-icon {
+    width: 36px; height: 36px; border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 50%; display: flex; align-items: center; justify-content: center;
+  }
+  .card-placeholder-inner { width: 8px; height: 8px; border: 1px solid rgba(255,255,255,0.25); border-radius: 50%; }
+  .card-image-label { position: absolute; bottom: 8px; right: 10px; }
+  .card-image-grid {
+    position: absolute; inset: 0; pointer-events: none;
+  }
+
+  .card-meta { display: flex; justify-content: space-between; margin-bottom: 12px; }
+  .card-title {
+    font-family: var(--display); font-size: 28px; font-weight: 400;
+    letter-spacing: 2px; color: rgba(255,255,255,0.9);
+    margin-bottom: 10px; line-height: 1; transition: color 0.3s;
+  }
+  .project-card:hover .card-title { color: #fff; }
+  .card-desc { font-size: 13px; color: rgba(255,255,255,0.55); line-height: 1.7; margin-bottom: 18px; font-weight: 300; flex: 1; }
+  .card-tags { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 20px; min-height: 48px; align-content: flex-start; }
+  .card-tag {
+    font-family: var(--mono); font-size: 9px; letter-spacing: 1.5px; text-transform: uppercase;
+    border: 1px solid rgba(255,255,255,0.2); padding: 3px 8px; color: rgba(255,255,255,0.5);
+  }
+  .card-open {
+    display: flex; align-items: center; gap: 8px;
+    opacity: 0; transition: opacity 0.3s;
+  }
+  .project-card:hover .card-open { opacity: 1; }
+  .card-open-line { flex: 1; height: 1px; background: rgba(255,255,255,0.2); }
+
+  /* ── CONTACT SECTION ── */
+  .contact-section { padding: 80px 48px 100px; max-width: 1100px; margin: 0 auto; }
+  .contact-inner { display: flex; justify-content: space-between; align-items: flex-start; gap: 40px; flex-wrap: wrap; }
+  .contact-heading h2 {
+    font-family: var(--display);
+    font-size: clamp(48px, 7vw, 88px);
+    letter-spacing: 4px; line-height: 0.95; color: #fff; margin: 0;
+  }
+  .contact-heading h2.outline {
+    color: transparent; -webkit-text-stroke: 1px rgba(255,255,255,0.5);
+  }
+  .contact-right {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    min-width: 280px;
+  }
+  .contact-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 24px;
+    padding: 16px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+  .contact-row:first-child { border-top: 1px solid rgba(255,255,255,0.08); }
+  .contact-row-label {
+    font-family: var(--mono); font-size: 10px; letter-spacing: 1.5px;
+    text-transform: uppercase; color: rgba(255,255,255,0.4); flex-shrink: 0;
+  }
+  .contact-row-value {
+    font-family: var(--mono); font-size: 12px; color: rgba(255,255,255,0.8);
+    text-decoration: none; letter-spacing: 0.5px; transition: color 0.2s;
+    text-align: right;
+  }
+  .contact-row-value:hover { color: #fff; }
+  .contact-socials-row {
+    display: flex;
+    gap: 24px;
+    margin-top: 28px;
+  }
+  .contact-social-link {
+    font-family: var(--mono); font-size: 10px; letter-spacing: 1.5px;
+    text-transform: uppercase; color: rgba(255,255,255,0.35);
+    text-decoration: none; transition: color 0.2s;
+  }
+  .contact-social-link:hover { color: #fff; }
+  .contact-footer {
+    margin-top: 80px; display: flex; justify-content: space-between;
+    border-top: 1px solid rgba(255,255,255,0.08); padding-top: 24px;
+  }
+
+  /* ── CASE STUDY PAGE ── */
+  .cs-hero { padding: 120px 48px 80px; max-width: 1100px; margin: 0 auto; }
+  .cs-meta { display: inline-flex; align-items: center; gap: 10px; margin-bottom: 32px; }
+  .cs-meta-sep { width: 20px; height: 1px; background: rgba(255,255,255,0.2); }
+  .cs-title {
+    font-family: var(--display);
+    font-size: clamp(56px, 9vw, 120px);
+    font-weight: 400; letter-spacing: 4px; line-height: 0.92;
+    color: #fff; margin-bottom: 32px;
+    animation: fadeUp 0.7s ease both;
+  }
+  .cs-intro { display: flex; gap: 32px; align-items: flex-start; }
+  .cs-intro-rule { width: 1px; height: 80px; background: rgba(255,255,255,0.15); flex-shrink: 0; margin-top: 4px; }
+  .cs-intro p {
+    font-size: 17px; color: rgba(255,255,255,0.65); max-width: 680px;
+    line-height: 1.8; font-weight: 300; animation: fadeUp 0.7s ease 0.1s both;
+  }
+  .cs-body { max-width: 1100px; margin: 0 auto; padding: 0 48px 120px; }
+  .cs-two-col { display: grid; grid-template-columns: 1fr 2fr; gap: 48px; align-items: start; }
+  .cs-section-title { font-family: var(--display); font-size: 36px; letter-spacing: 3px; color: #fff; }
+  .cs-body-text { font-size: 15px; color: rgba(255,255,255,0.6); line-height: 1.85; font-weight: 300; }
+  .cs-image {
+    width: 100%; margin-bottom: 24px;
+    border: 1px solid rgba(255,255,255,0.08); overflow: hidden;
+    opacity: 0; transition: opacity 0.8s ease;
+  }
+  .cs-image.visible { opacity: 1; }
+  .cs-image img { width: 100%; display: block; filter: grayscale(20%); }
+  .cs-image-placeholder {
+    width: 100%; height: 380px; margin-bottom: 24px;
+    border: 1px dashed rgba(255,255,255,0.12);
+    display: flex; align-items: center; justify-content: center;
+    flex-direction: column; gap: 12px; position: relative;
+    background: rgba(255,255,255,0.01);
+  }
+  .cs-image-placeholder .card-placeholder-icon { width: 44px; height: 44px; }
+  .problem-tags { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-top: 32px; }
+  .problem-tag {
+    border: 1px solid rgba(255,255,255,0.15); padding: 12px 20px;
+    font-family: var(--display); font-size: 15px; letter-spacing: 2px;
+    color: rgba(255,255,255,0.7);
+  }
+  .improvements-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0; margin-top: 16px; }
+  .improvement-item {
+    border-left: 1px solid rgba(255,255,255,0.15); padding: 0 24px 32px;
+    margin-bottom: 0;
+  }
+  .improvement-item h4 { font-family: var(--display); font-size: 18px; letter-spacing: 2px; color: rgba(255,255,255,0.9); margin-bottom: 8px; }
+  .improvement-item p { font-size: 14px; color: rgba(255,255,255,0.55); line-height: 1.75; font-weight: 300; }
+  .next-case { padding: 28px 0; display: inline-flex; flex-direction: column; gap: 8px; cursor: none; text-decoration: none; }
+  .next-case h3 {
+    font-family: var(--display); font-size: 42px; letter-spacing: 3px;
+    color: rgba(255,255,255,0.85); transition: color 0.2s;
+  }
+  .next-case:hover h3 { color: #fff; }
+
+  /* ── RESUME PAGE ── */
+  .resume-entry { margin-bottom: 48px; }
+  .resume-entry-head {
+    display: flex; justify-content: space-between; align-items: baseline;
+    gap: 16px; flex-wrap: wrap; margin-bottom: 8px;
+  }
+  .resume-entry-head h3 {
+    font-family: var(--display); font-size: 28px; letter-spacing: 3px;
+    color: #fff; margin: 0;
+  }
+  .resume-list {
+    list-style: none; margin: 12px 0 24px; padding: 0;
+  }
+  .resume-list li {
+    font-size: 14px; color: rgba(255,255,255,0.6); line-height: 1.8;
+    font-weight: 300; padding-left: 20px; position: relative; margin-bottom: 10px;
+  }
+  .resume-list li::before {
+    content: ''; position: absolute; left: 0; top: 11px;
+    width: 8px; height: 1px; background: rgba(255,255,255,0.35);
+  }
+  .resume-list li strong { color: rgba(255,255,255,0.85); font-weight: 500; }
+  .resume-skills { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 24px; }
+  .resume-skill-group { border-left: 1px solid rgba(255,255,255,0.12); padding-left: 20px; }
+  @media (max-width: 900px) { .resume-skills { grid-template-columns: 1fr; gap: 28px; } }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    .approach-grid { grid-template-columns: 1fr; }
+    .approach-item { border-right: 1px solid rgba(255,255,255,0.08); border-bottom: none; }
+    .approach-item:last-child { border-bottom: 1px solid rgba(255,255,255,0.08); }
+    .cs-two-col { grid-template-columns: 1fr; gap: 16px; }
+    .problem-tags { grid-template-columns: 1fr 1fr; }
+    .improvements-grid { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 600px) {
+    nav { padding: 0 16px; }
+    .hero, .container, .cs-hero, .cs-body, .contact-section { padding-left: 16px; padding-right: 16px; }
+    .hero { padding-top: 96px; padding-bottom: 48px; }
+    .project-card { padding: 16px; }
+    .card-image { height: 140px; }
+    .card-title { font-size: 22px; }
+    .card-desc { font-size: 12px; margin-bottom: 12px; }
+    .problem-tags { grid-template-columns: 1fr 1fr; }
+    .nav-links { gap: 12px; }
+    .nav-links a { font-size: 10px; }
+    .contact-inner { gap: 40px; }
+    .contact-details { align-items: flex-start; }
+  }
+</style>
+</head>
+<body>
+
+<div id="loader">
+  <div class="loader-container">
+    <div class="loader-circle-wrapper">
+      <div class="loader-circle-bg"></div>
+      <div class="loader-circle-progress"></div>
+      <div class="loader-text">
+        <div class="loader-percent" id="loader-percent">0%</div>
+        <div class="loader-label">LOADING</div>
+      </div>
+    </div>
+    <div class="loader-dots">INITIALIZING</div>
+  </div>
+</div>
+
+<div id="cursor"></div>
+<div id="cursor-dot"></div>
+
+<!-- Blueprint grid SVG background -->
+<svg id="grid-bg" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+  <defs>
+    <pattern id="grid-major" width="24" height="24" patternUnits="userSpaceOnUse" x="0" y="0">
+      <path d="M 24 0 L 0 0 0 24" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="0.5"/>
+    </pattern>
+    <pattern id="grid-minor" width="4" height="4" patternUnits="userSpaceOnUse" x="0" y="0">
+      <path d="M 4 0 L 0 0 0 4" fill="none" stroke="rgba(255,255,255,0.02)" stroke-width="0.3"/>
+    </pattern>
+  </defs>
+  <rect width="100%" height="100%" fill="url(#grid-minor)"/>
+  <rect width="100%" height="100%" fill="url(#grid-major)"/>
+</svg>
+
+<!-- NAV -->
+<nav id="main-nav">
+  <a class="nav-logo" onclick="showPage('home')">
+    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" style="opacity:0.7">
+      <rect x="0.5" y="0.5" width="19" height="19" stroke="rgba(255,255,255,0.5)" stroke-width="0.5"/>
+      <line x1="0" y1="10" x2="20" y2="10" stroke="rgba(255,255,255,0.3)" stroke-width="0.5"/>
+      <line x1="10" y1="0" x2="10" y2="20" stroke="rgba(255,255,255,0.3)" stroke-width="0.5"/>
+      <circle cx="10" cy="10" r="3" stroke="rgba(255,255,255,0.6)" stroke-width="0.5"/>
+      <circle cx="10" cy="10" r="1" fill="rgba(255,255,255,0.8)"/>
+    </svg>
+    <span class="label" style="color:rgba(255,255,255,0.8);font-size:12px">HARSHAL RATHOD</span>
+  </a>
+  <div class="nav-links">
+    <a onclick="showPage('home'); scrollToWork()">WORK</a>
+    <a href="mailto:rathodharshal97@gmail.com">CONTACT</a>
+    <a onclick="showPage('resume')">RESUME</a>
+  </div>
+</nav>
+
+<!-- ══════════════════════════════════════════════
+     PAGE: HOME
+══════════════════════════════════════════════ -->
+<div id="page-home" class="page active">
+
+  <!-- Hero -->
+  <div class="hero">
+    <div class="status-badge">
+      <div class="status-dot"></div>
+      <span class="label" style="color:rgba(255,255,255,0.6)">STATUS: AVAILABLE FOR NEW WORK</span>
+    </div>
+    <div class="hero-name" style="margin-bottom:32px">
+      <h1 class="solid">HARSHAL</h1>
+      <div class="hero-name-row">
+        <h1 class="outline">RATHOD</h1>
+        <div class="hero-role">
+          <div class="hero-role-line"></div>
+          <span class="label" style="font-size:9px">SR. PRODUCT DESIGNER</span>
+        </div>
+      </div>
+    </div>
+    <div class="hero-tagline">
+      <div style="display:flex;flex-direction:column;align-items:center;flex-shrink:0">
+        <div class="tagline-rule"></div>
+        <div class="tagline-tick"></div>
+      </div>
+      <p>4+ years turning complex B2B and fintech problems into interfaces people actually want to use. Currently designing at Kodo Technologies.</p>
+    </div>
+    <div class="hero-ctas">
+      <a class="btn-primary" onclick="scrollToWork()">VIEW WORK →</a>
+      <button class="btn-ghost" onclick="scrollToContact()" style="border:none;background:none;cursor:pointer;font-family:inherit;padding:0">GET IN TOUCH</button>
+    </div>
+    <div class="scroll-hint">
+      <span class="label" style="color:rgba(255,255,255,0.4)">SCROLL TO EXPLORE</span>
+      <div class="scroll-hint-line"></div>
+    </div>
+  </div>
+
+  <!-- Approach -->
+  <section style="padding:24px 48px 40px;max-width:1100px;margin:0 auto">
+    <div class="divider reveal">
+      <div class="divider-dot"></div><div class="divider-line"></div>
+      <span class="label">Design Process</span>
+      <div class="divider-line"></div><div class="divider-diamond"></div>
+    </div>
+    <div class="approach-grid">
+      <div class="approach-item reveal" style="transition-delay:0s">
+        <div class="approach-item-top">
+          <span class="label">001</span>
+          <h3>DISCOVER</h3>
+        </div>
+        <p>User goals, constraints, what's been tried. No assumptions.</p>
+      </div>
+      <div class="approach-item reveal" style="transition-delay:0.12s">
+        <div class="approach-item-top">
+          <span class="label">002</span>
+          <h3>DESIGN</h3>
+        </div>
+        <p>Fast exploration, deliberate choices. Every decision earns its place.</p>
+      </div>
+      <div class="approach-item reveal" style="transition-delay:0.24s">
+        <div class="approach-item-top">
+          <span class="label">003</span>
+          <h3>DELIVER</h3>
+        </div>
+        <p>Sharp edges, clean handoff. Ready to ship — not just present.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Work -->
+  <section id="work-section" style="padding:40px 48px 100px;max-width:1100px;margin:0 auto;overflow:visible">
+
+    <!-- Kodo -->
+    <div style="margin-bottom:80px">
+      <div class="divider reveal">
+          <div class="divider-dot"></div><div class="divider-line"></div>
+          <span class="label">Work — Section 01</span>
+          <div class="divider-line"></div><div class="divider-diamond"></div>
+        </div>
+        <div class="section-header reveal">
+          <div>
+            <h2>KODO TECHNOLOGIES</h2>
+            <span class="label">DEC 2025 – PRESENT · B2B SPEND MANAGEMENT · FINTECH</span>
+          </div>
+          <div class="section-header-right">
+            <span class="label" style="opacity:0.4">5 PROJECTS</span>
+            <div class="scroll-arrows">
+              <button class="scroll-arrow" onclick="scrollCards('kodo-grid', -1)">←</button>
+              <button class="scroll-arrow" onclick="scrollCards('kodo-grid', 1)">→</button>
+            </div>
+          </div>
+        </div>
+      <div class="project-grid-scroll" id="kodo-grid">
+        <!-- KD-01 LOGIN -->
+        <a class="project-card reveal" onclick="showPage('login-cs')" style="transition-delay:0s">
+          <div class="card-corner tl"></div><div class="card-corner tr"></div>
+          <div class="card-corner bl"></div><div class="card-corner br"></div>
+          <div class="card-image">
+            <div class="card-crosshair-h"></div><div class="card-crosshair-v"></div>
+            <div class="card-placeholder-icon"><div class="card-placeholder-inner"></div></div>
+            <span class="label card-image-label" style="font-size:9px">COVER IMAGE</span>
+          </div>
+          <div class="card-meta">
+            <span class="label" style="color:rgba(255,255,255,0.6);font-size:11px">KD-01</span>
+            <span class="label">DEC 2025</span>
+          </div>
+          <div class="card-title">Login Screen</div>
+          <div class="card-desc">Modernised the product's first touchpoint with refreshed branding, passkey and SSO login.</div>
+          <div class="card-tags">
+            <span class="card-tag">Branding</span>
+            <span class="card-tag">Authentication</span>
+          </div>
+          <div class="card-open">
+            <div class="card-open-line"></div>
+            <span class="label" style="color:rgba(255,255,255,0.7);font-size:11px">OPEN →</span>
+          </div>
+        </a>
+        <!-- KD-02 DASHBOARD -->
+        <a class="project-card reveal" onclick="showPage('dashboard-cs')" style="transition-delay:0s">
+          <div class="card-corner tl"></div><div class="card-corner tr"></div>
+          <div class="card-corner bl"></div><div class="card-corner br"></div>
+          <div class="card-image">
+            <div class="card-crosshair-h"></div><div class="card-crosshair-v"></div>
+            <div class="card-placeholder-icon"><div class="card-placeholder-inner"></div></div>
+            <span class="label card-image-label" style="font-size:9px">COVER IMAGE</span>
+          </div>
+          <div class="card-meta">
+            <span class="label" style="color:rgba(255,255,255,0.6);font-size:11px">KD-02</span>
+            <span class="label">JAN 2026</span>
+          </div>
+          <div class="card-title">Dashboard Revamp</div>
+          <div class="card-desc">Redesigned the core spend management dashboard to surface actionable insights — not just numbers.</div>
+          <div class="card-tags">
+            <span class="card-tag">Data Viz</span>
+            <span class="card-tag">Information Architecture</span>
+          </div>
+          <div class="card-open">
+            <div class="card-open-line"></div>
+            <span class="label" style="color:rgba(255,255,255,0.7);font-size:11px">OPEN →</span>
+          </div>
+        </a>
+        <!-- KD-02 -->
+        <a class="project-card reveal" onclick="showPage('member-cs')" style="transition-delay:0.1s">
+          <div class="card-corner tl"></div><div class="card-corner tr"></div>
+          <div class="card-corner bl"></div><div class="card-corner br"></div>
+          <div class="card-image">
+            <div class="card-crosshair-h"></div><div class="card-crosshair-v"></div>
+            <div class="card-placeholder-icon"><div class="card-placeholder-inner"></div></div>
+            <span class="label card-image-label" style="font-size:9px">COVER IMAGE</span>
+          </div>
+          <div class="card-meta">
+            <span class="label" style="color:rgba(255,255,255,0.6);font-size:11px">KD-03</span>
+            <span class="label">FEB 2026</span>
+          </div>
+          <div class="card-title">Member Detail View</div>
+          <div class="card-desc">Gave finance managers a single source of truth for every team member's spend behaviour and card controls.</div>
+          <div class="card-tags">
+            <span class="card-tag">User Research</span>
+            <span class="card-tag">Complex Tables</span>
+          </div>
+          <div class="card-open">
+            <div class="card-open-line"></div>
+            <span class="label" style="color:rgba(255,255,255,0.7);font-size:11px">OPEN →</span>
+          </div>
+        </a>
+        <!-- KD-03 -->
+        <a class="project-card reveal" onclick="showPage('payments-cs')" style="transition-delay:0.2s">
+          <div class="card-corner tl"></div><div class="card-corner tr"></div>
+          <div class="card-corner bl"></div><div class="card-corner br"></div>
+          <div class="card-image">
+            <div class="card-crosshair-h"></div><div class="card-crosshair-v"></div>
+            <div class="card-placeholder-icon"><div class="card-placeholder-inner"></div></div>
+            <span class="label card-image-label" style="font-size:9px">COVER IMAGE</span>
+          </div>
+          <div class="card-meta">
+            <span class="label" style="color:rgba(255,255,255,0.6);font-size:11px">KD-04</span>
+            <span class="label">MAR 2026</span>
+          </div>
+          <div class="card-title">Vendor Payments</div>
+          <div class="card-desc">Streamlined bulk vendor payouts from a fragmented multi-step flow into a fast, reliable process.</div>
+          <div class="card-tags">
+            <span class="card-tag">Flow Design</span>
+            <span class="card-tag">Bulk Actions</span>
+          </div>
+          <div class="card-open">
+            <div class="card-open-line"></div>
+            <span class="label" style="color:rgba(255,255,255,0.7);font-size:11px">OPEN →</span>
+          </div>
+        </a>
+        <!-- KD-04 -->
+        <a class="project-card reveal" onclick="showPage('kodo-north-cs')" style="transition-delay:0.3s">
+          <div class="card-corner tl"></div><div class="card-corner tr"></div>
+          <div class="card-corner bl"></div><div class="card-corner br"></div>
+          <div class="card-image">
+            <div class="card-crosshair-h"></div><div class="card-crosshair-v"></div>
+            <div class="card-placeholder-icon"><div class="card-placeholder-inner"></div></div>
+            <span class="label card-image-label" style="font-size:9px">COVER IMAGE</span>
+          </div>
+          <div class="card-meta">
+            <span class="label" style="color:rgba(255,255,255,0.6);font-size:11px">KD-05</span>
+            <span class="label">APR 2026 – ONGOING</span>
+          </div>
+          <div class="card-title">Kodo North</div>
+          <div class="card-desc">0→1 investment platform — naming, branding, product, WhatsApp waitlist experience, and website. Presented at Mumbai Tech Week.</div>
+          <div class="card-tags">
+            <span class="card-tag">Branding</span>
+            <span class="card-tag">0 → 1</span>
+            <span class="card-tag">AI Experience</span>
+          </div>
+          <div class="card-open">
+            <div class="card-open-line"></div>
+            <span class="label" style="color:rgba(255,255,255,0.7);font-size:11px">OPEN →</span>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <!-- PayNearby -->
+    <div>
+      <div class="divider reveal">
+        <div class="divider-dot"></div><div class="divider-line"></div>
+        <span class="label">Work — Section 02</span>
+        <div class="divider-line"></div><div class="divider-diamond"></div>
+      </div>
+      <div class="section-header reveal">
+        <div>
+          <h2 class="dim">PAYNEARBY</h2>
+          <span class="label">JAN 2022 – NOV 2025 · B2B2C FINTECH · DESIGN SYSTEM · BANKING · INSURANCE · LENDING</span>
+        </div>
+        <span class="label" style="opacity:0.4">3 PROJECTS</span>
+      </div>
+    </div>
+    <div class="project-grid" id="paynearby-grid">
+        <!-- PN-01 -->
+        <a class="project-card reveal" onclick="showPage('apply-pan-cs')" style="transition-delay:0s">
+          <div class="card-corner tl"></div><div class="card-corner tr"></div>
+          <div class="card-corner bl"></div><div class="card-corner br"></div>
+          <div class="card-image">
+            <img src="https://framerusercontent.com/images/RcHA41Khm4q3k0mZwFyw6Xx898U.png" alt="Apply PAN" />
+            <svg class="card-image-grid" xmlns="http://www.w3.org/2000/svg"><defs><pattern id="img-g1" width="20" height="20" patternUnits="userSpaceOnUse"><path d="M 20 0 L 0 0 0 20" fill="none" stroke="rgba(255,255,255,0.07)" stroke-width="0.5"/></pattern></defs><rect width="100%" height="100%" fill="url(#img-g1)"/></svg>
+            <span class="label card-image-label" style="color:rgba(255,255,255,0.4);font-size:9px">PN-01</span>
+          </div>
+          <div class="card-meta">
+            <span class="label" style="color:rgba(255,255,255,0.6);font-size:11px">PN-01</span>
+            <span class="label">2022</span>
+          </div>
+          <div class="card-title">Apply PAN</div>
+          <div class="card-desc">Digital PAN applications made simple and accessible through local retailers.</div>
+          <div class="card-tags"><span class="card-tag">Mobile</span><span class="card-tag">Onboarding</span></div>
+          <div class="card-open"><div class="card-open-line"></div><span class="label" style="color:rgba(255,255,255,0.7);font-size:11px">OPEN →</span></div>
+        </a>
+        <!-- PN-02 -->
+        <a class="project-card reveal" onclick="showPage('claim-cs')" style="transition-delay:0.1s">
+          <div class="card-corner tl"></div><div class="card-corner tr"></div>
+          <div class="card-corner bl"></div><div class="card-corner br"></div>
+          <div class="card-image">
+            <img src="https://framerusercontent.com/images/tiO6V8kbC2wPVVQd6am65iFbRY.png" alt="Claim Settlement" />
+            <svg class="card-image-grid" xmlns="http://www.w3.org/2000/svg"><defs><pattern id="img-g2" width="20" height="20" patternUnits="userSpaceOnUse"><path d="M 20 0 L 0 0 0 20" fill="none" stroke="rgba(255,255,255,0.07)" stroke-width="0.5"/></pattern></defs><rect width="100%" height="100%" fill="url(#img-g2)"/></svg>
+            <span class="label card-image-label" style="color:rgba(255,255,255,0.4);font-size:9px">PN-02</span>
+          </div>
+          <div class="card-meta">
+            <span class="label" style="color:rgba(255,255,255,0.6);font-size:11px">PN-02</span>
+            <span class="label">2022</span>
+          </div>
+          <div class="card-title">Claim Settlement</div>
+          <div class="card-desc">Guides retailers and customers through raising and tracking insurance claims.</div>
+          <div class="card-tags"><span class="card-tag">Insurance</span><span class="card-tag">Multi-step Flow</span></div>
+          <div class="card-open"><div class="card-open-line"></div><span class="label" style="color:rgba(255,255,255,0.7);font-size:11px">OPEN →</span></div>
+        </a>
+        <!-- PN-03 -->
+        <a class="project-card reveal" onclick="showPage('gpa-cs')" style="transition-delay:0.2s">
+          <div class="card-corner tl"></div><div class="card-corner tr"></div>
+          <div class="card-corner bl"></div><div class="card-corner br"></div>
+          <div class="card-image">
+            <img src="https://framerusercontent.com/images/GTwUu8eYKHa9AzIVFQ9rkBgW58.png" alt="Group Personal Accident" />
+            <svg class="card-image-grid" xmlns="http://www.w3.org/2000/svg"><defs><pattern id="img-g3" width="20" height="20" patternUnits="userSpaceOnUse"><path d="M 20 0 L 0 0 0 20" fill="none" stroke="rgba(255,255,255,0.07)" stroke-width="0.5"/></pattern></defs><rect width="100%" height="100%" fill="url(#img-g3)"/></svg>
+            <span class="label card-image-label" style="color:rgba(255,255,255,0.4);font-size:9px">PN-03</span>
+          </div>
+          <div class="card-meta">
+            <span class="label" style="color:rgba(255,255,255,0.6);font-size:11px">PN-03</span>
+            <span class="label">2022</span>
+          </div>
+          <div class="card-title">Group Personal Accident</div>
+          <div class="card-desc">Affordable accident cover with a fast, clear purchase and claim experience.</div>
+          <div class="card-tags"><span class="card-tag">Insurance</span><span class="card-tag">B2C</span></div>
+          <div class="card-open"><div class="card-open-line"></div><span class="label" style="color:rgba(255,255,255,0.7);font-size:11px">OPEN →</span></div>
+        </a>
+      </div>
+    </div>
+
+    <!-- Case Studies -->
+    <div style="margin-top:80px">
+      <div class="divider reveal">
+        <div class="divider-dot"></div><div class="divider-line"></div>
+        <span class="label">Deep Dives — Section 03</span>
+        <div class="divider-line"></div><div class="divider-diamond"></div>
+      </div>
+      <div class="section-header reveal">
+        <div>
+          <h2>CASE STUDIES</h2>
+          <span class="label">DETAILED PROCESS WORK · RESEARCH TO FINAL UI</span>
+        </div>
+        <span class="label" style="opacity:0.4">1 STUDY</span>
+      </div>
+    </div>
+    <div class="project-grid">
+        <!-- CS-01 -->
+        <a class="project-card reveal" onclick="showPage('mytransactions-cs')" style="transition-delay:0s">
+          <div class="card-corner tl"></div><div class="card-corner tr"></div>
+          <div class="card-corner bl"></div><div class="card-corner br"></div>
+          <div class="card-image">
+            <img src="cs-mytransactions/mtx-hero.jpg" alt="My Transactions Redesign" style="object-position:top" />
+            <svg class="card-image-grid" xmlns="http://www.w3.org/2000/svg"><defs><pattern id="img-cs1" width="20" height="20" patternUnits="userSpaceOnUse"><path d="M 20 0 L 0 0 0 20" fill="none" stroke="rgba(255,255,255,0.07)" stroke-width="0.5"/></pattern></defs><rect width="100%" height="100%" fill="url(#img-cs1)"/></svg>
+            <span class="label card-image-label" style="color:rgba(255,255,255,0.4);font-size:9px">CS-01</span>
+          </div>
+          <div class="card-meta">
+            <span class="label" style="color:rgba(255,255,255,0.6);font-size:11px">CS-01</span>
+            <span class="label">KODO</span>
+          </div>
+          <div class="card-title">My Transactions Redesign</div>
+          <div class="card-desc">Full process deep dive — audit, problem framing, wireframe iterations with rationale, component library, and final split-view UI.</div>
+          <div class="card-tags">
+            <span class="card-tag">UX Audit</span>
+            <span class="card-tag">Iterations</span>
+            <span class="card-tag">Components</span>
+          </div>
+          <div class="card-open">
+            <div class="card-open-line"></div>
+            <span class="label" style="color:rgba(255,255,255,0.7);font-size:11px">OPEN →</span>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <div class="contact-section">
+    <div class="divider reveal">
+      <div class="divider-dot"></div><div class="divider-line"></div>
+      <span class="label">Contact</span>
+      <div class="divider-line"></div><div class="divider-diamond"></div>
+    </div>
+    <div class="contact-inner reveal">
+      <div class="contact-heading">
+        <h2>GOT A PROJECT</h2>
+        <h2 class="outline">IN MIND?</h2>
+        <div class="contact-socials-row" style="margin-top:32px">
+          <a href="https://linkedin.com/in/harshal-rathod-" target="_blank" class="contact-social-link">LINKEDIN</a>
+          <a href="https://www.behance.net/harshalrathod1" target="_blank" class="contact-social-link">BEHANCE</a>
+          <a href="https://dribbble.com/Harshal_Rathod" target="_blank" class="contact-social-link">DRIBBBLE</a>
+        </div>
+      </div>
+      <div class="contact-right">
+        <div class="contact-row">
+          <span class="contact-row-label">PHONE</span>
+          <a href="https://wa.me/919082654045" class="contact-row-value">+91 9082654045</a>
+        </div>
+        <div class="contact-row">
+          <span class="contact-row-label">EMAIL</span>
+          <a href="mailto:rathodharshal97@gmail.com" class="contact-row-value">rathodharshal97@gmail.com</a>
+        </div>
+        <div class="contact-row">
+          <span class="contact-row-label">RESUME</span>
+          <a onclick="showPage('resume')" class="contact-row-value" style="cursor:pointer">VIEW RESUME</a>
+        </div>
+      </div>
+    </div>
+    <div class="contact-footer">
+      <span class="label" style="color:rgba(255,255,255,0.4)">DESIGNBYHARSHAL © 2025</span>
+      <span class="label" style="color:rgba(255,255,255,0.4)">BUILT WITH PURPOSE</span>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     PAGE: APPLY PAN CASE STUDY
+══════════════════════════════════════════════ -->
+<div id="page-apply-pan-cs" class="page">
+  <div class="cs-hero">
+    <div class="cs-meta">
+      <span class="label" style="color:rgba(255,255,255,0.4)">PAYNEARBY · 2022</span>
+      <div class="cs-meta-sep"></div>
+      <span class="label" style="color:rgba(255,255,255,0.4)">B2C · FINTECH</span>
+    </div>
+    <h1 class="cs-title">APPLY PAN</h1>
+    <div class="cs-intro">
+      <div class="cs-intro-rule"></div>
+      <p>Applying for a PAN card is difficult due to limited digital access, long travel to service centres, and complex paperwork. Customers often lack guidance, leading to delays and rejections. We wanted to enable local retailers to assist with digital PAN applications — making the process simple, accessible, and trusted within the community.</p>
+    </div>
+  </div>
+  <div class="cs-body">
+    <div class="cs-image reveal"><img src="https://framerusercontent.com/images/FsNDq7WrZpPS5XF8PZcs9ZzszZQ.png" alt="Apply PAN hero"/></div>
+    <div class="divider reveal"><div class="divider-dot"></div><div class="divider-line"></div><span class="label">Goal</span><div class="divider-line"></div><div class="divider-diamond"></div></div>
+    <div class="cs-two-col reveal">
+      <h2 class="cs-section-title">GOAL</h2>
+      <p class="cs-body-text">Redesign the in-app service to simplify the PAN application journey by providing clear instructions, a strong visual hierarchy for options, and contextual guidance that helps users and retailers make better choices — ensuring faster completion and higher trust in the service.</p>
+    </div>
+    <div class="divider reveal"><div class="divider-dot"></div><div class="divider-line"></div><span class="label">Identifying the Problem</span><div class="divider-line"></div><div class="divider-diamond"></div></div>
+    <div class="reveal">
+      <p class="cs-body-text">The UI did not highlight the main action, presented too many choices in scattered ways, and lacked guidance — making it hard for users to decide and proceed with confidence.</p>
+      <div class="problem-tags">
+        <div class="problem-tag">Weak Hierarchy</div>
+        <div class="problem-tag">Lack of Guidance</div>
+        <div class="problem-tag">Split Action Point</div>
+        <div class="problem-tag">Too Many Options</div>
+      </div>
+    </div>
+    <div class="cs-image reveal" style="margin-top:40px"><img src="https://framerusercontent.com/images/EjmNZ05GsAd01eccqvudSq60MI.png" alt="Problem"/></div>
+    <div class="divider reveal"><div class="divider-dot"></div><div class="divider-line"></div><span class="label">My Role</span><div class="divider-line"></div><div class="divider-diamond"></div></div>
+    <div class="cs-two-col reveal">
+      <h2 class="cs-section-title">MY ROLE</h2>
+      <p class="cs-body-text">Streamline the experience by emphasising the primary action, simplifying and grouping choices, and adding assistive cues — so retailers can navigate the process smoothly and make better decisions while serving their customer.</p>
+    </div>
+    <div class="divider reveal"><div class="divider-dot"></div><div class="divider-line"></div><span class="label">What We Made</span><div class="divider-line"></div><div class="divider-diamond"></div></div>
+    <p class="cs-body-text reveal">These components support users throughout their journey, helping them understand what the service provides and where they are in the process. They reduce confusion through timely prompts and validations, while reinforcing trust and giving users a sense of progress and achievement.</p>
+    <div class="cs-image reveal" style="margin-top:40px"><img src="https://framerusercontent.com/images/aa8FVbuKFWu9Hk6O7WDLdmwIIaY.png" alt="Final 1"/></div>
+    <div class="cs-image reveal"><img src="https://framerusercontent.com/images/QKepzLqctZLmuDc587dRE82FdL8.png" alt="Final 2"/></div>
+    <div class="cs-image reveal"><img src="https://framerusercontent.com/images/tSsR9Spdsg8ZAF1zKkJUoadnA.png" alt="Final 3"/></div>
+    <div class="cs-image reveal"><img src="https://framerusercontent.com/images/LMqqxuYoGgGbdidGeQRX4UQzhM.png" alt="Final 4"/></div>
+    <div class="divider reveal"><div class="divider-dot"></div><div class="divider-line"></div><span class="label">Up Next</span><div class="divider-line"></div><div class="divider-diamond"></div></div>
+    <a class="next-case reveal" onclick="showPage('claim-cs')">
+      <span class="label" style="color:rgba(255,255,255,0.4)">NEXT CASE STUDY</span>
+      <h3>CLAIM SETTLEMENT →</h3>
+    </a>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     PAGE: CLAIM SETTLEMENT CASE STUDY
+══════════════════════════════════════════════ -->
+<div id="page-claim-cs" class="page">
+  <div class="cs-hero">
+    <div class="cs-meta">
+      <span class="label" style="color:rgba(255,255,255,0.4)">PAYNEARBY · 2022</span>
+      <div class="cs-meta-sep"></div>
+      <span class="label" style="color:rgba(255,255,255,0.4)">INSURANCE · FINTECH</span>
+    </div>
+    <h1 class="cs-title">CLAIM<br>SETTLEMENT</h1>
+    <div class="cs-intro">
+      <div class="cs-intro-rule"></div>
+      <p>Customers struggle with claim settlement because the process is complex, unclear, and managed by insurers. Without clear guidance on steps, documents, and connections, they face confusion, delays, and a lack of confidence while filing claims.</p>
+    </div>
+  </div>
+  <div class="cs-body">
+    <div class="cs-image reveal"><img src="https://framerusercontent.com/images/qtlw2NNL0orbOlVLoxZtORp8.png" alt="Claim Settlement hero"/></div>
+    <div class="divider reveal"><div class="divider-dot"></div><div class="divider-line"></div><span class="label">Goal</span><div class="divider-line"></div><div class="divider-diamond"></div></div>
+    <div class="cs-two-col reveal">
+      <h2 class="cs-section-title">GOAL</h2>
+      <p class="cs-body-text">A clear and supportive claim journey that explains the process to retailers and their customers. The focus was on simplifying complex insurance steps into an easy-to-understand flow — ensuring that even though the insurer manages the actual booking and settlement, retailers can confidently guide customers with clarity and reassurance.</p>
+    </div>
+    <div class="divider reveal"><div class="divider-dot"></div><div class="divider-line"></div><span class="label">My Role</span><div class="divider-line"></div><div class="divider-diamond"></div></div>
+    <div class="cs-two-col reveal">
+      <h2 class="cs-section-title">MY ROLE</h2>
+      <p class="cs-body-text">To create an experience that demystifies the claim process for retailers and their customers. My responsibility was to design a structured, step-by-step flow with clear communication touchpoints — making the journey feel simple, transparent, and trustworthy.</p>
+    </div>
+    <div class="divider reveal"><div class="divider-dot"></div><div class="divider-line"></div><span class="label">Wireframes</span><div class="divider-line"></div><div class="divider-diamond"></div></div>
+    <p class="cs-body-text reveal">Creating early iterations on all possible solutions and navigations that users might need.</p>
+    <div class="cs-image reveal" style="margin-top:40px"><img src="https://framerusercontent.com/images/PhlUkk6XEGCqxYCgOK5OJC2KF2E.png" alt="Wireframes"/></div>
+    <div class="divider reveal"><div class="divider-dot"></div><div class="divider-line"></div><span class="label">What We Made</span><div class="divider-line"></div><div class="divider-diamond"></div></div>
+    <p class="cs-body-text reveal">A simple layout that lets retailers understand all settlement processes across categories — a stepwise process with options to view all ongoing settlements and their status. Building motivation by showing how much insurance is being settled from the platform to build trust and confidence.</p>
+    <div class="cs-image reveal" style="margin-top:40px"><img src="https://framerusercontent.com/images/qZv9elEgk1jUOv46wSxf35GmqJ8.png" alt="Final 1"/></div>
+    <div class="cs-image reveal"><img src="https://framerusercontent.com/images/6n4eBUVewyTnUPUBsDA7lBm2mc4.png" alt="Final 2"/></div>
+    <div class="divider reveal"><div class="divider-dot"></div><div class="divider-line"></div><span class="label">Up Next</span><div class="divider-line"></div><div class="divider-diamond"></div></div>
+    <a class="next-case reveal" onclick="showPage('gpa-cs')">
+      <span class="label" style="color:rgba(255,255,255,0.4)">NEXT CASE STUDY</span>
+      <h3>GROUP PERSONAL ACCIDENT →</h3>
+    </a>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     PAGE: GROUP PERSONAL ACCIDENT CASE STUDY
+══════════════════════════════════════════════ -->
+<div id="page-gpa-cs" class="page">
+  <div class="cs-hero">
+    <div class="cs-meta">
+      <span class="label" style="color:rgba(255,255,255,0.4)">PAYNEARBY · 2022</span>
+      <div class="cs-meta-sep"></div>
+      <span class="label" style="color:rgba(255,255,255,0.4)">INSURANCE · B2C</span>
+    </div>
+    <h1 class="cs-title">GROUP<br>PERSONAL<br>ACCIDENT</h1>
+    <div class="cs-intro">
+      <div class="cs-intro-rule"></div>
+      <p>A micro-insurance product providing protection in case of accidental death or disability, offering a lump-sum payout to cover income loss. Distributed through PayNearby's retail network, it targets underserved communities with affordable access at local shops.</p>
+    </div>
+  </div>
+  <div class="cs-body">
+    <div class="cs-image reveal"><img src="https://framerusercontent.com/images/MXwQemEkPqI5A9pdCmlPbISBm0.png" alt="GPA hero"/></div>
+    <div class="divider reveal"><div class="divider-dot"></div><div class="divider-line"></div><span class="label">Goal</span><div class="divider-line"></div><div class="divider-diamond"></div></div>
+    <div class="cs-two-col reveal">
+      <h2 class="cs-section-title">GOAL</h2>
+      <p class="cs-body-text">Make the product simple, clear, and quick to adopt. Explain benefits in plain language, reduce decision fatigue with clearer plan options, and streamline steps so retailers could guide customers effortlessly — making the experience accessible for low-literacy users.</p>
+    </div>
+    <div class="divider reveal"><div class="divider-dot"></div><div class="divider-line"></div><span class="label">Identifying the Problem</span><div class="divider-line"></div><div class="divider-diamond"></div></div>
+    <div class="reveal">
+      <p class="cs-body-text">The old journey was difficult due to unclear value communication, complex plan options, scattered steps, and needing to fill half the form before seeing plan benefits — causing friction and drop-offs.</p>
+      <div class="problem-tags">
+        <div class="problem-tag">Weak Hierarchy</div>
+        <div class="problem-tag">Delayed Benefit Visibility</div>
+        <div class="problem-tag">Redundant Inputs</div>
+        <div class="problem-tag">Long Form</div>
+      </div>
+    </div>
+    <div class="cs-image reveal" style="margin-top:40px"><img src="https://framerusercontent.com/images/xkkmwhD56lnM6IutwqsZhiE1U.png" alt="Problem"/></div>
+    <div class="divider reveal"><div class="divider-dot"></div><div class="divider-line"></div><span class="label">My Role</span><div class="divider-line"></div><div class="divider-diamond"></div></div>
+    <div class="cs-two-col reveal">
+      <h2 class="cs-section-title">MY ROLE</h2>
+      <p class="cs-body-text">Evaluate the existing journey, identify gaps, and create a simpler clearer flow. Make plan details more transparent, reduce form complexity, and design an experience easily explained and adopted at the last mile.</p>
+    </div>
+    <div class="divider reveal"><div class="divider-dot"></div><div class="divider-line"></div><span class="label">Improving Experience & Interface</span><div class="divider-line"></div><div class="divider-diamond"></div></div>
+    <div class="improvements-grid reveal">
+      <div class="improvement-item"><h4>BENEFITS SHOWN UPFRONT</h4><p>Users can now view plan benefits immediately, allowing them to make an informed decision first — rather than filling forms before knowing the value.</p></div>
+      <div class="improvement-item"><h4>DECISION BEFORE DETAILS</h4><p>The flow was reversed: users decide whether they want to buy, and only then are asked for personal details — reducing hesitation.</p></div>
+      <div class="improvement-item"><h4>REMOVAL OF REDUNDANT STEPS</h4><p>Earlier, users had to provide the same information multiple times. In the new flow, all required details are captured once.</p></div>
+      <div class="improvement-item"><h4>BACKEND DEDUPLICATION</h4><p>Any duplicate requirements between the insurer and PayNearby are managed in the backend — users don't experience repeated data entry.</p></div>
+      <div class="improvement-item"><h4>OTP VERIFICATION AT THE END</h4><p>OTP was earlier placed in the middle, adding friction. It was moved to the end of the journey, making the process smoother and faster.</p></div>
+      <div class="improvement-item"><h4>RETAILER EARNING SECTION</h4><p>A new section shows retailers how much commission they earn from bookings — building motivation, transparency, and trust.</p></div>
+    </div>
+    <div class="cs-image reveal" style="margin-top:40px"><img src="https://framerusercontent.com/images/S3qAivnLS5qF37xhPpwULqr1Uy0.png" alt="Final 1"/></div>
+    <div class="cs-image reveal"><img src="https://framerusercontent.com/images/N7y8jvmw4l3mgsCWzZCrC3PCtRw.png" alt="Final 2"/></div>
+    <div class="divider reveal"><div class="divider-dot"></div><div class="divider-line"></div><span class="label">All Work</span><div class="divider-line"></div><div class="divider-diamond"></div></div>
+    <a class="next-case reveal" onclick="showPage('home')">
+      <span class="label" style="color:rgba(255,255,255,0.4)">BACK TO PORTFOLIO</span>
+      <h3>VIEW ALL PROJECTS →</h3>
+    </a>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     PAGE: KD-01 DASHBOARD REVAMP
+══════════════════════════════════════════════ -->
+<div id="page-dashboard-cs" class="page">
+  <div class="cs-hero">
+    <div class="cs-meta">
+      <span class="label" style="color:rgba(255,255,255,0.4)">KODO TECHNOLOGIES · JAN 2026</span>
+      <div class="cs-meta-sep"></div>
+      <span class="label" style="color:rgba(255,255,255,0.4)">B2B · SPEND MANAGEMENT</span>
+    </div>
+    <h1 class="cs-title">DASHBOARD<br>REVAMP</h1>
+    <div class="cs-intro">
+      <div class="cs-intro-rule"></div>
+      <p>The dashboard was the first screen every finance user saw — and the least useful. Content was scattered with no clear hierarchy, no primary information to anchor on, and a navigation drawer overloaded with options that made even simple tasks feel unintuitive.</p>
+    </div>
+  </div>
+  <div class="cs-body">
+    <div class="cs-image-placeholder reveal">
+      <div class="card-placeholder-icon"><div class="card-placeholder-inner"></div></div>
+      <span class="label" style="font-size:9px">HERO IMAGE — BEFORE / AFTER</span>
+    </div>
+    <div class="divider reveal"><div class="divider-dot"></div><div class="divider-line"></div><span class="label">Identifying the Problem</span><div class="divider-line"></div><div class="divider-diamond"></div></div>
+    <div class="reveal">
+      <p class="cs-body-text" style="max-width:680px">Users couldn't answer the most basic question — "what needs my attention today?" — without clicking through multiple screens. The nav drawer had grown organically over time into a long, flat list of options with no grouping logic.</p>
+      <div class="problem-tags">
+        <div class="problem-tag">Unclear Hierarchy</div>
+        <div class="problem-tag">Scattered Content</div>
+        <div class="problem-tag">No Primary Info</div>
+        <div class="problem-tag">Overloaded Nav</div>
+      </div>
+    </div>
+    <div class="cs-image-placeholder reveal" style="margin-top:40px">
+      <div class="card-placeholder-icon"><div class="card-placeholder-inner"></div></div>
+      <span class="label" style="font-size:9px">IMAGE — OLD DASHBOARD AUDIT</span>
+    </div>
+    <div class="divider reveal"><div class="divider-dot"></div><div class="divider-line"></div><span class="label">What We Made</span><div class="divider-line"></div><div class="divider-diamond"></div></div>
+    <div class="cs-two-col reveal">
+      <h2 class="cs-section-title">WHAT WE MADE</h2>
+      <p class="cs-body-text">We rebuilt the dashboard around what finance teams actually check daily. Vendor payments and reimbursements moved to the top — showing pending amounts and key states at a glance, with how much has already gone out. Below that, business account details give teams visibility into available cash across every account, with history. The nav drawer was consolidated — related options grouped, redundant entries merged — into something you can scan in seconds.</p>
+    </div>
+    <div class="cs-image-placeholder reveal" style="margin-top:40px">
+      <div class="card-placeholder-icon"><div class="card-placeholder-inner"></div></div>
+      <span class="label" style="font-size:9px">IMAGE — NEW DASHBOARD</span>
+    </div>
+    <div class="cs-image-placeholder reveal">
+      <div class="card-placeholder-icon"><div class="card-placeholder-inner"></div></div>
+      <span class="label" style="font-size:9px">IMAGE — NAV CONSOLIDATION</span>
+    </div>
+    <div class="divider reveal"><div class="divider-dot"></div><div class="divider-line"></div><span class="label">Outcome</span><div class="divider-line"></div><div class="divider-diamond"></div></div>
+    <div class="cs-two-col reveal">
+      <h2 class="cs-section-title">OUTCOME</h2>
+      <p class="cs-body-text">Questions around "where do I find X" dropped noticeably in the weeks after release — the dashboard now explains itself, and onboarding new users got visibly easier. Time to reach the most-used actions (initiating a payment, checking pending approvals) went from 3–4 clicks to 1–2.</p>
+    </div>
+    <div class="divider reveal"><div class="divider-dot"></div><div class="divider-line"></div><span class="label">Up Next</span><div class="divider-line"></div><div class="divider-diamond"></div></div>
+    <a class="next-case reveal" onclick="showPage('member-cs')">
+      <span class="label" style="color:rgba(255,255,255,0.4)">NEXT CASE STUDY</span>
+      <h3>MEMBER DETAIL VIEW →</h3>
+    </a>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     PAGE: KD-02 MEMBER DETAIL VIEW
+══════════════════════════════════════════════ -->
+<div id="page-member-cs" class="page">
+  <div class="cs-hero">
+    <div class="cs-meta">
+      <span class="label" style="color:rgba(255,255,255,0.4)">KODO TECHNOLOGIES · FEB 2026</span>
+      <div class="cs-meta-sep"></div>
+      <span class="label" style="color:rgba(255,255,255,0.4)">B2B · SPEND MANAGEMENT</span>
+    </div>
+    <h1 class="cs-title">MEMBER<br>DETAIL VIEW</h1>
+    <div class="cs-intro">
+      <div class="cs-intro-rule"></div>
+      <p>A total revamp. The old experience was a disorganised split view — a member list on the left, details on the right — with no proper label mapping. You couldn't tell which card belonged to what until you clicked in, and there were no empty states to guide you when data was missing.</p>
+    </div>
+  </div>
+  <div class="cs-body">
+    <div class="cs-image-placeholder reveal">
+      <div class="card-placeholder-icon"><div class="card-placeholder-inner"></div></div>
+      <span class="label" style="font-size:9px">HERO IMAGE — BEFORE / AFTER</span>
+    </div>
+    <div class="divider reveal"><div class="divider-dot"></div><div class="divider-line"></div><span class="label">Identifying the Problem</span><div class="divider-line"></div><div class="divider-diamond"></div></div>
+    <div class="reveal">
+      <p class="cs-body-text" style="max-width:680px">The split view forced users to hold context in their head — the list and the detail panel competed for attention, cards weren't labelled clearly, and missing data simply showed blank space. Finance managers managing 50+ members had no scannable way to find who needed attention.</p>
+      <div class="problem-tags">
+        <div class="problem-tag">Disorganised Split View</div>
+        <div class="problem-tag">No Label Mapping</div>
+        <div class="problem-tag">No Empty States</div>
+        <div class="problem-tag">Poor Scannability</div>
+      </div>
+    </div>
+    <div class="cs-image-placeholder reveal" style="margin-top:40px">
+      <div class="card-placeholder-icon"><div class="card-placeholder-inner"></div></div>
+      <span class="label" style="font-size:9px">IMAGE — OLD SPLIT VIEW</span>
+    </div>
+    <div class="divider reveal"><div class="divider-dot"></div><div class="divider-line"></div><span class="label">What We Made</span><div class="divider-line"></div><div class="divider-diamond"></div></div>
+    <div class="cs-two-col reveal">
+      <h2 class="cs-section-title">WHAT WE MADE</h2>
+      <p class="cs-body-text">We replaced the split view with a simple list → drill-down pattern built on progressive disclosure. The list gives you status and the essentials at a glance; clicking in reveals full detail in layers — cards, limits, transactions — each properly labelled with clear status indicators. Empty states now explain what's missing and what to do about it, instead of showing nothing.</p>
+    </div>
+    <div class="cs-image-placeholder reveal" style="margin-top:40px">
+      <div class="card-placeholder-icon"><div class="card-placeholder-inner"></div></div>
+      <span class="label" style="font-size:9px">IMAGE — NEW LIST VIEW</span>
+    </div>
+    <div class="cs-image-placeholder reveal">
+      <div class="card-placeholder-icon"><div class="card-placeholder-inner"></div></div>
+      <span class="label" style="font-size:9px">IMAGE — DRILL-DOWN DETAIL</span>
+    </div>
+    <div class="divider reveal"><div class="divider-dot"></div><div class="divider-line"></div><span class="label">Outcome</span><div class="divider-line"></div><div class="divider-diamond"></div></div>
+    <div class="cs-two-col reveal">
+      <h2 class="cs-section-title">OUTCOME</h2>
+      <p class="cs-body-text">The member flow went from a screen the team worked around to one we lead with. Long-standing friction around card visibility resolved after release, and the list → drill-down pattern became the reference for similar views across the product. The qualitative shift was obvious within weeks.</p>
+    </div>
+    <div class="divider reveal"><div class="divider-dot"></div><div class="divider-line"></div><span class="label">Up Next</span><div class="divider-line"></div><div class="divider-diamond"></div></div>
+    <a class="next-case reveal" onclick="showPage('payments-cs')">
+      <span class="label" style="color:rgba(255,255,255,0.4)">NEXT CASE STUDY</span>
+      <h3>VENDOR PAYMENTS →</h3>
+    </a>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     PAGE: KD-03 VENDOR PAYMENTS
+══════════════════════════════════════════════ -->
+<div id="page-payments-cs" class="page">
+  <div class="cs-hero">
+    <div class="cs-meta">
+      <span class="label" style="color:rgba(255,255,255,0.4)">KODO TECHNOLOGIES · MAR 2026</span>
+      <div class="cs-meta-sep"></div>
+      <span class="label" style="color:rgba(255,255,255,0.4)">B2B · PAYMENTS</span>
+    </div>
+    <h1 class="cs-title">VENDOR<br>PAYMENTS</h1>
+    <div class="cs-intro">
+      <div class="cs-intro-rule"></div>
+      <p>The vendor payments table was where finance teams spent most of their working hours — and it had grown inconsistent. Button hierarchies varied across screens, data was hard to locate, and the header carried actions with no clear visual logic.</p>
+    </div>
+  </div>
+  <div class="cs-body">
+    <div class="cs-image-placeholder reveal">
+      <div class="card-placeholder-icon"><div class="card-placeholder-inner"></div></div>
+      <span class="label" style="font-size:9px">HERO IMAGE — TABLE REDESIGN</span>
+    </div>
+    <div class="divider reveal"><div class="divider-dot"></div><div class="divider-line"></div><span class="label">Identifying the Problem</span><div class="divider-line"></div><div class="divider-diamond"></div></div>
+    <div class="reveal">
+      <p class="cs-body-text" style="max-width:680px">Different screens had evolved their own button styles and placements, so users had to re-learn each one. The table itself buried important columns, and scanning for a specific payment meant reading row by row instead of letting hierarchy guide the eye.</p>
+      <div class="problem-tags">
+        <div class="problem-tag">Inconsistent Buttons</div>
+        <div class="problem-tag">Unclear Header</div>
+        <div class="problem-tag">Buried Data</div>
+        <div class="problem-tag">Slow Scanning</div>
+      </div>
+    </div>
+    <div class="cs-image-placeholder reveal" style="margin-top:40px">
+      <div class="card-placeholder-icon"><div class="card-placeholder-inner"></div></div>
+      <span class="label" style="font-size:9px">IMAGE — OLD TABLE VIEW</span>
+    </div>
+    <div class="divider reveal"><div class="divider-dot"></div><div class="divider-line"></div><span class="label">What We Made</span><div class="divider-line"></div><div class="divider-diamond"></div></div>
+    <div class="cs-two-col reveal">
+      <h2 class="cs-section-title">WHAT WE MADE</h2>
+      <p class="cs-body-text">We redesigned the table and header using the new design system and language — one consistent button hierarchy across every screen, so primary actions always look and sit the same way. Data hierarchy was rebuilt around what users actually search for: key columns surfaced, secondary detail tucked into progressive layers, and clearer states so finding the right payment takes seconds, not scanning.</p>
+    </div>
+    <div class="cs-image-placeholder reveal" style="margin-top:40px">
+      <div class="card-placeholder-icon"><div class="card-placeholder-inner"></div></div>
+      <span class="label" style="font-size:9px">IMAGE — NEW TABLE & HEADER</span>
+    </div>
+    <div class="cs-image-placeholder reveal">
+      <div class="card-placeholder-icon"><div class="card-placeholder-inner"></div></div>
+      <span class="label" style="font-size:9px">IMAGE — BUTTON HIERARCHY SYSTEM</span>
+    </div>
+    <div class="divider reveal"><div class="divider-dot"></div><div class="divider-line"></div><span class="label">Outcome</span><div class="divider-line"></div><div class="divider-diamond"></div></div>
+    <div class="cs-two-col reveal">
+      <h2 class="cs-section-title">OUTCOME</h2>
+      <p class="cs-body-text">The consistent button language became the template for every table view that followed — this screen effectively set the standard for the rest of the product. Feedback was quiet in the best way: fewer questions, fewer mis-clicks, and "how do I find X payment" stopped coming up.</p>
+    </div>
+    <div class="divider reveal"><div class="divider-dot"></div><div class="divider-line"></div><span class="label">Up Next</span><div class="divider-line"></div><div class="divider-diamond"></div></div>
+    <a class="next-case reveal" onclick="showPage('kodo-north-cs')">
+      <span class="label" style="color:rgba(255,255,255,0.4)">NEXT CASE STUDY</span>
+      <h3>KODO NORTH →</h3>
+    </a>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     PAGE: KD-04 KODO NORTH
+══════════════════════════════════════════════ -->
+<div id="page-kodo-north-cs" class="page">
+  <div class="cs-hero">
+    <div class="cs-meta">
+      <span class="label" style="color:rgba(255,255,255,0.4)">KODO TECHNOLOGIES · APR 2026 – ONGOING</span>
+      <div class="cs-meta-sep"></div>
+      <span class="label" style="color:rgba(255,255,255,0.4)">INVESTMENT PLATFORM · 0 → 1</span>
+    </div>
+    <h1 class="cs-title">KODO<br>NORTH</h1>
+    <div class="cs-intro">
+      <div class="cs-intro-rule"></div>
+      <p>A corporate investment platform, designed from zero — brand, product, and go-to-market surface, shipped on a one-month timeline and presented at Mumbai Tech Week. From naming exploration to the AI-assisted product experience, this is the broadest-scope project I've owned. Still in active development.</p>
+    </div>
+  </div>
+  <div class="cs-body">
+    <div class="cs-image-placeholder reveal">
+      <div class="card-placeholder-icon"><div class="card-placeholder-inner"></div></div>
+      <span class="label" style="font-size:9px">HERO IMAGE — BRAND & PRODUCT OVERVIEW</span>
+    </div>
+    <div class="divider reveal"><div class="divider-dot"></div><div class="divider-line"></div><span class="label">Scope</span><div class="divider-line"></div><div class="divider-diamond"></div></div>
+    <div class="reveal">
+      <div class="problem-tags">
+        <div class="problem-tag">Branding & Naming</div>
+        <div class="problem-tag">Product Design</div>
+        <div class="problem-tag">WhatsApp Experience</div>
+        <div class="problem-tag">Website</div>
+      </div>
+    </div>
+    <div class="divider reveal"><div class="divider-dot"></div><div class="divider-line"></div><span class="label">Branding</span><div class="divider-line"></div><div class="divider-diamond"></div></div>
+    <div class="cs-two-col reveal">
+      <h2 class="cs-section-title">BRANDING</h2>
+      <p class="cs-body-text">Started before the product had a name. I explored naming directions, and the final name was selected from that exploration. From there, the logo and visual identity — built to feel credible to finance leaders while staying distinct from the parent brand.</p>
+    </div>
+    <div class="cs-image-placeholder reveal" style="margin-top:40px">
+      <div class="card-placeholder-icon"><div class="card-placeholder-inner"></div></div>
+      <span class="label" style="font-size:9px">IMAGE — LOGO & IDENTITY EXPLORATION</span>
+    </div>
+    <div class="divider reveal"><div class="divider-dot"></div><div class="divider-line"></div><span class="label">Product</span><div class="divider-line"></div><div class="divider-diamond"></div></div>
+    <div class="cs-two-col reveal">
+      <h2 class="cs-section-title">PRODUCT</h2>
+      <p class="cs-body-text">The core challenge was making investment exploration feel light. I reduced the component surface deliberately — fewer, more capable components — so the section view stays scannable and exploring investment options doesn't feel like work. The flow runs end-to-end from login through investment to approvals.</p>
+    </div>
+    <div class="cs-image-placeholder reveal" style="margin-top:40px">
+      <div class="card-placeholder-icon"><div class="card-placeholder-inner"></div></div>
+      <span class="label" style="font-size:9px">IMAGE — SECTION VIEW & INVESTMENT FLOW</span>
+    </div>
+    <div class="divider reveal"><div class="divider-dot"></div><div class="divider-line"></div><span class="label">WhatsApp Experience</span><div class="divider-line"></div><div class="divider-diamond"></div></div>
+    <div class="cs-two-col reveal">
+      <h2 class="cs-section-title">WHATSAPP</h2>
+      <p class="cs-body-text">For users joining the waitlist, I designed a WhatsApp experience that gives them a taste of the product before launch — a low-friction preview channel where the product can show value inside an app people already live in. The AI side of the experience is still in progress.</p>
+    </div>
+    <div class="cs-image-placeholder reveal" style="margin-top:40px">
+      <div class="card-placeholder-icon"><div class="card-placeholder-inner"></div></div>
+      <span class="label" style="font-size:9px">IMAGE — WHATSAPP WAITLIST EXPERIENCE</span>
+    </div>
+    <div class="divider reveal"><div class="divider-dot"></div><div class="divider-line"></div><span class="label">Website</span><div class="divider-line"></div><div class="divider-diamond"></div></div>
+    <div class="cs-two-col reveal">
+      <h2 class="cs-section-title">WEBSITE</h2>
+      <p class="cs-body-text">Designed the marketing site alongside the product — the public face that carried the brand into Mumbai Tech Week, where North was presented. The site is still evolving as the product does.</p>
+    </div>
+    <div class="cs-image-placeholder reveal" style="margin-top:40px">
+      <div class="card-placeholder-icon"><div class="card-placeholder-inner"></div></div>
+      <span class="label" style="font-size:9px">IMAGE — WEBSITE</span>
+    </div>
+    <div class="divider reveal"><div class="divider-dot"></div><div class="divider-line"></div><span class="label">Where It Stands</span><div class="divider-line"></div><div class="divider-diamond"></div></div>
+    <div class="cs-two-col reveal">
+      <h2 class="cs-section-title">STATUS</h2>
+      <p class="cs-body-text">Brand, core flows, WhatsApp waitlist experience, and website shipped within the first month — presented publicly at Mumbai Tech Week on that timeline. Active work continues on the AI experience and product depth. I used multiple AI tools and an AI assistant throughout to move at this pace without trading off quality.</p>
+    </div>
+    <div class="divider reveal"><div class="divider-dot"></div><div class="divider-line"></div><span class="label">All Work</span><div class="divider-line"></div><div class="divider-diamond"></div></div>
+    <a class="next-case reveal" onclick="showPage('home')">
+      <span class="label" style="color:rgba(255,255,255,0.4)">BACK TO PORTFOLIO</span>
+      <h3>VIEW ALL PROJECTS →</h3>
+    </a>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     PAGE: KD LOGIN SCREEN
+══════════════════════════════════════════════ -->
+<div id="page-login-cs" class="page">
+  <div class="cs-hero">
+    <div class="cs-meta">
+      <span class="label" style="color:rgba(255,255,255,0.4)">KODO TECHNOLOGIES · DEC 2025</span>
+      <div class="cs-meta-sep"></div>
+      <span class="label" style="color:rgba(255,255,255,0.4)">B2B · AUTHENTICATION</span>
+    </div>
+    <h1 class="cs-title">LOGIN<br>SCREEN</h1>
+    <div class="cs-intro">
+      <div class="cs-intro-rule"></div>
+      <p>The first thing every user touched — and the most dated screen in the product. An old, un-updated logo, legacy typography, and zero visual context. It worked, but it said nothing about who Kodo was.</p>
+    </div>
+  </div>
+  <div class="cs-body">
+    <div class="cs-image-placeholder reveal">
+      <div class="card-placeholder-icon"><div class="card-placeholder-inner"></div></div>
+      <span class="label" style="font-size:9px">HERO IMAGE — BEFORE / AFTER</span>
+    </div>
+    <div class="divider reveal"><div class="divider-dot"></div><div class="divider-line"></div><span class="label">Identifying the Problem</span><div class="divider-line"></div><div class="divider-diamond"></div></div>
+    <div class="reveal">
+      <p class="cs-body-text" style="max-width:680px">The login was purely functional — outdated branding, no imagery, no sense of product. And the auth itself was behind the curve: password-only entry with no modern alternatives, adding friction for teams logging in multiple times a day.</p>
+      <div class="problem-tags">
+        <div class="problem-tag">Outdated Branding</div>
+        <div class="problem-tag">No Visual Context</div>
+        <div class="problem-tag">Legacy Typography</div>
+        <div class="problem-tag">Password-Only Auth</div>
+      </div>
+    </div>
+    <div class="divider reveal"><div class="divider-dot"></div><div class="divider-line"></div><span class="label">What We Made</span><div class="divider-line"></div><div class="divider-diamond"></div></div>
+    <div class="cs-two-col reveal">
+      <h2 class="cs-section-title">WHAT WE MADE</h2>
+      <p class="cs-body-text">A modernised login with the updated brand — refreshed logo, current typography, and contextual imagery that gives the screen a sense of product before you even sign in. On the auth side we added passkey support and SSO login, so returning users get in with one tap instead of typing credentials every time.</p>
+    </div>
+    <div class="cs-image-placeholder reveal" style="margin-top:40px">
+      <div class="card-placeholder-icon"><div class="card-placeholder-inner"></div></div>
+      <span class="label" style="font-size:9px">IMAGE — NEW LOGIN</span>
+    </div>
+    <div class="cs-image-placeholder reveal">
+      <div class="card-placeholder-icon"><div class="card-placeholder-inner"></div></div>
+      <span class="label" style="font-size:9px">IMAGE — PASSKEY / SSO FLOW</span>
+    </div>
+    <div class="divider reveal"><div class="divider-dot"></div><div class="divider-line"></div><span class="label">Outcome</span><div class="divider-line"></div><div class="divider-diamond"></div></div>
+    <div class="cs-two-col reveal">
+      <h2 class="cs-section-title">OUTCOME</h2>
+      <p class="cs-body-text">A small project with outsized visibility — it's the first screen everyone sees. Passkey and SSO adoption picked up steadily among returning users, and the refreshed entry point aligned the product's first impression with the rebrand that followed across the platform.</p>
+    </div>
+    <div class="divider reveal"><div class="divider-dot"></div><div class="divider-line"></div><span class="label">Up Next</span><div class="divider-line"></div><div class="divider-diamond"></div></div>
+    <a class="next-case reveal" onclick="showPage('dashboard-cs')">
+      <span class="label" style="color:rgba(255,255,255,0.4)">NEXT CASE STUDY</span>
+      <h3>DASHBOARD REVAMP →</h3>
+    </a>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     PAGE: RESUME
+══════════════════════════════════════════════ -->
+<div id="page-resume" class="page">
+  <div class="cs-hero" style="padding-bottom:40px">
+    <div class="cs-meta">
+      <span class="label" style="color:rgba(255,255,255,0.4)">RESUME</span>
+      <div class="cs-meta-sep"></div>
+      <span class="label" style="color:rgba(255,255,255,0.4)">MUMBAI, MAHARASHTRA</span>
+    </div>
+    <h1 class="cs-title" style="font-size:clamp(48px,8vw,96px)">HARSHAL<br>RATHOD</h1>
+    <div class="cs-intro">
+      <div class="cs-intro-rule"></div>
+      <p>Senior Product Designer with 4+ years building intuitive, scalable design solutions across fintech, commerce, and B2B platforms. Contributed to 35+ products and services along with 20+ internal and marketing UX initiatives. Leverage AI tools to accelerate end-to-end product design.</p>
+    </div>
+    <div style="margin-top:32px">
+      <a class="btn-primary" href="harshal-rathod-resume.pdf" target="_blank">DOWNLOAD PDF ↓</a>
+    </div>
+  </div>
+  <div class="cs-body">
+
+    <div class="divider reveal"><div class="divider-dot"></div><div class="divider-line"></div><span class="label">Experience</span><div class="divider-line"></div><div class="divider-diamond"></div></div>
+
+    <!-- Kodo -->
+    <div class="resume-entry reveal">
+      <div class="resume-entry-head">
+        <h3>KODO TECHNOLOGIES</h3>
+        <span class="label">DEC 2025 – PRESENT · MUMBAI</span>
+      </div>
+      <span class="label" style="color:rgba(255,255,255,0.6)">SENIOR PRODUCT DESIGNER</span>
+      <ul class="resume-list">
+        <li>Leading screen-by-screen UX audits and iterative redesign across 8+ core product areas — dashboard, teams, login, business accounts, card management, top-up flows, and Kodo Pay (vendor payouts).</li>
+        <li>Leading end-to-end design for a corporate investment platform covering 5+ sections, including an AI assistant interface for activity-based analytics and investment recommendations.</li>
+        <li>Sole designer owning UI/UX across 15+ feature releases — AP agent onboarding, invoice upload, filter interactions, bulk actions, fund addition, and navigation.</li>
+        <li>Leading the design system initiative — upgrading UI patterns, auditing components, standardizing typography and color guidelines.</li>
+        <li>Leveraging AI tools to accelerate design workflows, reducing iteration time by ~30–40%.</li>
+      </ul>
+    </div>
+
+    <!-- PayNearby -->
+    <div class="resume-entry reveal">
+      <div class="resume-entry-head">
+        <h3>PAYNEARBY</h3>
+        <span class="label">SEP 2021 – NOV 2025 · MUMBAI</span>
+      </div>
+      <span class="label" style="color:rgba(255,255,255,0.6)">SENIOR PRODUCT DESIGNER · MAY 2025 – NOV 2025</span>
+      <ul class="resume-list">
+        <li>Owned key insurance experiences — Motor, Shopkeeper, Travel Suraksha, Hospicash — driving simplicity and adoption. Designed Soundbox Ads, rewards systems, and enhanced the NeoBanking home layout.</li>
+      </ul>
+      <span class="label" style="color:rgba(255,255,255,0.6)">PRODUCT DESIGNER · NOV 2023 – APR 2025</span>
+      <ul class="resume-list">
+        <li>Redesigned Hospicash and Group Personal Accident flows, reducing booking time by 40%. Led design for AEPS Face Auth, CASA banking (NSDL, Suryoday, AU, HDFC, SSFB), and SHG onboarding. Supported 20+ feature rollouts.</li>
+      </ul>
+      <span class="label" style="color:rgba(255,255,255,0.6)">UI/UX DESIGNER · JAN 2022 – NOV 2023</span>
+      <ul class="resume-list">
+        <li>Helped implement the design system into production — reusable patterns, design tokens, and a component library reduced dev time by 50%. Designed AEPS redesign, MicroATM, Amazon Easy Store revamp, and Mera Stock. Built modular UI templates for reports, reducing dev time by 60%.</li>
+      </ul>
+      <span class="label" style="color:rgba(255,255,255,0.6)">DESIGN INTERN · SEP 2021 – DEC 2021</span>
+      <ul class="resume-list">
+        <li>Designed Money Transfer (DMT) flows for mobile and web, and worked on the company's first bank account opening service (Axis CASA).</li>
+      </ul>
+    </div>
+
+    <!-- Freelance -->
+    <div class="resume-entry reveal">
+      <div class="resume-entry-head">
+        <h3>FREELANCE</h3>
+        <span class="label">DEC 2020 – OCT 2021 · MUMBAI</span>
+      </div>
+      <ul class="resume-list">
+        <li><strong>Kwik-Commerce</strong> — Redesigned a shipment tracking dashboard for web, enabling quick delivery actions.</li>
+        <li><strong>Youth Empowerment Foundation</strong> — Built a dashboard for managing internship and job requests for the NGO team.</li>
+        <li><strong>Clothing & E-commerce</strong> — End-to-end UI/UX for customer app, web platform, and partner onboarding.</li>
+      </ul>
+    </div>
+
+    <div class="divider reveal"><div class="divider-dot"></div><div class="divider-line"></div><span class="label">Education & Certification</span><div class="divider-line"></div><div class="divider-diamond"></div></div>
+    <div class="cs-two-col reveal">
+      <h2 class="cs-section-title" style="font-size:28px">EDUCATION</h2>
+      <div>
+        <p class="cs-body-text" style="margin-bottom:12px"><strong>B.E. Computer Engineering</strong> — University of Mumbai · 2015–2020</p>
+        <p class="cs-body-text">Certifications: UX Writing Fundamentals · Designing Gamification (Level 1 & 2) — Udemy</p>
+      </div>
+    </div>
+
+    <div class="divider reveal"><div class="divider-dot"></div><div class="divider-line"></div><span class="label">Skills</span><div class="divider-line"></div><div class="divider-diamond"></div></div>
+    <div class="reveal">
+      <div class="resume-skills">
+        <div class="resume-skill-group">
+          <span class="label" style="display:block;margin-bottom:10px">TOOLS</span>
+          <p class="cs-body-text">Figma · Adobe XD · Jitter · Miro · Whimsical</p>
+        </div>
+        <div class="resume-skill-group">
+          <span class="label" style="display:block;margin-bottom:10px">CORE</span>
+          <p class="cs-body-text">UX Research · Wireframing · Prototyping · Interaction Design · Journey Mapping · Information Architecture · Usability Testing · Design Tokens · A/B Testing · Accessibility</p>
+        </div>
+        <div class="resume-skill-group">
+          <span class="label" style="display:block;margin-bottom:10px">PROCESS</span>
+          <p class="cs-body-text">Design QA · Dev Handoff · Iterative Improvements · Feedback Loops · Stakeholder Management</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="divider reveal"><div class="divider-dot"></div><div class="divider-line"></div><span class="label">Get In Touch</span><div class="divider-line"></div><div class="divider-diamond"></div></div>
+    <a class="next-case reveal" onclick="showPage('home'); setTimeout(scrollToContact, 150)">
+      <span class="label" style="color:rgba(255,255,255,0.4)">GOT A PROJECT IN MIND?</span>
+      <h3>CONTACT ME →</h3>
+    </a>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════
+     PAGE: MY TRANSACTIONS CASE STUDY (DEEP DIVE)
+══════════════════════════════════════════════ -->
+<div id="page-mytransactions-cs" class="page">
+  <div class="cs-hero">
+    <div class="cs-meta">
+      <span class="label" style="color:rgba(255,255,255,0.4)">KODO TECHNOLOGIES · DEEP DIVE</span>
+      <div class="cs-meta-sep"></div>
+      <span class="label" style="color:rgba(255,255,255,0.4)">UX AUDIT → FINAL UI</span>
+    </div>
+    <h1 class="cs-title">MY<br>TRANSACTIONS</h1>
+    <div class="cs-intro">
+      <div class="cs-intro-rule"></div>
+      <p>Redesigning the My Transactions experience to be clearer, more accessible, and easier to use — balancing a clean, modern look with functionality like notes, receipts, categorisation, and search/filter. Built to work across desktop and mobile and handle large datasets smoothly.</p>
+    </div>
+  </div>
+  <div class="cs-body">
+    <div class="cs-image reveal"><img src="cs-mytransactions/mtx-hero.jpg" alt="My Transactions redesign overview" loading="lazy"/></div>
+
+    <div class="divider reveal"><div class="divider-dot"></div><div class="divider-line"></div><span class="label">Design Audit — Transaction List</span><div class="divider-line"></div><div class="divider-diamond"></div></div>
+    <div class="reveal">
+      <p class="cs-body-text" style="max-width:680px;margin-bottom:32px">The list forced users to scan every line — truncated merchant names, low-contrast dates, amounts with no visual weight, the unclear 'Dr' terminology, and no search, filter, or sort to fall back on.</p>
+      <div class="problem-tags">
+        <div class="problem-tag">Truncated Names</div>
+        <div class="problem-tag">Weak Hierarchy</div>
+        <div class="problem-tag">Unclear 'Dr' Term</div>
+        <div class="problem-tag">No Search / Filter</div>
+      </div>
+    </div>
+    <div class="cs-image reveal" style="margin-top:40px"><img src="cs-mytransactions/mtx-audit-list.jpg" alt="Transaction list audit" loading="lazy"/></div>
+
+    <div class="divider reveal"><div class="divider-dot"></div><div class="divider-line"></div><span class="label">Design Audit — Transaction Details</span><div class="divider-line"></div><div class="divider-diamond"></div></div>
+    <div class="reveal">
+      <p class="cs-body-text" style="max-width:680px;margin-bottom:32px">In the details view, merchant name and amount weren't prioritised, labels were redundant, the card number broke standard banking patterns, 'NA' felt unfriendly, and key actions — upload, notes, raise dispute — didn't look actionable. The whole hierarchy felt flat.</p>
+      <div class="problem-tags">
+        <div class="problem-tag">Flat Hierarchy</div>
+        <div class="problem-tag">Redundant Labels</div>
+        <div class="problem-tag">Hidden Actions</div>
+        <div class="problem-tag">Unfriendly 'NA'</div>
+      </div>
+    </div>
+    <div class="cs-image reveal" style="margin-top:40px"><img src="cs-mytransactions/mtx-audit-details.jpg" alt="Transaction details audit" loading="lazy"/></div>
+
+    <div class="divider reveal"><div class="divider-dot"></div><div class="divider-line"></div><span class="label">Problem Statement</span><div class="divider-line"></div><div class="divider-diamond"></div></div>
+    <div class="cs-two-col reveal">
+      <h2 class="cs-section-title">PROBLEM</h2>
+      <div>
+        <p class="cs-body-text" style="margin-bottom:24px">Users of the My Transactions screen struggle to quickly find, understand, and manage their expense records — important details and key actions are not visually prioritised, leading to confusion, reduced trust, and slower management.</p>
+        <p class="cs-body-text" style="margin-bottom:12px"><strong style="color:rgba(255,255,255,0.85)">How might we</strong> design the transactions list and details view so critical information stands out clearly and reduces cognitive load?</p>
+        <p class="cs-body-text"><strong style="color:rgba(255,255,255,0.85)">How might we</strong> make it faster for users to search, filter, and manage transactions so they can complete key tasks with minimal effort?</p>
+      </div>
+    </div>
+
+    <div class="divider reveal"><div class="divider-dot"></div><div class="divider-line"></div><span class="label">The User</span><div class="divider-line"></div><div class="divider-diamond"></div></div>
+    <div class="cs-two-col reveal">
+      <h2 class="cs-section-title">THE USER</h2>
+      <p class="cs-body-text">Employees using corporate cards for business expenses — hotel bookings, rides, meals — who need to review their spends, upload receipts, and add context for compliance.</p>
+    </div>
+
+    <div class="divider reveal"><div class="divider-dot"></div><div class="divider-line"></div><span class="label">Wireframes — Transaction List</span><div class="divider-line"></div><div class="divider-diamond"></div></div>
+    <div class="cs-two-col reveal">
+      <h2 class="cs-section-title">LIST ITEM</h2>
+      <p class="cs-body-text">Explored multiple row layouts focusing on scannability, hierarchy, and efficiency — shortened merchant names for faster recognition, visible category for association, and the amount highlighted with a proper debit indicator. The selected layout puts the strongest emphasis on amount, the primary element users scan for, while keeping merchant name and category in balance.</p>
+    </div>
+    <div class="cs-image reveal" style="margin-top:40px"><img src="cs-mytransactions/mtx-iter-list.jpg" alt="List item iterations" loading="lazy"/></div>
+
+    <div class="cs-two-col reveal" style="margin-top:56px">
+      <h2 class="cs-section-title">CONTROLS</h2>
+      <p class="cs-body-text">For managing large datasets: a search bar covering merchant, amount, and tag; filters for date, amount, type, and category; and sorting. Priorities were decided using red routes — search first (fastest path, covers most use cases), then new-to-old sorting, amount, type, category, and location last.</p>
+    </div>
+    <div class="cs-image reveal" style="margin-top:40px"><img src="cs-mytransactions/mtx-iter-controls.jpg" alt="List controls iterations and red route priorities" loading="lazy"/></div>
+
+    <div class="divider reveal"><div class="divider-dot"></div><div class="divider-line"></div><span class="label">Wireframes — Transaction Details</span><div class="divider-line"></div><div class="divider-diamond"></div></div>
+    <div class="cs-two-col reveal">
+      <h2 class="cs-section-title">DETAILS</h2>
+      <p class="cs-body-text">The details view follows a natural mental model: how much → where &amp; when → from which card → prove it → explain it → fix if wrong. Merchant name, amount, and date sit upfront for instant validation; receipt is prioritised above notes for compliance; secondary actions stay visible but unobtrusive. Plus navigation to move between transactions without going back.</p>
+    </div>
+    <div class="cs-image reveal" style="margin-top:40px"><img src="cs-mytransactions/mtx-iter-details.jpg" alt="Details view iterations" loading="lazy"/></div>
+
+    <div class="divider reveal"><div class="divider-dot"></div><div class="divider-line"></div><span class="label">Final Wireframe</span><div class="divider-line"></div><div class="divider-diamond"></div></div>
+    <div class="cs-image reveal"><img src="cs-mytransactions/mtx-final-wireframe.jpg" alt="Final wireframe — list and details" loading="lazy"/></div>
+
+    <div class="divider reveal"><div class="divider-dot"></div><div class="divider-line"></div><span class="label">Visual Language</span><div class="divider-line"></div><div class="divider-diamond"></div></div>
+    <div class="cs-image reveal"><img src="cs-mytransactions/mtx-type-colors.jpg" alt="Typography and colors" loading="lazy"/></div>
+
+    <div class="divider reveal"><div class="divider-dot"></div><div class="divider-line"></div><span class="label">Component Library</span><div class="divider-line"></div><div class="divider-diamond"></div></div>
+    <div class="reveal">
+      <p class="cs-body-text" style="max-width:680px;margin-bottom:32px">Every state designed — icons, merchant categories, buttons, approval statuses, filter chips, search, dropdowns, list rows, notes, and receipt uploads — including empty, default, and filled states.</p>
+    </div>
+    <div class="cs-image reveal"><img src="cs-mytransactions/mtx-components.jpg" alt="Component library" loading="lazy"/></div>
+
+    <div class="divider reveal"><div class="divider-dot"></div><div class="divider-line"></div><span class="label">Final UI — Split View</span><div class="divider-line"></div><div class="divider-diamond"></div></div>
+    <div class="cs-two-col reveal">
+      <h2 class="cs-section-title">SPLIT VIEW</h2>
+      <p class="cs-body-text">List on the left for fast scanning, details on the right for instant context — ideal for finance reviewers processing many transactions. Reviewers move through items without losing list context or filter state, bulk workflows get easier, and the master/detail structure makes summary vs. deep detail obvious.</p>
+    </div>
+    <div class="cs-image reveal" style="margin-top:40px"><img src="cs-mytransactions/mtx-ui-splitview.jpg" alt="Split view UI" loading="lazy"/></div>
+
+    <div class="divider reveal"><div class="divider-dot"></div><div class="divider-line"></div><span class="label">Explorations</span><div class="divider-line"></div><div class="divider-diamond"></div></div>
+    <div class="cs-two-col reveal">
+      <h2 class="cs-section-title">ALTERNATES</h2>
+      <p class="cs-body-text">An alternate full-panel filter view — simple and effective for small datasets, but limited for multi-month selection and real-time results. And a dropdown (expandable row) layout — quick inline access, but it cluttered the list and didn't scale for compliance tasks. The split view won on both counts.</p>
+    </div>
+    <div class="cs-image reveal" style="margin-top:40px"><img src="cs-mytransactions/mtx-ui-altfilter.jpg" alt="Alternate filter view" loading="lazy"/></div>
+    <div class="cs-image reveal"><img src="cs-mytransactions/mtx-ui-dropdown.jpg" alt="Dropdown exploration" loading="lazy"/></div>
+
+    <div class="divider reveal"><div class="divider-dot"></div><div class="divider-line"></div><span class="label">Mobile</span><div class="divider-line"></div><div class="divider-diamond"></div></div>
+    <div class="cs-image reveal"><img src="cs-mytransactions/mtx-ui-mobile.jpg" alt="Mobile view" loading="lazy"/></div>
+
+    <div class="divider reveal"><div class="divider-dot"></div><div class="divider-line"></div><span class="label">All Work</span><div class="divider-line"></div><div class="divider-diamond"></div></div>
+    <a class="next-case reveal" onclick="showPage('home')">
+      <span class="label" style="color:rgba(255,255,255,0.4)">BACK TO PORTFOLIO</span>
+      <h3>VIEW ALL PROJECTS →</h3>
+    </a>
+  </div>
+</div>
+
+<script>
+  // ── LOADER
+  let loadProgress = 0
+  const loaderPercent = document.getElementById('loader-percent')
+  const loader = document.getElementById('loader')
+  
+  function updateLoadProgress() {
+    if (loadProgress < 90) {
+      loadProgress += Math.random() * 30
+      loaderPercent.textContent = Math.floor(loadProgress) + '%'
+    }
+  }
+  
+  const progressInterval = setInterval(updateLoadProgress, 200)
+  
+  function hideLoader() {
+    clearInterval(progressInterval)
+    loadProgress = 100
+    loaderPercent.textContent = '100%'
+    setTimeout(() => {
+      loader.classList.add('hidden')
+      document.body.classList.add('page-loaded')
+    }, 300)
+  }
+  
+  // Hide loader when page fully loads
+  window.addEventListener('load', hideLoader)
+  
+  // Fallback: hide after 3 seconds
+  setTimeout(() => {
+    if (!loader.classList.contains('hidden')) hideLoader()
+  }, 3000)
+
+  // ── CURSOR
+  const cursor = document.getElementById('cursor')
+  const cursorDot = document.getElementById('cursor-dot')
+  document.addEventListener('mousemove', e => {
+    cursor.style.left = e.clientX + 'px'
+    cursor.style.top = e.clientY + 'px'
+    cursorDot.style.left = e.clientX + 'px'
+    cursorDot.style.top = e.clientY + 'px'
+  })
+
+  // ── NAV SCROLL
+  const nav = document.getElementById('main-nav')
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 50)
+  })
+
+  // ── PAGE ROUTER
+  function showPage(id) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'))
+    document.getElementById('page-' + id).classList.add('active')
+    window.scrollTo({ top: 0, behavior: 'instant' })
+    // Reset all card container scroll positions
+    document.querySelectorAll('.project-grid, .project-grid-scroll').forEach(el => el.scrollLeft = 0)
+    setTimeout(initReveal, 100)
+  }
+
+  function scrollToWork() {
+    const el = document.getElementById('work-section')
+    if (el) el.scrollIntoView({ behavior: 'smooth' })
+  }
+
+  // ── INTERSECTION OBSERVER for .reveal and .divider
+  function initReveal() {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible')
+          observer.unobserve(e.target)
+        }
+      })
+    }, { threshold: 0.1 })
+
+    document.querySelectorAll('.page.active .reveal, .page.active .divider, .page.active .cs-image').forEach(el => {
+      if (!el.classList.contains('visible')) observer.observe(el)
+    })
+  }
+
+  // Init on load
+  window.addEventListener('load', () => {
+    setTimeout(initReveal, 100)
+    // Force all card containers to start position
+    document.querySelectorAll('.project-grid, .project-grid-scroll').forEach(el => {
+      el.scrollLeft = 0
+    })
+  })
+
+  // ── CONTACT
+  function scrollToContact() {
+    const el = document.querySelector('.contact-section')
+    if (el) el.scrollIntoView({ behavior: 'smooth' })
+  }
+
+  // ── HORIZONTAL SCROLL
+  function scrollCards(containerId, direction) {
+    const container = document.getElementById(containerId)
+    const scrollAmount = 350
+    container.scrollBy({
+      left: direction * scrollAmount,
+      behavior: 'smooth'
+    })
+  }
+</script>
+
+</body>
+</html>
