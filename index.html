@@ -314,11 +314,9 @@
     scroll-behavior: smooth;
     scrollbar-width: none;
     -ms-overflow-style: none;
-    padding: 4px 48px 16px;
-    margin-left: -48px;
-    margin-right: -48px;
-    width: calc(100% + 96px);
-    scroll-padding-left: 48px;
+    padding: 4px 0 16px;
+    width: 100%;
+    scroll-padding-left: 0;
   }
   .project-grid::-webkit-scrollbar,
   .project-grid-scroll::-webkit-scrollbar { display: none; }
@@ -333,11 +331,8 @@
   @media (max-width: 600px) {
     .project-grid,
     .project-grid-scroll {
-      padding-left: 16px;
-      padding-right: 16px;
-      margin-left: -16px;
-      margin-right: -16px;
-      width: calc(100% + 32px);
+      padding-left: 0;
+      padding-right: 0;
       gap: 16px;
     }
     .project-grid .project-card,
@@ -1816,7 +1811,13 @@
   }
 
   // Init on load
-  window.addEventListener('load', () => setTimeout(initReveal, 100))
+  window.addEventListener('load', () => {
+    setTimeout(initReveal, 100)
+    // Force all card containers to start position
+    document.querySelectorAll('.project-grid, .project-grid-scroll').forEach(el => {
+      el.scrollLeft = 0
+    })
+  })
 
   // ── CONTACT
   function scrollToContact() {
