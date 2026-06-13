@@ -315,10 +315,8 @@
     scroll-behavior: smooth;
     scrollbar-width: none;
     -ms-overflow-style: none;
-    margin-left: -48px;
-    margin-right: -48px;
     padding: 4px 24px 16px 48px;
-    width: calc(100% + 96px);
+    width: 100%;
     box-sizing: border-box;
   }
   .project-grid::-webkit-scrollbar,
@@ -334,11 +332,8 @@
   @media (max-width: 600px) {
     .project-grid,
     .project-grid-scroll {
-      margin-left: -16px;
-      margin-right: -16px;
       padding-left: 16px;
       padding-right: 16px;
-      width: calc(100% + 32px);
       gap: 16px;
     }
     .project-grid .project-card,
@@ -731,11 +726,12 @@
   </section>
 
   <!-- Work -->
-  <section id="work-section" style="padding:40px 48px 100px;max-width:1100px;margin:0 auto;overflow:visible">
+  <section id="work-section" style="padding:40px 0 100px;max-width:1100px;margin:0 auto">
 
     <!-- Kodo -->
     <div style="margin-bottom:80px">
-      <div class="divider reveal">
+      <div style="padding:0 48px">
+        <div class="divider reveal">
           <div class="divider-dot"></div><div class="divider-line"></div>
           <span class="label">Work — Section 01</span>
           <div class="divider-line"></div><div class="divider-diamond"></div>
@@ -753,6 +749,7 @@
             </div>
           </div>
         </div>
+      </div>
       <div class="project-grid-scroll" id="kodo-grid">
         <!-- KD-01 LOGIN -->
         <a class="project-card reveal" onclick="showPage('login-cs')" style="transition-delay:0s">
@@ -880,20 +877,21 @@
 
     <!-- PayNearby -->
     <div>
-      <div class="divider reveal">
-        <div class="divider-dot"></div><div class="divider-line"></div>
-        <span class="label">Work — Section 02</span>
-        <div class="divider-line"></div><div class="divider-diamond"></div>
-      </div>
-      <div class="section-header reveal">
-        <div>
-          <h2 class="dim">PAYNEARBY</h2>
-          <span class="label">JAN 2022 – NOV 2025 · B2B2C FINTECH · DESIGN SYSTEM · BANKING · INSURANCE · LENDING</span>
+      <div style="padding:0 48px">
+        <div class="divider reveal">
+          <div class="divider-dot"></div><div class="divider-line"></div>
+          <span class="label">Work — Section 02</span>
+          <div class="divider-line"></div><div class="divider-diamond"></div>
         </div>
-        <span class="label" style="opacity:0.4">3 PROJECTS</span>
+        <div class="section-header reveal">
+          <div>
+            <h2 class="dim">PAYNEARBY</h2>
+            <span class="label">JAN 2022 – NOV 2025 · B2B2C FINTECH · DESIGN SYSTEM · BANKING · INSURANCE · LENDING</span>
+          </div>
+          <span class="label" style="opacity:0.4">3 PROJECTS</span>
+        </div>
       </div>
-    </div>
-    <div class="project-grid" id="paynearby-grid">
+      <div class="project-grid" id="paynearby-grid">
         <!-- PN-01 -->
         <a class="project-card reveal" onclick="showPage('apply-pan-cs')" style="transition-delay:0s">
           <div class="card-corner tl"></div><div class="card-corner tr"></div>
@@ -953,17 +951,19 @@
 
     <!-- Case Studies -->
     <div style="margin-top:80px">
-      <div class="divider reveal">
-        <div class="divider-dot"></div><div class="divider-line"></div>
-        <span class="label">Deep Dives — Section 03</span>
-        <div class="divider-line"></div><div class="divider-diamond"></div>
-      </div>
-      <div class="section-header reveal">
-        <div>
-          <h2>CASE STUDIES</h2>
-          <span class="label">DETAILED PROCESS WORK · RESEARCH TO FINAL UI</span>
+      <div style="padding:0 48px">
+        <div class="divider reveal">
+          <div class="divider-dot"></div><div class="divider-line"></div>
+          <span class="label">Deep Dives — Section 03</span>
+          <div class="divider-line"></div><div class="divider-diamond"></div>
         </div>
-        <span class="label" style="opacity:0.4">1 STUDY</span>
+        <div class="section-header reveal">
+          <div>
+            <h2>CASE STUDIES</h2>
+            <span class="label">DETAILED PROCESS WORK · RESEARCH TO FINAL UI</span>
+          </div>
+          <span class="label" style="opacity:0.4">1 STUDY</span>
+        </div>
       </div>
     </div>
     <div class="project-grid">
