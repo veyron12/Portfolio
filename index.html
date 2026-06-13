@@ -310,13 +310,15 @@
     display: flex;
     gap: 24px;
     overflow-x: auto;
-    overflow-y: hidden;
+    overflow-y: visible;
     scroll-behavior: smooth;
     scrollbar-width: none;
     -ms-overflow-style: none;
     padding: 4px 0 16px;
-    width: 100%;
-    scroll-padding-left: 0;
+    margin-left: -48px;
+    margin-right: -48px;
+    padding-left: 48px;
+    padding-right: 48px;
   }
   .project-grid::-webkit-scrollbar,
   .project-grid-scroll::-webkit-scrollbar { display: none; }
@@ -331,8 +333,10 @@
   @media (max-width: 600px) {
     .project-grid,
     .project-grid-scroll {
-      padding-left: 0;
-      padding-right: 0;
+      margin-left: -16px;
+      margin-right: -16px;
+      padding-left: 16px;
+      padding-right: 16px;
       gap: 16px;
     }
     .project-grid .project-card,
@@ -726,10 +730,10 @@
   </section>
 
   <!-- Work -->
-  <section id="work-section" style="padding:40px 48px 100px;max-width:1100px;margin:0 auto">
+  <section id="work-section" style="padding:40px 0 100px;max-width:1100px;margin:0 auto;overflow:visible">
 
     <!-- Kodo -->
-    <div style="margin-bottom:80px">
+    <div style="margin-bottom:80px;padding:0 48px">
       <div class="divider reveal">
         <div class="divider-dot"></div><div class="divider-line"></div>
         <span class="label">Work — Section 01</span>
@@ -874,7 +878,7 @@
     </div>
 
     <!-- PayNearby -->
-    <div>
+    <div style="padding:0 48px">
       <div class="divider reveal">
         <div class="divider-dot"></div><div class="divider-line"></div>
         <span class="label">Work — Section 02</span>
@@ -946,7 +950,7 @@
     </div>
 
     <!-- Case Studies -->
-    <div style="margin-top:80px">
+    <div style="margin-top:80px;padding:0 48px">
       <div class="divider reveal">
         <div class="divider-dot"></div><div class="divider-line"></div>
         <span class="label">Deep Dives — Section 03</span>
