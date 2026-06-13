@@ -1901,10 +1901,32 @@
     document.querySelectorAll('.page').forEach(p => p.classList.remove('active'))
     document.getElementById('page-' + id).classList.add('active')
     window.scrollTo({ top: 0, behavior: 'instant' })
-    // Reset all card container scroll positions
     document.querySelectorAll('.project-grid, .project-grid-scroll').forEach(el => el.scrollLeft = 0)
+    // Update URL hash without triggering scroll
+    history.pushState(null, '', '#' + id)
     setTimeout(initReveal, 100)
   }
+
+  // Read hash on load to show correct page
+  function loadFromHash() {
+    const hash = window.location.hash.replace('#', '')
+    const validPage = hash && document.getElementById('page-' + hash)
+    if (validPage) {
+      showPage(hash)
+    } else {
+      showPage('home')
+    }
+  }
+
+  // Handle browser back/forward
+  window.addEventListener('popstate', () => {
+    const hash = window.location.hash.replace('#', '')
+    const id = hash && document.getElementById('page-' + hash) ? hash : 'home'
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'))
+    document.getElementById('page-' + id).classList.add('active')
+    window.scrollTo({ top: 0, behavior: 'instant' })
+    setTimeout(initReveal, 100)
+  })
 
   function scrollToWork() {
     const el = document.getElementById('work-section')
@@ -1929,8 +1951,8 @@
 
   // Init on load
   window.addEventListener('load', () => {
+    loadFromHash()
     setTimeout(initReveal, 100)
-    // Force all card containers to start position
     document.querySelectorAll('.project-grid, .project-grid-scroll').forEach(el => {
       el.scrollLeft = 0
     })
