@@ -250,12 +250,32 @@
     const pi = $('img', prev)
     const px = gsap.quickTo(prev, 'x', { duration: 0.6, ease: 'power3' }), py = gsap.quickTo(prev, 'y', { duration: 0.6, ease: 'power3' })
     const pr = gsap.quickTo(prev, 'rotation', { duration: 0.6, ease: 'power3' })
-    let lastX = 0
-    $$('.row').forEach(r => {
-      r.addEventListener('mouseenter', () => { pi.src = r.dataset.img; gsap.to(prev, { opacity: 1, scale: 1, duration: 0.45, ease: 'expo.out' }) })
-      r.addEventListener('mouseleave', () => gsap.to(prev, { opacity: 0, scale: 0.6, duration: 0.35, ease: 'power3.in' }))
-      r.addEventListener('mousemove', e => { px(e.clientX + 30); py(e.clientY - 120); pr(Math.max(-12, Math.min(12, (e.clientX - lastX) * 0.6))); lastX = e.clientX })
+    // One source of truth: whatever row is under the pointer right now.
+    // Re-checked on mouse move AND on scroll, so the preview can never get
+    // stranded when rows scroll out from under a still mouse.
+    let lastX = 0, mx = -1, my = -1, current = null
+    const sync = () => {
+      const el = mx < 0 ? null : document.elementFromPoint(mx, my)
+      const row = el && el.closest('.row')
+      if (row === current) return
+      current = row
+      if (row) {
+        pi.src = row.dataset.img
+        gsap.to(prev, { opacity: 1, scale: 1, duration: 0.45, ease: 'expo.out', overwrite: true })
+      } else {
+        gsap.to(prev, { opacity: 0, scale: 0.6, duration: 0.3, ease: 'power3.in', overwrite: true })
+      }
+    }
+    addEventListener('mousemove', e => {
+      mx = e.clientX; my = e.clientY
+      if (current || e.target.closest('.row')) { px(mx + 30); py(my - 120); pr(Math.max(-12, Math.min(12, (mx - lastX) * 0.6))) }
+      lastX = mx
+      sync()
     })
+    addEventListener('scroll', () => requestAnimationFrame(sync), { passive: true })
+    if (lenis) lenis.on('scroll', () => requestAnimationFrame(sync))
+    document.addEventListener('mouseleave', () => { mx = -1; sync() })
+    ScrollTrigger.create({ trigger: '.list', start: 'top bottom', end: 'bottom top', onLeave: () => { current = undefined; mx = -1; sync() }, onLeaveBack: () => { current = undefined; mx = -1; sync() } })
     $$('.row').forEach(r => { const i = new Image(); i.src = r.dataset.img })
   }
 
