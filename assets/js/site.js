@@ -148,8 +148,18 @@
       tone.style.clipPath = 'polygon(' + [[-w / 2, -hh / 2], [w / 2, -hh / 2], [w / 2, hh / 2], [-w / 2, hh / 2]]
         .map(([x, y]) => `${(cx + x * c - y * s).toFixed(1)}px ${(cy + x * s + y * c).toFixed(1)}px`).join(',') + ')'
       Object.assign(sel.style, { width: w + 'px', height: hh + 'px', left: cx - w / 2 + 'px', top: cy - hh / 2 + 'px', transform: `rotate(${F.rot + F.mr}deg)`, opacity: F.s > 0.02 ? 1 : 0 })
+      // role tag lives on its own top layer (above the outlined RATHOD), hanging just below the frame
+      if (dim) {
+        const gap = innerWidth < 760 ? 10 : 14, d = hh / 2 + gap
+        const px = cx - d * s, py = cy + d * c
+        const pr = photo.getBoundingClientRect(), sr = stage.getBoundingClientRect()
+        const ks = sr.width / (stage.offsetWidth || 1), kp = pr.width / ((photo.offsetWidth || 1) * ks)
+        gsap.set(dim, { x: (pr.left - sr.left) / ks + px * kp, y: (pr.top - sr.top) / ks + py * kp, xPercent: -50, rotation: F.rot + F.mr, transformOrigin: '50% 0%', opacity: F.s > 0.02 ? 1 : 0 })
+      }
     }
+    const stage = $('.hero-stage'), dim = $('.sel-dim')
     draw(); addEventListener('resize', draw)
+    gsap.ticker.add(() => { if (scrollY < innerHeight * 1.3) draw() })
 
     const fades = $$('.hero-side > *, .nav > *')
     if (!reduce) {
