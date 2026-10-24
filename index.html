@@ -8,6 +8,9 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=JetBrains+Mono:wght@300;400;500&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,400&display=swap" />
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   html { scroll-behavior: smooth; }
@@ -730,6 +733,146 @@
     .contact-inner { gap: 40px; }
     .contact-details { align-items: flex-start; }
   }
+
+  /* ═══════════ MOTION LAYER (GSAP) ═══════════ */
+  :root { --accent: #ff5b1f; --accent-soft: rgba(255,91,31,0.14); }
+  html.lenis, html.lenis body { height: auto; }
+  .lenis.lenis-smooth { scroll-behavior: auto !important; }
+  html { scroll-behavior: auto; }
+
+  /* grain */
+  .grain {
+    position: fixed; inset: -50%; z-index: 9990; pointer-events: none; opacity: 0.07;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    animation: grain 0.9s steps(6) infinite;
+  }
+  @keyframes grain {
+    0% { transform: translate(0,0) } 20% { transform: translate(-4%,3%) } 40% { transform: translate(3%,-5%) }
+    60% { transform: translate(-6%,-2%) } 80% { transform: translate(5%,4%) } 100% { transform: translate(0,0) }
+  }
+
+  /* cursor */
+  #cursor { transition: none; }
+  #cursor-dot { transition: width .25s, height .25s, background .25s; }
+  #cursor-ring {
+    position: fixed; left: 0; top: 0; width: 84px; height: 84px; margin: -42px 0 0 -42px;
+    border-radius: 50%; background: var(--accent); color: #0a0a0a; z-index: 10001; pointer-events: none;
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--mono); font-size: 10px; letter-spacing: 2px; text-transform: uppercase; font-weight: 500;
+    transform: scale(0);
+  }
+  @media (hover: none) { #cursor, #cursor-dot, #cursor-ring { display: none; } body { cursor: auto; } }
+
+  /* ── HERO ── */
+  .hx {
+    position: relative; min-height: 100svh; padding: 88px 48px 36px;
+    display: flex; flex-direction: column; overflow: hidden;
+  }
+  .hx-top { display: flex; justify-content: space-between; align-items: center; position: relative; z-index: 6; }
+  .hx-status { display: flex; align-items: center; gap: 10px; }
+  .hx-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 0 rgba(255,91,31,.6); animation: ping 2s infinite; }
+  @keyframes ping { 0% { box-shadow: 0 0 0 0 rgba(255,91,31,.55) } 80%,100% { box-shadow: 0 0 0 10px rgba(255,91,31,0) } }
+  .hx-stage { position: relative; flex: 1; display: flex; align-items: center; justify-content: center; min-height: 520px; }
+  .hx-name {
+    position: absolute; left: 0; right: 0; text-align: center; margin: 0;
+    font-family: var(--display); font-weight: 400; line-height: .8; letter-spacing: .01em;
+    font-size: clamp(96px, 23vw, 380px); white-space: nowrap; pointer-events: none;
+  }
+  .hx-back { top: 2%; color: #f2f2f2; z-index: 1; }
+  .hx-front { bottom: 2%; color: transparent; -webkit-text-stroke: 1.5px rgba(255,255,255,.75); z-index: 4; }
+  .hx-word { display: inline-block; }
+  .hx-word .ch { display: inline-block; will-change: transform; }
+  .hx-photo {
+    position: relative; z-index: 3; width: min(600px, 48vw); aspect-ratio: 900 / 740; margin-top: 6%;
+    margin-left: calc(min(600px, 48vw) * 0.166);
+  }
+  .hx-photo img { position: absolute; inset: 0; width: 100%; height: 100%; display: block; user-select: none; -webkit-user-drag: none; }
+  .hx-tone { clip-path: polygon(50% 50%, 50% 50%, 50% 50%, 50% 50%); }
+  .hx-frame {
+    position: absolute; left: 0; top: 0; width: 0; height: 0; border: 1.5px solid var(--accent);
+    transform-origin: 50% 50%; pointer-events: none; z-index: 2;
+  }
+  .hx-frame .h { position: absolute; width: 8px; height: 8px; background: #fff; border: 1.5px solid var(--accent); }
+  .hx-frame .tl { left: -5px; top: -5px } .hx-frame .tr { right: -5px; top: -5px }
+  .hx-frame .bl { left: -5px; bottom: -5px } .hx-frame .br { right: -5px; bottom: -5px }
+  .hx-frame .tm { left: calc(50% - 4px); top: -5px } .hx-frame .bm { left: calc(50% - 4px); bottom: -5px }
+  .hx-frame-tag, .hx-frame-size {
+    position: absolute; font-family: var(--mono); font-size: 10px; letter-spacing: .5px; white-space: nowrap;
+    padding: 3px 6px; background: var(--accent); color: #0a0a0a; font-weight: 500;
+  }
+  .hx-frame-tag { left: -1.5px; top: -24px; }
+  .hx-frame-size { left: 50%; bottom: -26px; transform: translateX(-50%); background: #fff; }
+  .hx-spark { position: absolute; z-index: 5; width: clamp(40px, 5vw, 76px); right: 20%; top: 46%; fill: #fff; }
+  .hx-bottom {
+    position: relative; z-index: 6; display: grid; grid-template-columns: 1fr auto 1fr; align-items: end; gap: 24px; margin-top: 8px;
+  }
+  .hx-tag { font-size: 14px; line-height: 1.7; color: rgba(255,255,255,.62); font-weight: 300; max-width: 330px; }
+  .hx-tag .ln { display: block; overflow: hidden; } .hx-tag .ln > span { display: block; }
+  .hx-ctas { display: flex; gap: 8px; align-items: center; }
+  .hx-ctas .btn-primary { background: #fff; color: #0a0a0a; border-color: #fff; }
+  .hx-ctas .btn-primary:hover { background: var(--accent); border-color: var(--accent); color: #0a0a0a; }
+  .hx-ctas .btn-ghost { background: none; border: none; font-family: var(--mono); }
+  .hx-scroll { justify-self: end; display: flex; align-items: center; gap: 12px; }
+  .hx-scroll-line { position: relative; width: 56px; height: 1px; background: rgba(255,255,255,.15); overflow: hidden; }
+  .hx-scroll-line i { position: absolute; inset: 0; background: #fff; transform: translateX(-100%); animation: sweep 2.2s cubic-bezier(.7,0,.3,1) infinite; }
+  @keyframes sweep { 0% { transform: translateX(-100%) } 60%,100% { transform: translateX(100%) } }
+  .magnetic { will-change: transform; }
+
+  /* ── REEL ── */
+  .reel { position: relative; padding: 72px 0 40px; overflow: hidden; }
+  .reel-track { display: flex; gap: 14px; width: max-content; will-change: transform; }
+  .reel-panel {
+    position: relative; flex: 0 0 auto; width: clamp(180px, 19vw, 280px); aspect-ratio: 4 / 5; margin: 0;
+    border-radius: 28px; overflow: hidden; background: #111;
+    /* concave notches like the reference */
+    -webkit-mask: radial-gradient(circle 22px at 50% -6px, #0000 98%, #000) top/100% 51% no-repeat,
+                  radial-gradient(circle 22px at 50% calc(100% + 6px), #0000 98%, #000) bottom/100% 51% no-repeat;
+            mask: radial-gradient(circle 22px at 50% -6px, #0000 98%, #000) top/100% 51% no-repeat,
+                  radial-gradient(circle 22px at 50% calc(100% + 6px), #0000 98%, #000) bottom/100% 51% no-repeat;
+  }
+  .reel-panel img { width: 100%; height: 100%; object-fit: cover; display: block; filter: grayscale(1) contrast(1.05); opacity: .75; transition: filter .5s, opacity .5s; }
+  .reel-panel:hover img { filter: none; opacity: 1; }
+  .reel-panel.is-accent { background: var(--accent); }
+  .reel-panel.is-accent img { mix-blend-mode: multiply; filter: grayscale(1) contrast(1.2); opacity: 1; }
+  .reel-panel figcaption { position: absolute; left: 16px; bottom: 16px; color: rgba(255,255,255,.85); font-size: 9px; text-shadow: 0 1px 8px rgba(0,0,0,.6); }
+  .reel-title {
+    position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center;
+    pointer-events: none; mix-blend-mode: difference; color: #fff; text-align: center; gap: 10px;
+  }
+  .reel-big { font-family: var(--display); font-size: clamp(64px, 13vw, 210px); line-height: .85; letter-spacing: .01em; }
+  .reel-sub { font-family: var(--mono); font-size: 11px; letter-spacing: 3px; text-transform: uppercase; }
+
+  /* ── CARD STACKS (case studies) ── */
+  .card-image .stack { position: absolute; inset: 0; perspective: 900px; }
+  .card-image .stack img {
+    position: absolute; left: 12%; top: 12%; width: 76%; height: 80%; object-fit: cover; object-position: top;
+    border-radius: 6px; border: 1px solid rgba(255,255,255,.12); box-shadow: 0 18px 40px rgba(0,0,0,.55);
+    opacity: 1; filter: grayscale(1) brightness(.8); transition: filter .4s; transform-origin: 50% 100%;
+  }
+  .project-card:hover .card-image .stack img { transform: none; opacity: 1; filter: none; }
+  .project-grid .card-image:has(.stack) { height: 230px; }
+  .project-card:hover .card-image img { opacity: .9; filter: none; }
+  .project-card { transform-style: preserve-3d; }
+  .card-tag { transition: background .3s, color .3s, border-color .3s; }
+  .project-card:hover .card-tag { border-color: rgba(255,91,31,.5); color: #fff; }
+
+  /* section titles split */
+  .section-header h2 .ch, .contact-heading h2 .ch { display: inline-block; }
+  .split-wrap { display: inline-block; overflow: hidden; vertical-align: top; padding-bottom: .04em; }
+
+  @media (max-width: 900px) {
+    .hx { padding: 80px 20px 28px; }
+    .hx-photo { width: min(480px, 92vw); margin-top: 18%; margin-left: calc(min(480px, 92vw) * 0.166); }
+    .hx-name { font-size: clamp(72px, 25vw, 200px); }
+    .hx-back { top: 4%; } .hx-front { bottom: 10%; }
+    .hx-bottom { grid-template-columns: 1fr; justify-items: start; }
+    .hx-scroll { display: none; }
+    .hx-spark { right: 8%; top: 40%; }
+    .hx-loc { display: none; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .grain, .hx-scroll-line i, .hx-dot { animation: none; }
+  }
 </style>
 </head>
 <body>
@@ -750,6 +893,8 @@
 
 <div id="cursor"></div>
 <div id="cursor-dot"></div>
+<div id="cursor-ring"><span id="cursor-label">Open</span></div>
+<div class="grain" aria-hidden="true"></div>
 
 <!-- Blueprint grid SVG background -->
 <svg id="grid-bg" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
@@ -790,37 +935,51 @@
 <div id="page-home" class="page active">
 
   <!-- Hero -->
-  <div class="hero">
-    <div class="status-badge">
-      <div class="status-dot"></div>
-      <span class="label" style="color:rgba(255,255,255,0.6)">STATUS: AVAILABLE FOR NEW WORK</span>
+  <section class="hx" id="hero">
+    <div class="hx-top">
+      <div class="hx-status"><span class="hx-dot"></span><span class="label">Available for new work</span></div>
+      <span class="label hx-loc">Mumbai, IN · <span id="hx-clock">--:--</span> IST</span>
     </div>
-    <div class="hero-name" style="margin-bottom:32px">
-      <h1 class="solid">HARSHAL</h1>
-      <div class="hero-name-row">
-        <h1 class="outline">RATHOD</h1>
-        <div class="hero-role">
-          <div class="hero-role-line"></div>
-          <span class="label" style="font-size:9px">SR. PRODUCT DESIGNER</span>
+
+    <div class="hx-stage">
+      <h1 class="hx-name hx-back" aria-label="Harshal Rathod"><span class="hx-word" data-split>HARSHAL</span></h1>
+
+      <div class="hx-photo" id="hx-photo">
+        <img class="hx-bw" src="images/harshal-bw.webp" alt="Harshal Rathod" width="900" height="740" />
+        <img class="hx-tone" id="hx-tone" src="images/harshal-tone.webp" alt="" aria-hidden="true" width="900" height="740" />
+        <div class="hx-frame" id="hx-frame" aria-hidden="true">
+          <i class="h tl"></i><i class="h tr"></i><i class="h bl"></i><i class="h br"></i>
+          <i class="h tm"></i><i class="h bm"></i>
+          <span class="hx-frame-tag">harshal.png</span>
+          <span class="hx-frame-size">Sr. Product Designer</span>
         </div>
       </div>
+
+      <h1 class="hx-name hx-front" aria-hidden="true"><span class="hx-word" data-split>RATHOD</span></h1>
+
+      <svg class="hx-spark" id="hx-spark" viewBox="0 0 100 100" aria-hidden="true"><path d="M50 0 C53 38 62 47 100 50 C62 53 53 62 50 100 C47 62 38 53 0 50 C38 47 47 38 50 0Z"/></svg>
     </div>
-    <div class="hero-tagline">
-      <div style="display:flex;flex-direction:column;align-items:center;flex-shrink:0">
-        <div class="tagline-rule"></div>
-        <div class="tagline-tick"></div>
+
+    <div class="hx-bottom">
+      <p class="hx-tag" data-lines>4+ years turning complex B2B and fintech problems into interfaces people actually want to use. Currently designing at Kodo Technologies.</p>
+      <div class="hx-ctas">
+        <a class="btn-primary magnetic" onclick="scrollToWork()"><span>View work</span><span class="arr">→</span></a>
+        <button class="btn-ghost magnetic" onclick="scrollToContact()">Get in touch</button>
       </div>
-      <p>4+ years turning complex B2B and fintech problems into interfaces people actually want to use. Currently designing at Kodo Technologies.</p>
+      <div class="hx-scroll"><span class="label">Scroll</span><span class="hx-scroll-line"><i></i></span></div>
     </div>
-    <div class="hero-ctas">
-      <a class="btn-primary" onclick="scrollToWork()">VIEW WORK →</a>
-      <button class="btn-ghost" onclick="scrollToContact()" style="border:none;background:none;cursor:pointer;font-family:inherit;padding:0">GET IN TOUCH</button>
+  </section>
+
+  <!-- Reel -->
+  <section class="reel" id="reel" aria-label="Selected work reel">
+    <div class="reel-track" id="reel-track">
+      <figure class="reel-panel"><img src="images/reel/mt-1-p.webp" alt="" loading="lazy" /><figcaption class="label">01 · My Transactions</figcaption></figure><figure class="reel-panel"><img src="images/reel/login-p.webp" alt="" loading="lazy" /><figcaption class="label">02 · Login</figcaption></figure><figure class="reel-panel"><img src="images/reel/fi-money-card-p.webp" alt="" loading="lazy" /><figcaption class="label">03 · Fi Money</figcaption></figure><figure class="reel-panel"><img src="images/reel/new-dashboard-p.webp" alt="" loading="lazy" /><figcaption class="label">04 · Dashboard</figcaption></figure><figure class="reel-panel is-accent"><img src="images/reel/vp-mobile-p.webp" alt="" loading="lazy" /><figcaption class="label">05 · Payments</figcaption></figure><figure class="reel-panel"><img src="images/reel/team-home-p.webp" alt="" loading="lazy" /><figcaption class="label">06 · Teams</figcaption></figure><figure class="reel-panel"><img src="images/reel/card-detail-p.webp" alt="" loading="lazy" /><figcaption class="label">07 · Card detail</figcaption></figure><figure class="reel-panel"><img src="images/reel/fi-money-hero-p.webp" alt="" loading="lazy" /><figcaption class="label">08 · Fi Money</figcaption></figure><figure class="reel-panel"><img src="images/reel/member-detail-p.webp" alt="" loading="lazy" /><figcaption class="label">09 · Members</figcaption></figure><figure class="reel-panel"><img src="images/reel/vp-hero-p.webp" alt="" loading="lazy" /><figcaption class="label">10 · Vendor payments</figcaption></figure><figure class="reel-panel"><img src="images/reel/questionaire-p.webp" alt="" loading="lazy" /><figcaption class="label">11 · Onboarding</figcaption></figure><figure class="reel-panel"><img src="images/reel/mt-2-p.webp" alt="" loading="lazy" /><figcaption class="label">12 · My Transactions</figcaption></figure>
     </div>
-    <div class="scroll-hint">
-      <span class="label" style="color:rgba(255,255,255,0.4)">SCROLL TO EXPLORE</span>
-      <div class="scroll-hint-line"></div>
+    <div class="reel-title" aria-hidden="true">
+      <span class="reel-big">Selected work</span>
+      <span class="reel-sub">Fintech · B2B · Payments · 2022 — 2026</span>
     </div>
-  </div>
+  </section>
 
   <!-- Approach -->
   <section style="padding:24px 48px 40px;max-width:1100px;margin:0 auto">
@@ -880,7 +1039,7 @@
           <div class="card-corner tl"></div><div class="card-corner tr"></div>
           <div class="card-corner bl"></div><div class="card-corner br"></div>
           <div class="card-image">
-            <img src="images/mt-1.png" alt="My Transactions Redesign" style="object-position:top" />
+            <div class="stack"><img src="images/reel/mt-3-l.webp" alt="" /><img src="images/reel/mt-2-l.webp" alt="" /><img src="images/reel/mt-1-l.webp" alt="My Transactions Redesign" /></div>
             <svg class="card-image-grid" xmlns="http://www.w3.org/2000/svg"><defs><pattern id="img-cs1" width="20" height="20" patternUnits="userSpaceOnUse"><path d="M 20 0 L 0 0 0 20" fill="none" stroke="rgba(255,255,255,0.07)" stroke-width="0.5"/></pattern></defs><rect width="100%" height="100%" fill="url(#img-cs1)"/></svg>
             <span class="label card-image-label" style="color:rgba(255,255,255,0.4);font-size:9px">CS-01</span>
           </div>
@@ -905,7 +1064,7 @@
           <div class="card-corner tl"></div><div class="card-corner tr"></div>
           <div class="card-corner bl"></div><div class="card-corner br"></div>
           <div class="card-image">
-            <img src="images/fi-money-card.png" alt="Fi Money" style="object-fit:cover;object-position:top" />
+            <div class="stack"><img src="images/reel/fi-components-l.webp" alt="" /><img src="images/reel/fi-money-hero-l.webp" alt="" /><img src="images/reel/fi-money-card-l.webp" alt="Fi Money" /></div>
             <svg class="card-image-grid" xmlns="http://www.w3.org/2000/svg"><defs><pattern id="img-cs2" width="20" height="20" patternUnits="userSpaceOnUse"><path d="M 20 0 L 0 0 0 20" fill="none" stroke="rgba(255,255,255,0.07)" stroke-width="0.5"/></pattern></defs><rect width="100%" height="100%" fill="url(#img-cs2)"/></svg>
             <span class="label card-image-label" style="color:rgba(255,255,255,0.4);font-size:9px">CS-02</span>
           </div>
@@ -1936,7 +2095,7 @@
     </div>
   </div>
   <div class="cs-body">
-    <div class="cs-image reveal"><img src="images/fi-money-hero.png" alt="Fi Money" loading="lazy"/></div>
+    <div class="cs-image reveal"><img src="images/Fi-money-hero.png" alt="Fi Money" loading="lazy"/></div>
 
     <div class="divider reveal"><div class="divider-dot"></div><div class="divider-line"></div><span class="label">Problem Statement</span><div class="divider-line"></div><div class="divider-diamond"></div></div>
     <div class="reveal" style="max-width:720px;margin:0 auto;text-align:center;">
@@ -2033,6 +2192,7 @@
     setTimeout(() => {
       loader.classList.add('exit')
       document.body.classList.add('page-loaded')
+      if (window.__intro) setTimeout(window.__intro, 250)
       setTimeout(() => {
         loader.classList.add('hidden')
       }, 700)
@@ -2050,7 +2210,7 @@
   // ── CURSOR
   const cursor = document.getElementById('cursor')
   const cursorDot = document.getElementById('cursor-dot')
-  document.addEventListener('mousemove', e => {
+  if (!window.gsap) document.addEventListener('mousemove', e => {
     cursor.style.left = e.clientX + 'px'
     cursor.style.top = e.clientY + 'px'
     cursorDot.style.left = e.clientX + 'px'
@@ -2144,6 +2304,270 @@
       behavior: 'smooth'
     })
   }
+</script>
+
+<script>
+/* ═══════════ MOTION LAYER ═══════════ */
+(function () {
+  if (!window.gsap) return
+  gsap.registerPlugin(ScrollTrigger)
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches
+  const fine = matchMedia('(hover: hover) and (pointer: fine)').matches
+  const $ = (q, c = document) => c.querySelector(q)
+  const $$ = (q, c = document) => [...c.querySelectorAll(q)]
+
+  /* ── smooth scroll ── */
+  let lenis = null
+  if (window.Lenis && !reduce) {
+    lenis = new Lenis({ lerp: 0.1, smoothWheel: true })
+    lenis.on('scroll', ScrollTrigger.update)
+    gsap.ticker.add(t => lenis.raf(t * 1000))
+    gsap.ticker.lagSmoothing(0)
+  }
+  const scrollToEl = el => { if (!el) return; lenis ? lenis.scrollTo(el, { offset: -40, duration: 1.4 }) : el.scrollIntoView({ behavior: 'smooth' }) }
+  window.scrollToWork = () => scrollToEl($('#work-section'))
+  window.scrollToContact = () => scrollToEl($('.contact-section'))
+
+  const baseShow = window.showPage
+  window.showPage = function (id) {
+    baseShow(id)
+    if (lenis) lenis.scrollTo(0, { immediate: true })
+    requestAnimationFrame(() => ScrollTrigger.refresh())
+  }
+  window.addEventListener('popstate', () => requestAnimationFrame(() => ScrollTrigger.refresh()))
+
+  /* ── helpers ── */
+  function splitChars(el) {
+    const text = el.textContent
+    el.textContent = ''
+    return [...text].map(c => {
+      const s = document.createElement('span')
+      s.className = 'ch'
+      s.textContent = c === ' ' ? ' ' : c
+      el.appendChild(s)
+      return s
+    })
+  }
+  function splitLines(el) {
+    const words = el.textContent.trim().split(/\s+/)
+    el.innerHTML = words.map(w => `<span class="w" style="display:inline-block">${w}&nbsp;</span>`).join('')
+    const lines = []; let top = null
+    $$('.w', el).forEach(w => { if (w.offsetTop !== top) { lines.push([]); top = w.offsetTop } lines[lines.length - 1].push(w.innerHTML) })
+    el.innerHTML = lines.map(l => `<span class="ln"><span>${l.join('')}</span></span>`).join('')
+    return $$('.ln > span', el)
+  }
+
+  /* ── clock ── */
+  const clock = $('#hx-clock')
+  const tick = () => { if (clock) clock.textContent = new Intl.DateTimeFormat('en-GB', { hour: '2-digit', minute: '2-digit', timeZone: 'Asia/Kolkata' }).format(new Date()) }
+  tick(); setInterval(tick, 20000)
+
+  /* ── cursor ── */
+  const dot = $('#cursor-dot'), glow = $('#cursor'), ring = $('#cursor-ring'), ringLabel = $('#cursor-label')
+  if (fine) {
+    gsap.set([dot, glow, ring], { xPercent: 0, yPercent: 0 })
+    const dx = gsap.quickTo(dot, 'left', { duration: 0.08 }), dy = gsap.quickTo(dot, 'top', { duration: 0.08 })
+    const gx = gsap.quickTo(glow, 'left', { duration: 0.6, ease: 'power3' }), gy = gsap.quickTo(glow, 'top', { duration: 0.6, ease: 'power3' })
+    const rx = gsap.quickTo(ring, 'x', { duration: 0.45, ease: 'power3' }), ry = gsap.quickTo(ring, 'y', { duration: 0.45, ease: 'power3' })
+    window.addEventListener('mousemove', e => { dx(e.clientX); dy(e.clientY); gx(e.clientX); gy(e.clientY); rx(e.clientX); ry(e.clientY) })
+    const showRing = label => { ringLabel.textContent = label; gsap.to(ring, { scale: 1, duration: 0.45, ease: 'back.out(2)' }); gsap.to(dot, { scale: 0, duration: 0.2 }) }
+    const hideRing = () => { gsap.to(ring, { scale: 0, duration: 0.3, ease: 'power3.in' }); gsap.to(dot, { scale: 1, duration: 0.2 }) }
+    let mxp = -1, myp = -1, over = null
+    window.addEventListener('mousemove', e => { mxp = e.clientX; myp = e.clientY })
+    const recheck = () => { if (mxp < 0) return; const el = document.elementFromPoint(mxp, myp); const t = el && el.closest('.project-card, .reel-panel'); if (!t) hideRing(); else showRing(t.classList.contains('reel-panel') ? 'Work' : 'Open') }
+    let rt; window.addEventListener('scroll', () => { clearTimeout(rt); rt = setTimeout(recheck, 60) }, { passive: true })
+    document.addEventListener('mouseover', e => {
+      const t = e.target.closest('.project-card, .reel-panel')
+      if (t && !t.contains(e.relatedTarget)) showRing(t.classList.contains('reel-panel') ? 'Work' : 'Open')
+    })
+    document.addEventListener('mouseout', e => {
+      const t = e.target.closest('.project-card, .reel-panel')
+      if (t && !t.contains(e.relatedTarget)) hideRing()
+    })
+    document.addEventListener('mouseover', e => { if (e.target.closest('a, button')) gsap.to(dot, { scale: 3.2, duration: 0.25 }) })
+    document.addEventListener('mouseout', e => { if (e.target.closest('a, button')) gsap.to(dot, { scale: 1, duration: 0.25 }) })
+  }
+
+  /* ── magnetic buttons ── */
+  if (fine && !reduce) $$('.magnetic').forEach(b => {
+    const xTo = gsap.quickTo(b, 'x', { duration: 0.5, ease: 'elastic.out(1, 0.4)' })
+    const yTo = gsap.quickTo(b, 'y', { duration: 0.5, ease: 'elastic.out(1, 0.4)' })
+    b.addEventListener('mousemove', e => { const r = b.getBoundingClientRect(); xTo((e.clientX - r.left - r.width / 2) * 0.35); yTo((e.clientY - r.top - r.height / 2) * 0.5) })
+    b.addEventListener('mouseleave', () => { xTo(0); yTo(0) })
+  })
+
+  /* ══════ HERO ══════ */
+  const hero = $('#hero')
+  if (hero) {
+    const backChars = splitChars($('.hx-back .hx-word'))
+    const frontChars = splitChars($('.hx-front .hx-word'))
+    const tagEl = $('.hx-tag'), tagText = tagEl.textContent
+    gsap.set(tagEl, { opacity: 0 })
+    const photo = $('#hx-photo'), tone = $('#hx-tone'), frame = $('#hx-frame'), spark = $('#hx-spark')
+
+    // face frame, in image-relative units (image is 900×740)
+    const F = { cx: 0.455, cy: 0.30, w: 0.34, h: 0.50, rot: -9, s: 0, mx: 0, my: 0, mr: 0 }
+    function drawFrame() {
+      const W = photo.offsetWidth, H = photo.offsetHeight
+      const w = F.w * W * F.s, h = F.h * H * F.s
+      const cx = (F.cx + F.mx) * W, cy = (F.cy + F.my) * H
+      const a = (F.rot + F.mr) * Math.PI / 180, c = Math.cos(a), s = Math.sin(a)
+      const pts = [[-w / 2, -h / 2], [w / 2, -h / 2], [w / 2, h / 2], [-w / 2, h / 2]]
+        .map(([x, y]) => `${(cx + x * c - y * s).toFixed(1)}px ${(cy + x * s + y * c).toFixed(1)}px`)
+      tone.style.clipPath = `polygon(${pts.join(',')})`
+      frame.style.width = w + 'px'; frame.style.height = h + 'px'
+      frame.style.left = (cx - w / 2) + 'px'; frame.style.top = (cy - h / 2) + 'px'
+      frame.style.transform = `rotate(${F.rot + F.mr}deg)`
+      frame.style.opacity = F.s > 0.02 ? 1 : 0
+    }
+    drawFrame(); window.addEventListener('resize', drawFrame)
+
+    const topBits = $$('.hx-top > *'), ctas = $$('.hx-ctas > *'), scrollHint = $('.hx-scroll')
+    gsap.set(backChars, { yPercent: 110 })
+    gsap.set(frontChars, { yPercent: -110 })
+    $$('.hx-word').forEach(w => { w.style.overflow = 'hidden'; w.style.padding = '0.06em 0.02em' })
+    gsap.set(photo, { y: 140, opacity: 0, scale: 0.92, filter: 'blur(14px)' })
+    gsap.set(spark, { scale: 0, rotate: -200 })
+    gsap.set([...topBits, ...ctas, scrollHint], { opacity: 0, y: 14 })
+    gsap.set($$('.hx-frame-tag, .hx-frame-size, .hx-frame .h'), { scale: 0 })
+
+    function intro() {
+      if (intro.done) return; intro.done = true
+      tagEl.textContent = tagText
+      const tagLines = splitLines(tagEl)
+      gsap.set(tagEl, { opacity: 1 }); gsap.set(tagLines, { yPercent: 110 })
+      let rw = innerWidth
+      window.addEventListener('resize', () => { if (Math.abs(innerWidth - rw) < 2) return; rw = innerWidth; tagEl.textContent = tagText; splitLines(tagEl) })
+      const tl = gsap.timeline({ defaults: { ease: 'expo.out' } })
+      tl.to(backChars, { yPercent: 0, duration: 1.3, stagger: 0.045 })
+        .to(frontChars, { yPercent: 0, duration: 1.3, stagger: { each: 0.045, from: 'end' } }, '<0.1')
+        .to(photo, { y: 0, opacity: 1, scale: 1, filter: 'blur(0px)', duration: 1.6 }, '<0.15')
+        .to(F, { s: 1, duration: 1.1, ease: 'expo.inOut', onUpdate: drawFrame }, '-=0.9')
+        .fromTo(F, { rot: 14 }, { rot: -9, duration: 1.3, ease: 'elastic.out(1, 0.6)', onUpdate: drawFrame, immediateRender: false }, '<')
+        .to($$('.hx-frame .h'), { scale: 1, duration: 0.4, stagger: 0.04, ease: 'back.out(3)' }, '-=0.7')
+        .to($$('.hx-frame-tag, .hx-frame-size'), { scale: 1, duration: 0.5, stagger: 0.08, ease: 'back.out(2.4)' }, '<0.1')
+        .to(spark, { scale: 1, rotate: 0, duration: 1.2, ease: 'elastic.out(1, 0.5)' }, '<')
+        .to(tagLines, { yPercent: 0, duration: 1, stagger: 0.08 }, '<')
+        .to([...topBits, ...ctas, scrollHint], { opacity: 1, y: 0, duration: 0.9, stagger: 0.06 }, '<0.1')
+        .add(() => {
+          intro.settled = true
+          gsap.to(spark, { rotate: 360, duration: 14, repeat: -1, ease: 'none' })
+          gsap.to(spark, { scale: 0.82, duration: 1.6, yoyo: true, repeat: -1, ease: 'sine.inOut' })
+        })
+      if (reduce) tl.progress(1)
+    }
+    window.__intro = intro
+    if (document.body.classList.contains('page-loaded')) setTimeout(intro, 300)
+
+    // cursor parallax
+    if (fine && !reduce) {
+      const q = (el, p, d = 1) => [gsap.quickTo(el, 'x', { duration: d, ease: 'power3' }), gsap.quickTo(el, 'y', { duration: d, ease: 'power3' })]
+      const [bx, by] = q('.hx-back', 1.2), [fx, fy] = q('.hx-front', 1)
+      const [sx, sy] = q(spark, 0.8)
+      hero.addEventListener('mousemove', e => {
+        const nx = e.clientX / innerWidth - 0.5, ny = e.clientY / innerHeight - 0.5
+        bx(nx * -40); by(ny * -20); fx(nx * 60); fy(ny * 30); sx(nx * 90); sy(ny * 60)
+        if (!intro.settled) return
+        gsap.to(photo, { x: nx * 18, y: ny * 10, duration: 1, ease: 'power3', overwrite: 'auto' })
+        if (intro.done) gsap.to(F, { mx: nx * 0.02, my: ny * 0.015, mr: nx * 6, duration: 0.9, ease: 'power3', onUpdate: drawFrame, overwrite: 'auto' })
+      })
+    }
+
+    // scroll: names split apart, photo sinks, frame swings
+    gsap.timeline({ scrollTrigger: { trigger: hero, start: 'top top', end: 'bottom top', scrub: 0.8 } })
+      .to('.hx-back', { xPercent: -18, ease: 'none' }, 0)
+      .to('.hx-front', { xPercent: 18, ease: 'none' }, 0)
+      .to('.hx-stage', { yPercent: 14, scale: 0.94, ease: 'none' }, 0)
+      .to(F, { rot: -24, onUpdate: drawFrame, ease: 'none' }, 0)
+      .to('.hx-top, .hx-bottom', { opacity: 0, y: -30, ease: 'none' }, 0)
+  }
+
+  /* ══════ REEL ══════ */
+  const track = $('#reel-track')
+  if (track) {
+    track.innerHTML += track.innerHTML // seamless loop
+    const panels = $$('.reel-panel', track)
+    const loop = gsap.to(track, { xPercent: -50, duration: reduce ? 0 : 55, ease: 'none', repeat: -1 })
+    let dir = 1
+    ScrollTrigger.create({
+      trigger: '#reel', start: 'top bottom', end: 'bottom top',
+      onUpdate: self => {
+        dir = self.direction
+        const v = Math.min(Math.abs(self.getVelocity()) / 220, 6)
+        gsap.to(loop, { timeScale: dir * (1 + v), duration: 0.25, overwrite: true })
+        gsap.to(loop, { timeScale: dir, duration: 1.2, delay: 0.25, overwrite: false })
+      }
+    })
+    // scale panels by distance from centre, like a lens
+    let active = false
+    ScrollTrigger.create({ trigger: '#reel', start: 'top bottom', end: 'bottom top', onToggle: s => (active = s.isActive) })
+    gsap.ticker.add(() => {
+      if (!active) return
+      const mid = innerWidth / 2
+      panels.forEach(p => {
+        const r = p.getBoundingClientRect(); if (r.right < -50 || r.left > innerWidth + 50) return
+        const d = Math.min(Math.abs(r.left + r.width / 2 - mid) / mid, 1)
+        p.style.transform = `translateY(${(d * d * 34).toFixed(1)}px) scale(${(1 - d * 0.14).toFixed(3)}) rotate(${((r.left + r.width / 2 - mid) / mid * 4).toFixed(2)}deg)`
+      })
+    })
+    // title reveal
+    const big = $('.reel-big'); const bigChars = splitChars(big)
+    big.style.display = 'inline-block'; big.style.overflow = 'hidden'
+    gsap.from(bigChars, { yPercent: 110, stagger: 0.03, duration: 1, ease: 'expo.out', scrollTrigger: { trigger: '#reel', start: 'top 75%' } })
+    gsap.from('.reel-sub', { opacity: 0, y: 12, duration: 0.8, scrollTrigger: { trigger: '#reel', start: 'top 70%' } })
+    gsap.from('.reel-track', { xPercent: 0, x: 200, opacity: 0, duration: 1.4, ease: 'expo.out', scrollTrigger: { trigger: '#reel', start: 'top 85%' } })
+  }
+
+  /* ══════ SECTION HEADINGS ══════ */
+  $$('#page-home .section-header h2, #page-home .contact-heading h2').forEach(h => {
+    const chars = splitChars(h)
+    h.innerHTML = `<span class="split-wrap">${h.innerHTML}</span>`
+    gsap.from($$('.ch', h), { yPercent: 115, rotate: 6, stagger: 0.025, duration: 1, ease: 'expo.out', scrollTrigger: { trigger: h, start: 'top 88%' } })
+  })
+
+  /* ══════ PROJECT CARDS: 3D tilt + stacks ══════ */
+  $$('#page-home .project-card').forEach(card => {
+    card.classList.add('visible')
+    card.style.transition = 'border-color .3s, background .3s'
+    gsap.set(card, { y: 80, opacity: 0, rotateX: -14, transformPerspective: 900 })
+    let entered = false
+    ScrollTrigger.create({ trigger: card, start: 'top 92%', once: true, onEnter: () =>
+      gsap.to(card, { y: 0, opacity: 1, rotateX: 0, duration: 1.1, ease: 'expo.out', onComplete: () => (entered = true) }) })
+
+    const stack = $('.stack', card)
+    const imgs = stack ? $$('img', stack) : []
+    const rest = [{ x: -10, y: 10, r: -5 }, { x: 10, y: 5, r: 4 }, { x: 0, y: 0, r: 0 }]
+    const fan = [{ x: -26, y: 4, r: -12 }, { x: 26, y: 0, r: 10 }, { x: 0, y: -10, r: 0 }]
+    imgs.forEach((im, i) => gsap.set(im, { xPercent: rest[i].x, yPercent: rest[i].y, rotate: rest[i].r }))
+    if (!fine || reduce) return
+
+    let rX = null, rY = null
+    const tilt = () => {
+      if (!entered) return [() => {}, () => {}]
+      if (!rX) { gsap.killTweensOf(card, 'rotateX,rotateY'); gsap.set(card, { rotateX: 0, rotateY: 0, transformPerspective: 1000 })
+        rX = gsap.quickTo(card, 'rotationX', { duration: 0.6, ease: 'power3' }); rY = gsap.quickTo(card, 'rotationY', { duration: 0.6, ease: 'power3' }) }
+      return [rX, rY]
+    }
+    card.addEventListener('mouseenter', () => {
+      imgs.forEach((im, i) => gsap.to(im, { xPercent: fan[i].x, yPercent: fan[i].y, rotate: fan[i].r, duration: 0.7, ease: 'back.out(1.6)', overwrite: 'auto' }))
+      gsap.to(card, { y: -6, duration: 0.5, ease: 'power3' })
+    })
+    card.addEventListener('mousemove', e => {
+      const r = card.getBoundingClientRect(), nx = (e.clientX - r.left) / r.width - 0.5, ny = (e.clientY - r.top) / r.height - 0.5
+      const [tx, ty] = tilt(); ty(nx * 10); tx(ny * -8)
+      imgs.forEach((im, i) => gsap.to(im, { x: nx * (i === 2 ? 26 : 12), y: ny * (i === 2 ? 14 : 6), rotate: fan[i].r + nx * (i === 2 ? 6 : 3), duration: 0.6, ease: 'power3', overwrite: 'auto' }))
+    })
+    card.addEventListener('mouseleave', () => {
+      const [tx, ty] = tilt(); tx(0); ty(0); gsap.to(card, { y: 0, duration: 0.6, ease: 'power3' })
+      imgs.forEach((im, i) => gsap.to(im, { x: 0, y: 0, xPercent: rest[i].x, yPercent: rest[i].y, rotate: rest[i].r, duration: 0.8, ease: 'expo.out', overwrite: 'auto' }))
+    })
+  })
+
+  /* approach lines / dividers get a little life too */
+  $$('#page-home .divider-diamond').forEach(d => gsap.to(d, { rotate: 225, ease: 'none', scrollTrigger: { trigger: d, start: 'top bottom', end: 'bottom top', scrub: true } }))
+
+  window.addEventListener('load', () => ScrollTrigger.refresh())
+})()
 </script>
 
 </body>
