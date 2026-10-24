@@ -88,14 +88,21 @@
     const x = gsap.quickTo(cur, 'x', { duration: 0.45, ease: 'power3' }), y = gsap.quickTo(cur, 'y', { duration: 0.45, ease: 'power3' })
     let mx = -100, my = -100, on = null
     addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; x(mx); y(my) })
+    // The badge only exists over elements marked data-cursor (project images,
+    // zoomable figures, next-case links). Every show/hide cancels the previous
+    // tween (overwrite), so a fast sweep can never leave it stuck open.
     const check = () => {
-      const el = document.elementFromPoint(mx, my), t = el && el.closest('[data-cursor]')
+      const el = mx < 0 ? null : document.elementFromPoint(mx, my)
+      const t = el && !el.closest('.nav, .lightbox') ? el.closest('[data-cursor]') : null
       if (t === on) return; on = t
-      if (t) { cur.textContent = t.dataset.cursor; gsap.to(cur, { scale: 1, duration: 0.45, ease: 'back.out(2)' }) }
-      else gsap.to(cur, { scale: 0, duration: 0.3, ease: 'power3.in' })
+      if (t) { cur.textContent = t.dataset.cursor; gsap.to(cur, { scale: 1, duration: 0.45, ease: 'back.out(2)', overwrite: true }) }
+      else gsap.to(cur, { scale: 0, duration: 0.25, ease: 'power3.in', overwrite: true })
     }
     addEventListener('mousemove', check)
     addEventListener('scroll', () => requestAnimationFrame(check), { passive: true })
+    if (lenis) lenis.on('scroll', () => requestAnimationFrame(check))
+    document.documentElement.addEventListener('mouseleave', () => { mx = -1; check() })
+    addEventListener('blur', () => { mx = -1; check() })
   }
 
   /* magnetic */
