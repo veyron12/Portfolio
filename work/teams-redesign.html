@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Teams Redesign — Harshal Rathod</title>
+<meta name="description" content="Replacing a confusing split view with progressive disclosure for finance managers handling 50+ members." />
+<link rel="canonical" href="https://designbyharshal.netlify.app/work/teams-redesign.html" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="Harshal Rathod" />
+<meta property="og:title" content="Teams Redesign — Harshal Rathod" />
+<meta property="og:description" content="Replacing a confusing split view with progressive disclosure for finance managers handling 50+ members." />
+<meta property="og:url" content="https://designbyharshal.netlify.app/work/teams-redesign.html" />
+<meta property="og:image" content="https://designbyharshal.netlify.app/assets/og.jpg" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="theme-color" content="#0c0b0a" />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23ff5b1f'/%3E%3Ctext x='32' y='45' font-family='Arial Narrow,Arial,sans-serif' font-size='38' font-weight='800' fill='%230c0b0a' text-anchor='middle'%3EH%3C/text%3E%3C/svg%3E" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&family=IBM+Plex+Mono:wght@400;500&display=swap" />
+<link rel="stylesheet" href="../assets/css/site.css" />
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js" defer></script>
+<script src="../assets/js/site.js" defer></script>
+</head>
+<body>
+<a class="skip mono" href="#main" style="position:absolute;left:-999px">Skip to content</a>
+<div class="grain" aria-hidden="true"></div>
+<div class="cursor" aria-hidden="true"></div>
+<div class="cs-progress" aria-hidden="true"></div>
+<header class="nav">
+  <a class="nav-name" href="../index.html" aria-label="Harshal Rathod, home"><span class="nav-mark">H</span>Harshal Rathod</a>
+  <nav class="nav-links" aria-label="Primary">
+    <a href="../index.html#work">Work</a>
+    <a href="../index.html#about">About</a>
+    <a href="../harshal-rathod-resume.pdf" target="_blank" rel="noopener">Résumé</a>
+    <a class="pill pill-light magnetic" href="../index.html#contact"><span class="dot"></span>Let’s talk</a>
+  </nav>
+</header>
+<main id="main">
+  <div id="top"></div>
+  <section class="cs-hero wrap">
+    <a class="back-link" href="../index.html#work">← All work</a>
+    <div class="cs-kicker mono"><b>Kodo Technologies</b><span>Feb 2026</span><span>Spend management</span></div>
+    <h1 class="cs-title display" data-split>Teams Redesign</h1>
+    <div class="cs-intro">
+      <dl class="cs-facts" data-reveal>
+        <div><dt class="mono">Company</dt><dd>Kodo Technologies</dd></div>
+        <div><dt class="mono">Timeline</dt><dd>Feb 2026</dd></div>
+        <div><dt class="mono">Role</dt><dd>Sole product designer</dd></div>
+        <div><dt class="mono">Area</dt><dd>Spend management</dd></div>
+      </dl>
+      <div data-reveal>
+        <p class="cs-lede">A total revamp. The old experience was a disorganised split view — a member list on the left, details on the right — with no proper label mapping. You couldn&#x27;t tell which card belonged to what until you clicked in, and there were no empty states to guide you when data was missing.</p>
+        <div class="cs-outcome"><span class="mono">Outcome</span><p>The list → drill-down pattern became the reference for similar views across the product.</p></div>
+      </div>
+    </div>
+  </section>
+  <div class="wrap"><figure class="cs-cover"><img src="../assets/img/team-home.webp" alt="Teams Redesign — overview" decoding="async" /></figure></div>
+  <article class="wrap" style="margin-top:clamp(56px,7vw,96px)">
+    <section class="cs-sec">
+      <div class="cs-sec-h"><span class="mono">01</span><h2>Identifying the Problem</h2></div>
+      <div class="cs-sec-b">
+        <p>The split view forced users to hold context in their head — the list and the detail panel competed for attention, cards weren&#x27;t labelled clearly, and missing data simply showed blank space. Finance managers managing 50+ members had no scannable way to find who needed attention.</p>
+        <div class="chips"><span class="chip">Disorganised Split View</span><span class="chip">No Label Mapping</span><span class="chip">No Empty States</span><span class="chip">Poor Scannability</span></div>
+        <figure class="cs-fig" data-cursor="Zoom"><img src="../assets/img/team-old.webp" alt="Old split view" loading="lazy" decoding="async" width="1800" height="984" /></figure>
+      </div>
+    </section>
+    <section class="cs-sec">
+      <div class="cs-sec-h"><span class="mono">02</span><h2>What We Made</h2></div>
+      <div class="cs-sec-b">
+        <p>We replaced the split view with a simple list → drill-down pattern built on progressive disclosure. The list gives you status and the essentials at a glance; clicking in reveals full detail in layers — cards, limits, transactions — each properly labelled with clear status indicators. Empty states now explain what&#x27;s missing and what to do about it, instead of showing nothing.</p>
+        <figure class="cs-fig" data-cursor="Zoom"><img src="../assets/img/card-detail.webp" alt="Drill-down card detail" loading="lazy" decoding="async" width="1800" height="1292" /></figure>
+        <figure class="cs-fig" data-cursor="Zoom"><img src="../assets/img/member-deets.webp" alt="Member details" loading="lazy" decoding="async" width="1800" height="1155" /></figure>
+      </div>
+    </section>
+    <section class="cs-sec">
+      <div class="cs-sec-h"><span class="mono">03</span><h2>Outcome</h2></div>
+      <div class="cs-sec-b">
+        <p>The member flow went from a screen the team worked around to one we lead with. Long-standing friction around card visibility resolved after release, and the list → drill-down pattern became the reference for similar views across the product. The qualitative shift was obvious within weeks.</p>
+      </div>
+    </section>
+  </article>
+  <div class="wrap">
+    <a class="next" href="login.html" data-cursor="Next">
+      <span class="mono">Next case study</span>
+      <div class="next-t display">Login &amp; Auth&nbsp;→</div>
+    </a>
+  <footer class="foot mono">
+    <span>© 2026 Harshal Rathod</span>
+    <span>Mumbai · <span data-clock>--:--</span> IST</span>
+    <a href="#top" class="muted">Back to top ↑</a>
+  </footer>
+  </div>
+</main>
+<div class="lightbox" role="dialog" aria-label="Image viewer"><button class="lightbox-x pill pill-light">Close ✕</button><img alt="" /></div>
+</body>
+</html>

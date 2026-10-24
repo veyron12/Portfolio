@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>My Transactions — Harshal Rathod</title>
+<meta name="description" content="Redesigning how employees and finance reviewers find, understand and manage corporate card transactions at Kodo." />
+<link rel="canonical" href="https://designbyharshal.netlify.app/work/my-transactions.html" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="Harshal Rathod" />
+<meta property="og:title" content="My Transactions — Harshal Rathod" />
+<meta property="og:description" content="Redesigning how employees and finance reviewers find, understand and manage corporate card transactions at Kodo." />
+<meta property="og:url" content="https://designbyharshal.netlify.app/work/my-transactions.html" />
+<meta property="og:image" content="https://designbyharshal.netlify.app/assets/og.jpg" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="theme-color" content="#0c0b0a" />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23ff5b1f'/%3E%3Ctext x='32' y='45' font-family='Arial Narrow,Arial,sans-serif' font-size='38' font-weight='800' fill='%230c0b0a' text-anchor='middle'%3EH%3C/text%3E%3C/svg%3E" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&family=IBM+Plex+Mono:wght@400;500&display=swap" />
+<link rel="stylesheet" href="../assets/css/site.css" />
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js" defer></script>
+<script src="../assets/js/site.js" defer></script>
+</head>
+<body>
+<a class="skip mono" href="#main" style="position:absolute;left:-999px">Skip to content</a>
+<div class="grain" aria-hidden="true"></div>
+<div class="cursor" aria-hidden="true"></div>
+<div class="cs-progress" aria-hidden="true"></div>
+<header class="nav">
+  <a class="nav-name" href="../index.html" aria-label="Harshal Rathod, home"><span class="nav-mark">H</span>Harshal Rathod</a>
+  <nav class="nav-links" aria-label="Primary">
+    <a href="../index.html#work">Work</a>
+    <a href="../index.html#about">About</a>
+    <a href="../harshal-rathod-resume.pdf" target="_blank" rel="noopener">Résumé</a>
+    <a class="pill pill-light magnetic" href="../index.html#contact"><span class="dot"></span>Let’s talk</a>
+  </nav>
+</header>
+<main id="main">
+  <div id="top"></div>
+  <section class="cs-hero wrap">
+    <a class="back-link" href="../index.html#work">← All work</a>
+    <div class="cs-kicker mono"><b>Kodo Technologies</b><span>2026</span><span>Corporate cards · Expense management</span></div>
+    <h1 class="cs-title display" data-split>My Transactions</h1>
+    <div class="cs-intro">
+      <dl class="cs-facts" data-reveal>
+        <div><dt class="mono">Company</dt><dd>Kodo Technologies</dd></div>
+        <div><dt class="mono">Timeline</dt><dd>2026</dd></div>
+        <div><dt class="mono">Role</dt><dd>Sole product designer</dd></div>
+        <div><dt class="mono">Area</dt><dd>Corporate cards · Expense management</dd></div>
+      </dl>
+      <div data-reveal>
+        <p class="cs-lede">Redesigning the My Transactions experience to be clearer, more accessible, and easier to use — balancing a clean, modern look with functionality like notes, receipts, categorisation, and search/filter. Built to work across desktop and mobile and handle large datasets smoothly.</p>
+        
+      </div>
+    </div>
+  </section>
+  <div class="wrap"><figure class="cs-cover"><img src="../assets/img/cover-my-transactions.webp" alt="My Transactions — overview" decoding="async" /></figure></div>
+  <article class="wrap" style="margin-top:clamp(56px,7vw,96px)">
+    <section class="cs-sec">
+      <div class="cs-sec-h"><span class="mono">01</span><h2>Overview</h2></div>
+      <div class="cs-sec-b">
+        <figure class="cs-fig" data-cursor="Zoom"><img src="../assets/img/mt-2.webp" alt="My Transactions redesign overview" loading="lazy" decoding="async" width="1800" height="1350" /></figure>
+      </div>
+    </section>
+    <section class="cs-sec">
+      <div class="cs-sec-h"><span class="mono">02</span><h2>Design Audit — Transaction List</h2></div>
+      <div class="cs-sec-b">
+        <p>The list forced users to scan every line — truncated merchant names, low-contrast dates, amounts with no visual weight, the unclear &#x27;Dr&#x27; terminology, and no search, filter, or sort to fall back on.</p>
+        <div class="chips"><span class="chip">Truncated Names</span><span class="chip">Weak Hierarchy</span><span class="chip">Unclear &#x27;Dr&#x27; Term</span><span class="chip">No Search / Filter</span></div>
+        <figure class="cs-fig" data-cursor="Zoom"><img src="../assets/img/mt-3.webp" alt="Transaction list audit" loading="lazy" decoding="async" width="1800" height="1350" /></figure>
+      </div>
+    </section>
+    <section class="cs-sec">
+      <div class="cs-sec-h"><span class="mono">03</span><h2>Design Audit — Transaction Details</h2></div>
+      <div class="cs-sec-b">
+        <p>In the details view, merchant name and amount weren&#x27;t prioritised, labels were redundant, the card number broke standard banking patterns, &#x27;NA&#x27; felt unfriendly, and key actions — upload, notes, raise dispute — didn&#x27;t look actionable. The whole hierarchy felt flat.</p>
+        <div class="chips"><span class="chip">Flat Hierarchy</span><span class="chip">Redundant Labels</span><span class="chip">Hidden Actions</span><span class="chip">Unfriendly &#x27;NA&#x27;</span></div>
+        <figure class="cs-fig" data-cursor="Zoom"><img src="../assets/img/mt-4.webp" alt="Transaction details audit" loading="lazy" decoding="async" width="1800" height="1148" /></figure>
+      </div>
+    </section>
+    <section class="cs-sec">
+      <div class="cs-sec-h"><span class="mono">04</span><h2>Problem Statement</h2></div>
+      <div class="cs-sec-b">
+        <p>Users of the My Transactions screen struggle to quickly find, understand, and manage their expense records — important details and key actions are not visually prioritised, leading to confusion, reduced trust, and slower management.</p>
+        <p>How might we design the transactions list and details view so critical information stands out clearly and reduces cognitive load?</p>
+        <p>How might we make it faster for users to search, filter, and manage transactions so they can complete key tasks with minimal effort?</p>
+      </div>
+    </section>
+    <section class="cs-sec">
+      <div class="cs-sec-h"><span class="mono">05</span><h2>The User</h2></div>
+      <div class="cs-sec-b">
+        <p>Employees using corporate cards for business expenses — hotel bookings, rides, meals — who need to review their spends, upload receipts, and add context for compliance.</p>
+      </div>
+    </section>
+    <section class="cs-sec">
+      <div class="cs-sec-h"><span class="mono">06</span><h2>Wireframes — Transaction List</h2></div>
+      <div class="cs-sec-b">
+        <p>Explored multiple row layouts focusing on scannability, hierarchy, and efficiency — shortened merchant names for faster recognition, visible category for association, and the amount highlighted with a proper debit indicator. The selected layout puts the strongest emphasis on amount, the primary element users scan for, while keeping merchant name and category in balance.</p>
+        <figure class="cs-fig" data-cursor="Zoom"><img src="../assets/img/mt-5.webp" alt="List item iterations" loading="lazy" decoding="async" width="1800" height="2096" /></figure>
+        <p>For managing large datasets: a search bar covering merchant, amount, and tag; filters for date, amount, type, and category; and sorting. Priorities were decided using red routes — search first (fastest path, covers most use cases), then new-to-old sorting, amount, type, category, and location last.</p>
+        <figure class="cs-fig tall" data-cursor="Zoom"><img src="../assets/img/mt-6.webp" alt="List controls iterations and red route priorities" loading="lazy" decoding="async" width="1800" height="3793" /></figure>
+      </div>
+    </section>
+    <section class="cs-sec">
+      <div class="cs-sec-h"><span class="mono">07</span><h2>Wireframes — Transaction Details</h2></div>
+      <div class="cs-sec-b">
+        <p>The details view follows a natural mental model: how much → where &amp; when → from which card → prove it → explain it → fix if wrong. Merchant name, amount, and date sit upfront for instant validation; receipt is prioritised above notes for compliance; secondary actions stay visible but unobtrusive. Plus navigation to move between transactions without going back.</p>
+        <figure class="cs-fig" data-cursor="Zoom"><img src="../assets/img/mt-7.webp" alt="Details view iterations" loading="lazy" decoding="async" width="1800" height="1234" /></figure>
+      </div>
+    </section>
+    <section class="cs-sec">
+      <div class="cs-sec-h"><span class="mono">08</span><h2>Final Wireframe</h2></div>
+      <div class="cs-sec-b">
+        <figure class="cs-fig tall" data-cursor="Zoom"><img src="../assets/img/mt-8.webp" alt="Final wireframe — list and details" loading="lazy" decoding="async" width="1800" height="5471" /></figure>
+      </div>
+    </section>
+    <section class="cs-sec">
+      <div class="cs-sec-h"><span class="mono">09</span><h2>Visual Language</h2></div>
+      <div class="cs-sec-b">
+        <figure class="cs-fig" data-cursor="Zoom"><img src="../assets/img/mt-9.webp" alt="Typography and colors" loading="lazy" decoding="async" width="1800" height="2227" /></figure>
+      </div>
+    </section>
+    <section class="cs-sec">
+      <div class="cs-sec-h"><span class="mono">10</span><h2>Component Library</h2></div>
+      <div class="cs-sec-b">
+        <p>Every state designed — icons, merchant categories, buttons, approval statuses, filter chips, search, dropdowns, list rows, notes, and receipt uploads — including empty, default, and filled states.</p>
+        <figure class="cs-fig" data-cursor="Zoom"><img src="../assets/img/mt-10.webp" alt="Component library" loading="lazy" decoding="async" width="1800" height="2106" /></figure>
+      </div>
+    </section>
+    <section class="cs-sec">
+      <div class="cs-sec-h"><span class="mono">11</span><h2>Final UI — Split View</h2></div>
+      <div class="cs-sec-b">
+        <p>List on the left for fast scanning, details on the right for instant context — ideal for finance reviewers processing many transactions. Reviewers move through items without losing list context or filter state, bulk workflows get easier, and the master/detail structure makes summary vs. deep detail obvious.</p>
+        <figure class="cs-fig tall" data-cursor="Zoom"><img src="../assets/img/mt-11.webp" alt="Split view UI" loading="lazy" decoding="async" width="1800" height="5069" /></figure>
+      </div>
+    </section>
+    <section class="cs-sec">
+      <div class="cs-sec-h"><span class="mono">12</span><h2>Explorations</h2></div>
+      <div class="cs-sec-b">
+        <p>An alternate full-panel filter view — simple and effective for small datasets, but limited for multi-month selection and real-time results. And a dropdown (expandable row) layout — quick inline access, but it cluttered the list and didn&#x27;t scale for compliance tasks. The split view won on both counts.</p>
+        <figure class="cs-fig" data-cursor="Zoom"><img src="../assets/img/mt-12.webp" alt="Alternate filter view" loading="lazy" decoding="async" width="1800" height="1431" /></figure>
+        <figure class="cs-fig tall" data-cursor="Zoom"><img src="../assets/img/mt-13.webp" alt="Dropdown exploration" loading="lazy" decoding="async" width="1800" height="3382" /></figure>
+      </div>
+    </section>
+    <section class="cs-sec">
+      <div class="cs-sec-h"><span class="mono">13</span><h2>Mobile</h2></div>
+      <div class="cs-sec-b">
+        <figure class="cs-fig" data-cursor="Zoom"><img src="../assets/img/mt-14.webp" alt="Mobile view" loading="lazy" decoding="async" width="1800" height="1263" /></figure>
+      </div>
+    </section>
+  </article>
+  <div class="wrap">
+    <a class="next" href="dashboard-revamp.html" data-cursor="Next">
+      <span class="mono">Next case study</span>
+      <div class="next-t display">Dashboard Revamp&nbsp;→</div>
+    </a>
+  <footer class="foot mono">
+    <span>© 2026 Harshal Rathod</span>
+    <span>Mumbai · <span data-clock>--:--</span> IST</span>
+    <a href="#top" class="muted">Back to top ↑</a>
+  </footer>
+  </div>
+</main>
+<div class="lightbox" role="dialog" aria-label="Image viewer"><button class="lightbox-x pill pill-light">Close ✕</button><img alt="" /></div>
+</body>
+</html>
