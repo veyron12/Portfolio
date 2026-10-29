@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>AePS · Harshal Rathod</title>
+<meta name="description" content="Redesigning Aadhaar banking at the shop counter: a faster AePS flow on mobile and web, and face authentication for customers whose fingerprints fail." />
+<link rel="canonical" href="https://designbyharshal.netlify.app/work/aeps.html" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="Harshal Rathod" />
+<meta property="og:title" content="AePS · Harshal Rathod" />
+<meta property="og:description" content="Redesigning Aadhaar banking at the shop counter: a faster AePS flow on mobile and web, and face authentication for customers whose fingerprints fail." />
+<meta property="og:url" content="https://designbyharshal.netlify.app/work/aeps.html" />
+<meta property="og:image" content="https://designbyharshal.netlify.app/assets/og.jpg" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="theme-color" content="#0c0b0a" />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23e3b021'/%3E%3Ctext x='32' y='45' font-family='Arial Narrow,Arial,sans-serif' font-size='38' font-weight='800' fill='%230c0b0a' text-anchor='middle'%3EH%3C/text%3E%3C/svg%3E" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,400..800&family=Geist:wght@400..700&family=Geist+Mono:wght@400;500&display=swap" />
+<link rel="stylesheet" href="../assets/css/site.css" />
+<style>
+  .cs-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-top: 30px !important; }
+  .cs-stats .cs-card b { display: block; font-family: var(--display); font-weight: 800; font-variation-settings: 'wdth' 75; font-size: clamp(30px, 3.2vw, 44px); line-height: 1; color: var(--accent); margin-bottom: 10px; }
+  .cs-stats .cs-card p { font-size: 14px !important; }
+  .cs-src { margin-top: 14px !important; font-size: 12px !important; color: var(--ink-3); }
+  .cs-src a { text-decoration: underline; text-underline-offset: 2px; }
+  .cs-wip p { font-size: 15px !important; }
+  .cs-tl { margin-top: 26px !important; border-left: 1px solid var(--line); padding-left: 22px; display: grid; gap: 14px; }
+  .cs-tl div { font-size: 15px; line-height: 1.5; color: var(--ink-2); }
+  .cs-tl b { font-family: var(--mono); font-weight: 500; font-size: 11px; letter-spacing: .06em; text-transform: uppercase; color: var(--accent); display: block; margin-bottom: 2px; }
+  @media (max-width: 860px) { .cs-stats { grid-template-columns: 1fr 1fr; } }
+</style>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js" defer></script>
+<script src="../assets/js/site.js" defer></script>
+</head>
+<body>
+<a class="skip mono" href="#main" style="position:absolute;left:-999px">Skip to content</a>
+<div class="grain" aria-hidden="true"></div>
+<div class="cursor" aria-hidden="true"></div>
+<div class="cs-progress" aria-hidden="true"></div>
+<header class="nav">
+  <a class="nav-name" href="../index.html" aria-label="Harshal Rathod, home">Harshal Rathod</a>
+  <nav class="nav-links" aria-label="Primary">
+    <a href="../index.html#work">Work</a>
+    <a href="../index.html#about">About</a>
+    <a href="../harshal-rathod-resume.pdf" target="_blank" rel="noopener">Résumé</a>
+    <a class="pill pill-light magnetic" href="../index.html#contact"><span class="dot"></span>Let’s talk</a>
+  </nav>
+</header>
+<main id="main">
+  <div id="top"></div>
+  <section class="cs-hero wrap">
+    <a class="back-link" href="../index.html#work">← All work</a>
+    <div class="cs-kicker mono"><b>PayNearby</b><span>Banking</span><span>Aadhaar Enabled Payment System</span></div>
+    <h1 class="cs-title display" data-split>AePS: banking at the shop counter</h1>
+    <div class="cs-intro">
+      <dl class="cs-facts" data-reveal>
+        <div><dt class="mono">Company</dt><dd>PayNearby</dd></div>
+        <div><dt class="mono">Timeline</dt><dd>2022 – 2025</dd></div>
+        <div><dt class="mono">Role</dt><dd>Product designer, owned AePS end to end</dd></div>
+        <div><dt class="mono">Platforms</dt><dd>Retailer Android app · Web portal · English &amp; Hindi</dd></div>
+      </dl>
+      <div data-reveal>
+        <p class="cs-lede">AePS lets anyone withdraw cash, check their balance or get a mini statement at a neighbourhood shop, using just their Aadhaar number and a fingerprint. The shopkeeper runs the transaction on PayNearby’s app while the customer waits at the counter. I redesigned the flow on mobile and web, then kept it running for two more years through new scanners, new authentication rules and new ways to earn.</p>
+        <div class="cs-outcome"><span class="mono">Outcome</span><p>Transactions completed 20–30% faster after the mobile redesign.</p></div>
+      </div>
+    </div>
+  </section>
+  <div class="wrap"><figure class="cs-cover"><img src="../assets/img/aeps/cover.webp" alt="AePS redesign: home, Aadhaar entry, confirm details and success screens" decoding="async" /></figure></div>
+
+  <article class="wrap" style="margin-top:clamp(56px,7vw,96px)">
+    <section class="cs-sec">
+      <div class="cs-sec-h"><span class="mono">01</span><h2>Why this flow matters</h2></div>
+      <div class="cs-sec-b">
+        <p>For a lot of rural and semi-urban India, the nearest “bank” is the kirana or mobile-recharge shop down the road. Government benefits and wages land in Aadhaar-linked accounts, and people withdraw them in cash at a PayNearby counter. The retailer earns a commission on every transaction, so a slow or failing flow costs them money and costs the customer trust.</p>
+        <div class="cs-stats">
+          <div class="cs-card"><b>12 lakh+</b><p>retail partners across 20,000+ PIN codes</p></div>
+          <div class="cs-card"><b>₹40,000 Cr</b><p>in AePS transactions in FY20–21 alone</p></div>
+          <div class="cs-card"><b>42%</b><p>of banking transactions happen between 3 and 9 pm, when shops are busiest</p></div>
+          <div class="cs-card"><b>40%</b><p>of women customers withdrew cash with face authentication (2025)</p></div>
+        </div>
+        <p class="cs-src">Sources: PayNearby <a href="https://paynearby.in/?p=4840" target="_blank" rel="noopener">Retail-O-Nomics 2024</a>, <a href="https://paynearby.in/?p=2731" target="_blank" rel="noopener">FY20–21 release</a>, <a href="https://paynearby.in/?p=4943" target="_blank" rel="noopener">Women Financial Index 2025</a>.</p>
+      </div>
+    </section>
+
+    <section class="cs-sec">
+      <div class="cs-sec-h"><span class="mono">02</span><h2>Where it started</h2></div>
+      <div class="cs-sec-b">
+        <p>The old flow put everything on one long form: Aadhaar or Virtual ID, the number, a bank dropdown, amount, the customer’s mobile number, the scanner and the consent checkbox. The biometric device lived in a separate “Manage devices” list, so a scanner that wasn’t connected only showed up when the retailer reached the bottom of the form. There was no moment to check the details before the customer put their finger down.</p>
+        <div class="chips"><span class="chip">One long form</span><span class="chip">Bank hidden in a dropdown</span><span class="chip">Device state buried</span><span class="chip">No confirm step</span></div>
+        <figure class="cs-fig" data-cursor="Zoom"><img src="../assets/img/aeps/before.webp" alt="The previous AePS flow: single form, device management and scan screens" loading="lazy" decoding="async" /></figure>
+      </div>
+    </section>
+
+    <section class="cs-sec">
+      <div class="cs-sec-h"><span class="mono">03</span><h2>The redesign</h2></div>
+      <div class="cs-sec-b">
+        <p>I rebuilt the flow around how a retailer actually serves someone at the counter: pick the service, type the amount, take the Aadhaar number, tap the bank, confirm, scan.</p>
+        <div class="cs-grid">
+          <div class="cs-card"><h4>Three services, one screen</h4><p>Withdrawal, Balance &amp; statement and Cash deposit became tabs, so switching service never meant starting over.</p></div>
+          <div class="cs-card"><h4>Amount first, in words too</h4><p>The amount is the big, first field, and it’s repeated in words (“Five thousand rupees only”) so nobody misreads a zero.</p></div>
+          <div class="cs-card"><h4>Banks as faces, not a dropdown</h4><p>The most-used banks show up as tappable logos, with “View all” and search for the rest.</p></div>
+          <div class="cs-card"><h4>Confirm before you scan</h4><p>A bottom sheet repeats the amount, masked Aadhaar and bank, each editable in place, with consent and the scanning device in one view.</p></div>
+          <div class="cs-card"><h4>Device status where it’s needed</h4><p>The scanner’s state sits right above the Scan button, so a disconnected device is caught before the customer is asked for a finger.</p></div>
+          <div class="cs-card"><h4>A receipt worth sharing</h4><p>The success screen leads with the amount and bank balance, with mini statement, receipt and transaction IDs one tap away.</p></div>
+        </div>
+        <figure class="cs-fig" data-cursor="Zoom"><img src="../assets/img/aeps/flow.webp" alt="Redesigned withdrawal flow from amount to confirm details" loading="lazy" decoding="async" /></figure>
+        <p>Because the change was big for people who used AePS every day, the first launch walks retailers through it: one card announcing the services “now under one roof”, then a tooltip on each tab.</p>
+        <figure class="cs-fig" data-cursor="Zoom"><img src="../assets/img/aeps/intro.webp" alt="Intro card and tooltips introducing the new AePS tabs" loading="lazy" decoding="async" /></figure>
+      </div>
+    </section>
+
+    <section class="cs-sec">
+      <div class="cs-sec-h"><span class="mono">04</span><h2>The web portal</h2></div>
+      <div class="cs-sec-b">
+        <!-- VERIFY: confirm UT_AePS web.fig was the usability-tested version -->
+        <p>Retailers on a desktop got the same logic laid out side by side: customer, bank and transaction in three columns, all on one screen. Quick amounts (₹500 to ₹10,000) and the allowed range sit under the amount field. This is the version we put through usability testing.</p>
+        <figure class="cs-fig" data-cursor="Zoom"><img src="../assets/img/aeps/web.webp" alt="AePS on the web portal: customer, bank and transaction columns" loading="lazy" decoding="async" /></figure>
+      </div>
+    </section>
+
+    <section class="cs-sec">
+      <div class="cs-sec-h"><span class="mono">05</span><h2>Two years of changing rules</h2></div>
+      <div class="cs-sec-b">
+        <p>Shipping the redesign was the start. AePS sits under NPCI and RBI rules, and new scanners kept arriving, so I kept designing it month after month. A few of the changes:</p>
+        <div class="cs-tl">
+          <div><b>Aug ’23</b>Face authentication as a new way to scan</div>
+          <div><b>Nov ’23</b>Clearer actions after a transaction ends, and receipts shared by SMS</div>
+          <div><b>Dec ’23</b>Bluetooth scanners, and daily retailer verification for the new 2FA rule</div>
+          <div><b>Jan ’24</b>Iris scanners</div>
+          <div><b>Jul ’24</b>One picker for scan method and device</div>
+          <div><b>Nov ’24</b>Income Booster plans, and plain-language scanner errors</div>
+          <div><b>Feb ’25</b>Find a customer’s Aadhaar-linked bank after a failed transaction</div>
+          <div><b>Mar ’25</b>Mask and unmask Aadhaar numbers</div>
+          <div><b>Aug ’25</b>Locked devices and methods</div>
+        </div>
+
+        <h3 style="margin-top:44px">Verifying the retailer, every day</h3>
+        <p>A new NPCI rule asked retailers to verify themselves with their own biometrics before AePS transactions, in addition to the customer’s scan. The two checks couldn’t be merged, and the retailer’s Aadhaar number couldn’t be carried to the next screen, so verification lives in its own focused step with a bottom sheet for the scan.</p>
+        <figure class="cs-fig" data-cursor="Zoom"><img src="../assets/img/aeps/verify.webp" alt="Daily retailer verification screens" loading="lazy" decoding="async" /></figure>
+
+        <h3 style="margin-top:44px">Finger, eye or face</h3>
+        <p>As iris scanners and face scan joined fingerprints, I replaced the device line with one picker that shows the method, the device and its connection state: not selected, selected but not connected, connected, auto-detected, or unavailable. “Iris scan” became “Eye” with an icon, because that’s what retailers recognised. The picker works in Hindi as well as English.</p>
+        <figure class="cs-fig" data-cursor="Zoom"><img src="../assets/img/aeps/methods.webp" alt="Scan method and device picker in Hindi and English" loading="lazy" decoding="async" /></figure>
+
+        <h3 style="margin-top:44px">Errors that lead somewhere</h3>
+        <p>The most common failure, error 52, means the Aadhaar number isn’t linked to the bank the retailer picked. Instead of a dead end, the failure screen now says what the customer can do and offers “Find Aadhaar linked bank”, a small paid lookup that gets the transaction back on track. Scanner errors name the device model and give the vendor’s support details, so retailers aren’t left guessing whose problem it is.</p>
+        <figure class="cs-fig" data-cursor="Zoom"><img src="../assets/img/aeps/errors.webp" alt="Error 52 recovery, find bank, and scanner error screens" loading="lazy" decoding="async" /></figure>
+
+        <h3 style="margin-top:44px">Receipts and earnings</h3>
+        <p>Retailers wanted to give customers proof of the transaction without spending printer ink, so receipts can now be sent by SMS. Before designing it I listed the risks: a shared link being mistaken for fraud, failed deliveries, refunds and who pays for messages. Later, Income Booster plans let retailers pay a small fee to earn extra commission on every transaction.</p>
+        <figure class="cs-fig" data-cursor="Zoom"><img src="../assets/img/aeps/receipt.webp" alt="Share receipt via SMS flow" loading="lazy" decoding="async" /></figure>
+        <figure class="cs-fig" data-cursor="Zoom"><img src="../assets/img/aeps/booster.webp" alt="Income Booster plan options" loading="lazy" decoding="async" /></figure>
+      </div>
+    </section>
+
+    <section class="cs-sec">
+      <div class="cs-sec-h"><span class="mono">06</span><h2>What happened next</h2></div>
+      <div class="cs-sec-b">
+        <p>By 2025, PayNearby reported that 40% of women customers were withdrawing cash with face authentication. In 2026, after cases of photo and video spoofing, NPCI withdrew face authentication for AePS cash withdrawals and Aadhaar Pay. It is still allowed for balance enquiry, mini statement and cash deposit.</p>
+        <!-- VERIFY: your reflection, rewrite in your own words -->
+        <p>Because the method picker already had an “unavailable” state, a change like that is a switch in the flow, not a redesign. That’s the lesson I took from AePS: in regulated payments, treat every rule as something that will change, and design the slot it lives in.</p>
+        <p class="cs-src">Sources: <a href="https://paynearby.in/?p=4943" target="_blank" rel="noopener">PayNearby Women Financial Index 2025</a>, <a href="https://rdservice.in/blog/npci-discontinued-face-authentication-in-aeps" target="_blank" rel="noopener">RD Service</a>, <a href="https://blog.mantratec.com/NPCI-Discontinues-AePS-Face-Authentication" target="_blank" rel="noopener">Mantra</a>.</p>
+      </div>
+    </section>
+  </article>
+  <div class="wrap">
+    <a class="next" href="group-personal-accident.html" data-cursor="Next">
+      <span class="mono">Next case study</span>
+      <div class="next-t display">Group Personal Accident&nbsp;→</div>
+    </a>
+  <footer class="foot mono">
+    <span>© 2026 Harshal Rathod</span>
+    <span>Mumbai · <span data-clock>--:--</span> IST</span>
+    <a href="#top" class="muted">Back to top ↑</a>
+  </footer>
+  </div>
+</main>
+<div class="lightbox" role="dialog" aria-label="Image viewer"><button class="lightbox-x pill pill-light">Close ✕</button><img alt="" /></div>
+</body>
+</html>
