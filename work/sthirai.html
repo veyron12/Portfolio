@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>STHIRAI — Harshal Rathod</title>
+<meta name="description" content="STHIRAI is a self-initiated concept for an AI fitness coach: four sensor pods, a phone on the floor and a voice in your ears. The whole app, from first launch to the moment something goes wrong." />
+<link rel="canonical" href="https://designbyharshal.netlify.app/work/sthirai.html" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="Harshal Rathod" />
+<meta property="og:title" content="STHIRAI — Harshal Rathod" />
+<meta property="og:description" content="A self-initiated concept for an AI fitness coach: four sensor pods, a phone on the floor and a voice in your ears." />
+<meta property="og:url" content="https://designbyharshal.netlify.app/work/sthirai.html" />
+<meta property="og:image" content="https://designbyharshal.netlify.app/assets/og.jpg" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="theme-color" content="#0c0b0a" />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23e3b021'/%3E%3Ctext x='32' y='45' font-family='Arial Narrow,Arial,sans-serif' font-size='38' font-weight='800' fill='%230c0b0a' text-anchor='middle'%3EH%3C/text%3E%3C/svg%3E" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,400..800&family=Geist:wght@400..700&family=Geist+Mono:wght@400;500&display=swap" />
+<link rel="stylesheet" href="../assets/css/site.css" />
+<style>
+  .cs-fig.board { background: #E9ECF1; }
+  .cs-video { margin-top: 34px !important; display: grid; grid-template-columns: minmax(0, 300px) 1fr; gap: clamp(20px, 3vw, 40px); align-items: center; padding: clamp(20px, 3vw, 36px); border-radius: 14px; background: #E9ECF1; color: #121214; }
+  .cs-video video { width: 100%; height: auto; border-radius: 34px; display: block; background: #E9ECF1; box-shadow: 0 28px 60px -18px rgba(20,28,48,.28); }
+  .cs-video .mono { color: #175CFF; font-size: 12px; letter-spacing: .06em; text-transform: uppercase; }
+  .cs-video ol { list-style: none; padding: 0; margin: 14px 0 0; display: grid; gap: 12px; }
+  .cs-video li { font-size: 16px; line-height: 1.45; color: #3b3d45; }
+  .cs-video li b { color: #121214; font-weight: 600; }
+  .cs-video .pill { margin-top: 22px; display: inline-flex; }
+  .cs-video .pill-dark { background: #121214; color: #fff; }
+  .cs-quote { border-left: 2px solid var(--accent); padding: 4px 0 4px 20px; }
+  .cs-quote p { color: var(--ink) !important; font-size: clamp(20px, 1.8vw, 24px) !important; line-height: 1.4 !important; }
+  @media (max-width: 720px) { .cs-video { grid-template-columns: 1fr; } .cs-video video { max-width: 280px; margin: 0 auto; } }
+</style>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js" defer></script>
+<script src="../assets/js/site.js" defer></script>
+</head>
+<body>
+<a class="skip mono" href="#main" style="position:absolute;left:-999px">Skip to content</a>
+<div class="grain" aria-hidden="true"></div>
+<div class="cursor" aria-hidden="true"></div>
+<div class="cs-progress" aria-hidden="true"></div>
+<header class="nav">
+  <a class="nav-name" href="../index.html" aria-label="Harshal Rathod, home">Harshal Rathod</a>
+  <nav class="nav-links" aria-label="Primary">
+    <a href="../index.html#work">Work</a>
+    <a href="../index.html#about">About</a>
+    <a href="../harshal-rathod-resume.pdf" target="_blank" rel="noopener">Résumé</a>
+    <a class="pill pill-light magnetic" href="../index.html#contact"><span class="dot"></span>Let’s talk</a>
+  </nav>
+</header>
+<main id="main">
+  <div id="top"></div>
+  <section class="cs-hero wrap">
+    <a class="back-link" href="../index.html#work">← All work</a>
+    <div class="cs-kicker mono"><b>Self-initiated concept</b><span>2026</span><span>AI fitness coach · hardware + app · 0 → 1</span></div>
+    <h1 class="cs-title display" data-split>STHIRAI</h1>
+    <div class="cs-intro">
+      <dl class="cs-facts" data-reveal>
+        <div><dt class="mono">Type</dt><dd>Self-initiated product concept</dd></div>
+        <div><dt class="mono">Timeline</dt><dd>Oct 2026</dd></div>
+        <div><dt class="mono">Role</dt><dd>Product, naming, hardware concept, UX &amp; UI · solo</dd></div>
+        <div><dt class="mono">Tools</dt><dd>Figma, Claude, HTML + three.js prototype</dd></div>
+      </dl>
+      <div data-reveal>
+        <p class="cs-lede">STHIRAI is an AI fitness coach you wear. Four small pods clip onto gloves and socks, your phone lies on the floor, and a coach talks to you through your earphones. It counts every rep, checks your form and tells you what to fix, so you never have to look at a screen mid-workout. The name comes from <em>sthira</em>, Sanskrit for steady, plus AI. I designed the whole experience, from the first time you open the app to the moment something goes wrong mid-set.</p>
+        <div class="cs-outcome"><span class="mono">Outcome</span><p>64 screens across 8 stages, every error state planned, and a clickable prototype with a live 3D coach figure that squats with you.</p></div>
+      </div>
+    </div>
+  </section>
+  <div class="wrap"><figure class="cs-cover"><img src="../assets/img/sthirai/cover.webp" alt="Five STHIRAI app screens: welcome, body mapping, live workout, session summary and home" decoding="async" /></figure></div>
+
+  <article class="wrap" style="margin-top:clamp(56px,7vw,96px)">
+    <section class="cs-sec">
+      <div class="cs-sec-h"><span class="mono">01</span><h2>The problem</h2></div>
+      <div class="cs-sec-b">
+        <p>Most people who start working out at home stop within a few weeks. Two things come up again and again: they don’t know which workout to do, and nobody tells them whether they’re doing it right. Bad form means slow progress at best and a sore back at worst.</p>
+        <p>The tools that exist ask you to choose. Video apps show you a trainer but can’t see you. Camera apps can see you, but only if you stand facing your phone in good light, which rules out half the moves and most living rooms. Smartwatches count steps and heart rate, but a watch on one wrist can’t tell if your knees are caving in.</p>
+        <div class="cs-quote"><p>How might we give someone a coach who watches every rep, without asking them to look at a screen or put a camera on themselves?</p></div>
+      </div>
+    </section>
+
+    <section class="cs-sec">
+      <div class="cs-sec-h"><span class="mono">02</span><h2>The idea</h2></div>
+      <div class="cs-sec-b">
+        <p>Instead of watching the body from outside, STHIRAI feels it from the inside. A pod on each wrist and each heel reports the angle of that limb. The phone lies on the floor, ranges the four pods and works out the whole pose: squat depth, knee tracking, balance from left to right. The coach turns that into short spoken cues between reps.</p>
+        <figure class="cs-fig board" data-cursor="Zoom"><img src="../assets/img/sthirai/system.webp" alt="How STHIRAI works: pods sense, the phone sees, the coach talks" loading="lazy" decoding="async" width="1800" height="774" /></figure>
+        <p>The hardware shaped the UX as much as the app did. The pods click into mounts magnetically, so each one learns which limb it’s on from the mount and nobody has to label them. They live in a four-lobe charging case you twist to release, and they only pop out halfway so they never fly across the room.</p>
+        <div class="chips"><span class="chip">4 pods</span><span class="chip">Phone on the floor</span><span class="chip">Voice coach</span><span class="chip">No camera</span><span class="chip">iPhone + AirPods first</span></div>
+      </div>
+    </section>
+
+    <section class="cs-sec">
+      <div class="cs-sec-h"><span class="mono">03</span><h2>Principles</h2></div>
+      <div class="cs-sec-b">
+        <p>Before any screens, I wrote down the rules every screen had to follow. They settled most arguments later.</p>
+        <div class="cs-grid">
+          <div class="cs-card"><h4>Eyes off the screen</h4><p>During a workout the phone is on the floor. Anything you need mid-set has to work as a voice cue. The screen is for before and after.</p></div>
+          <div class="cs-card"><h4>One thing at a time</h4><p>One question per onboarding screen, one pod per setup step, one cue per rep. Beginners drop off when they have to juggle.</p></div>
+          <div class="cs-card"><h4>Illustrated, never photographed</h4><p>Body type, injuries and body mapping all use 3D anatomy renders. The product never asks for a photo of you.</p></div>
+          <div class="cs-card"><h4>Errors are coaching</h4><p>When something breaks, the app says what happened, what to do and how to carry on, in the same calm voice as the coach.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="cs-sec">
+      <div class="cs-sec-h"><span class="mono">04</span><h2>The journey</h2></div>
+      <div class="cs-sec-b">
+        <p>A hardware product has a long first day. You download the app, sometimes before the box arrives, answer a few questions, unbox and pair the kit, map your body, meet your coach and only then do your first rep. I mapped it as eight stages and designed every screen in each one, including the stage most products leave for later: when things go wrong.</p>
+        <figure class="cs-fig board" data-cursor="Zoom"><img src="../assets/img/sthirai/journey.webp" alt="The eight stages of the STHIRAI journey, from first launch to error handling" loading="lazy" decoding="async" width="1800" height="720" /></figure>
+      </div>
+    </section>
+
+    <section class="cs-sec">
+      <div class="cs-sec-h"><span class="mono">05</span><h2>First launch &amp; tour</h2></div>
+      <div class="cs-sec-b">
+        <p>The first few screens have one job: explain a product people have never seen before. The tour is three cards, one per idea (pods, coach, progress), each anchored by a render instead of a paragraph. “How it works” then breaks the system into three tabs you can tap through.</p>
+        <p>The kit check matters more than it looks. Some people install the app the day they order. Rather than blocking them, the app lets them build a plan now and set up the pods when they arrive, or try a short voice-only taster session.</p>
+        <figure class="cs-fig board" data-cursor="Zoom"><img src="../assets/img/sthirai/tour.webp" alt="Splash, welcome, three tour cards, how it works, account and kit check screens" loading="lazy" decoding="async" width="1800" height="1772" /></figure>
+      </div>
+    </section>
+
+    <section class="cs-sec">
+      <div class="cs-sec-h"><span class="mono">06</span><h2>Onboarding</h2></div>
+      <div class="cs-sec-b">
+        <p>Onboarding offers two paths. “Just get me started” takes a minute and lets the plan learn from the first few sessions. “Build my plan” takes three minutes and asks about goals, focus areas, space and equipment. Both end in the same place, and you can switch to the full plan later from Settings.</p>
+        <p>Two screens do the heavy lifting. The goal screen is an interactive slider: drag it and the silhouette changes shape, with a rough timeline that updates as you go. The injuries screen is a body you tap. Mark a lower back or a knee and the coach swaps the moves that strain it.</p>
+        <figure class="cs-fig board" data-cursor="Zoom"><img src="../assets/img/sthirai/onboarding.webp" alt="Ten onboarding screens from choosing a path to plan ready" loading="lazy" decoding="async" width="1800" height="1483" /></figure>
+        <div class="chips"><span class="chip">Two paths</span><span class="chip">One question per screen</span><span class="chip">Interactive goal</span><span class="chip">Tap-to-mark injuries</span></div>
+      </div>
+    </section>
+
+    <section class="cs-sec">
+      <div class="cs-sec-h"><span class="mono">07</span><h2>Unbox &amp; set up</h2></div>
+      <div class="cs-sec-b">
+        <p>Setup is seven steps, counted at the top of every screen, so it never feels endless. Each step mirrors something physical: plug in the case, open it, watch the pods appear one by one, put on the gloves and socks, find a clear spot, put the phone down. The case light legend lives on the charging screen because that’s where people first wonder what amber means.</p>
+        <p>Permissions are asked in context. Bluetooth comes up only when it’s needed to find the pods. The microphone waits until you set up voice commands, and notifications until after your first workout.</p>
+        <figure class="cs-fig board" data-cursor="Zoom"><img src="../assets/img/sthirai/kit.webp" alt="Twelve kit setup screens from what's in the box to putting the pods back" loading="lazy" decoding="async" width="1800" height="1308" /></figure>
+      </div>
+    </section>
+
+    <section class="cs-sec">
+      <div class="cs-sec-h"><span class="mono">08</span><h2>Body mapping</h2></div>
+      <div class="cs-sec-b">
+        <p>To count reps properly, the coach needs to know your proportions. Instead of a tape measure or a photo, you hold six simple poses for about a minute: stand tall, touch each shoulder, T-pose, arms overhead, an easy squat, and a one-leg balance. The pods measure the distances between them, and the result is a body profile with arm span, squat depth, reach and left/right balance.</p>
+        <p>The coach talks you through each pose, a ring fills while you hold still, and if a pose doesn’t read cleanly you get one specific correction (“arms a little low”) and another go.</p>
+        <figure class="cs-fig board" data-cursor="Zoom"><img src="../assets/img/sthirai/mapping.webp" alt="Body mapping intro, touch pose, retry and body profile screens" loading="lazy" decoding="async" width="1800" height="938" /></figure>
+        <figure class="cs-fig board" data-cursor="Zoom"><img src="../assets/img/sthirai/poses.webp" alt="The six mapping poses on the 3D coach figure" loading="lazy" decoding="async" width="1800" height="613" /></figure>
+      </div>
+    </section>
+
+    <section class="cs-sec">
+      <div class="cs-sec-h"><span class="mono">09</span><h2>Meet your coach</h2></div>
+      <div class="cs-sec-b">
+        <p>The coach is the product, so you choose who it is: a calm guide, a friendly buddy, a focused pro or a drill sergeant, plus how hard it pushes. It speaks English, Hindi or Hinglish, ducks your music when it talks, and listens for a handful of commands like “Coach, pause” or “make it easier”.</p>
+        <p>Before the first real workout, you do three practice squats with the coach. It’s a low-stakes way to learn what a cue sounds like and to trust that the phone on the floor really is counting.</p>
+        <figure class="cs-fig board" data-cursor="Zoom"><img src="../assets/img/sthirai/coach.webp" alt="Coach personality, language, voice commands, practice reps and ready screens" loading="lazy" decoding="async" width="1800" height="822" /></figure>
+      </div>
+    </section>
+
+    <section class="cs-sec">
+      <div class="cs-sec-h"><span class="mono">10</span><h2>First workout</h2></div>
+      <div class="cs-sec-b">
+        <p>The workout screen is designed to be glanced at from two metres away: a huge rep count, the figure doing the move, the live depth chip and one line from the coach. Everything else waits. “Too hard” is always one tap away and swaps in an easier version of the same muscles, like chair squats for squats, without breaking the set.</p>
+        <p>The session ends with an overview of verified reps and form score against your baseline, then a “first win” moment that sets up the next session and a short home tour. The streak forgives: one missed day a week doesn’t break it.</p>
+        <figure class="cs-fig board" data-cursor="Zoom"><img src="../assets/img/sthirai/workout.webp" alt="Preview, lock pose, live workout, easier swap, rest, summary, first win and home tour screens" loading="lazy" decoding="async" width="1800" height="1772" /></figure>
+      </div>
+    </section>
+
+    <section class="cs-sec">
+      <div class="cs-sec-h"><span class="mono">11</span><h2>When things go wrong</h2></div>
+      <div class="cs-sec-b">
+        <p>Hardware fails in physical ways: a pod isn’t clicked in, a battery runs low mid-week, earphones disconnect mid-set, someone kicks the phone. I listed every failure I could think of and designed each one with the same three parts: what happened, the one thing to do, and a way to carry on without losing progress.</p>
+        <p>The tone does a lot of the work. A missing pod is “playing shy”. If earphones drop, the coach waits and picks up where you left off. If a pod falls off mid-set, the other three keep counting. The one screen with no jokes is the sudden-stop check, which counts down before calling your emergency contact.</p>
+        <figure class="cs-fig board" data-cursor="Zoom"><img src="../assets/img/sthirai/errors.webp" alt="Eight error and recovery screens including pod not found, low battery and sudden stop" loading="lazy" decoding="async" width="1800" height="1772" /></figure>
+        <div class="chips"><span class="chip">Say what happened</span><span class="chip">One fix</span><span class="chip">Keep progress</span><span class="chip">Safety first</span></div>
+      </div>
+    </section>
+
+    <section class="cs-sec">
+      <div class="cs-sec-h"><span class="mono">12</span><h2>Every day</h2></div>
+      <div class="cs-sec-b">
+        <p>After the first day, the app gets quieter. Home shows today’s workout and the week’s numbers. Pods shows battery and helps you find a lost one. Progress only counts verified reps, so the numbers are honest. Settings is where you change your coach, redo your body map, or switch to the full plan.</p>
+        <figure class="cs-fig board" data-cursor="Zoom"><img src="../assets/img/sthirai/everyday.webp" alt="Home, pods, progress, settings, help and not-set-up-yet home screens" loading="lazy" decoding="async" width="1800" height="714" /></figure>
+      </div>
+    </section>
+
+    <section class="cs-sec">
+      <div class="cs-sec-h"><span class="mono">13</span><h2>Prototype &amp; motion</h2></div>
+      <div class="cs-sec-b">
+        <p>Static renders couldn’t show the core promise: a coach that moves with you. So the prototype has a 3D figure built in code. It walks through the mapping poses, squats once for every counted rep, and its leg and core muscles glow brighter as the effort goes up. The pods pulse on its wrists and heels.</p>
+        <div class="cs-video">
+          <video autoplay muted loop playsinline preload="metadata" poster="../assets/img/sthirai/prototype-poster.webp" aria-label="Prototype recording: body mapping, lock pose, a live set of squats and the session summary">
+            <source src="../assets/img/sthirai/sthirai-prototype.webm" type="video/webm" />
+            <source src="../assets/img/sthirai/sthirai-prototype.mp4" type="video/mp4" />
+          </video>
+          <div>
+            <span class="mono">Recorded from the prototype</span>
+            <ol>
+              <li><b>Body mapping.</b> The figure takes each pose while the ring fills and the coach talks you through it.</li>
+              <li><b>Lock pose.</b> Stand still, the count drops from 3, and the set begins.</li>
+              <li><b>Live set.</b> One squat per rep, depth chip and form score updating, a new cue typed in after each rep.</li>
+              <li><b>Summary.</b> Numbers count up into the session overview.</li>
+            </ol>
+            <a class="pill pill-dark magnetic" href="sthirai-prototype/index.html" target="_blank" rel="noopener">Try the prototype ↗</a>
+          </div>
+        </div>
+        <p>Around it are the small interactions that make it feel like a real app: push and pop transitions between screens, bottom sheets that slide up, buttons that pop when they become ready, typing coach bubbles and numbers that count up. With reduced motion turned on, all of it settles instantly.</p>
+      </div>
+    </section>
+
+    <section class="cs-sec">
+      <div class="cs-sec-h"><span class="mono">14</span><h2>Visual language</h2></div>
+      <div class="cs-sec-b">
+        <p>Fitness apps tend to shout. I went the other way: a light grey canvas, white cards, Urbanist set light for the feeling and bold for the fact, and a single blue for anything you can act on. Green and orange only appear when something is done or needs fixing. The 3D anatomy renders and glass chips carry the energy, so the interface doesn’t have to.</p>
+        <figure class="cs-fig board" data-cursor="Zoom"><img src="../assets/img/sthirai/visual.webp" alt="Type, colour and component samples from the STHIRAI design language" loading="lazy" decoding="async" width="1800" height="831" /></figure>
+      </div>
+    </section>
+
+    <section class="cs-sec">
+      <div class="cs-sec-h"><span class="mono">15</span><h2>What’s next</h2></div>
+      <div class="cs-sec-b">
+        <p>This is a concept, and the next step is putting it in front of people. I want to test three things first: whether beginners get through kit setup without help, whether a voice-only coach feels like enough guidance, and whether body mapping feels quick or like a chore.</p>
+        <p>On the design side, next up are short motion clips to replace the still renders, the retention screens that come after week one, and a first hardware prototype with coin-cell pods to see how the click-in mounts feel on real gloves and socks.</p>
+        <div class="chips"><span class="chip">Usability testing</span><span class="chip">Motion clips</span><span class="chip">Retention</span><span class="chip">Hardware prototype</span></div>
+      </div>
+    </section>
+  </article>
+  <div class="wrap">
+    <a class="next" href="kodo-north.html" data-cursor="Next">
+      <span class="mono">Next case study</span>
+      <div class="next-t display">Kodo North&nbsp;→</div>
+    </a>
+  <footer class="foot mono">
+    <span>© 2026 Harshal Rathod</span>
+    <span>Mumbai · <span data-clock>--:--</span> IST</span>
+    <a href="#top" class="muted">Back to top ↑</a>
+  </footer>
+  </div>
+</main>
+<div class="lightbox" role="dialog" aria-label="Image viewer"><button class="lightbox-x pill pill-light">Close ✕</button><img alt="" /></div>
+</body>
+</html>
