@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>SHAZX — Harshal Rathod</title>
+<meta name="description" content="A hyperlocal fashion app that lets you shop the clothing stores in your neighbourhood and get it delivered in hours. 99 screens and states, prototyped end to end." />
+<link rel="canonical" href="https://veyron12.github.io/Portfolio/work/shazx.html" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="Harshal Rathod" />
+<meta property="og:title" content="SHAZX — Harshal Rathod" />
+<meta property="og:description" content="A hyperlocal fashion app that lets you shop the clothing stores in your neighbourhood and get it delivered in hours. 99 screens and states, prototyped end to end." />
+<meta property="og:url" content="https://veyron12.github.io/Portfolio/work/shazx.html" />
+<meta property="og:image" content="https://veyron12.github.io/Portfolio/assets/og.jpg" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="theme-color" content="#0c0b0a" />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23e3b021'/%3E%3Ctext x='32' y='45' font-family='Arial Narrow,Arial,sans-serif' font-size='38' font-weight='800' fill='%230c0b0a' text-anchor='middle'%3EH%3C/text%3E%3C/svg%3E" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,400..800&family=Geist:wght@400..700&family=Geist+Mono:wght@400;500&display=swap" />
+<link rel="stylesheet" href="../assets/css/site.css" />
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js" defer></script>
+<script src="../assets/js/site.js" defer></script>
+</head>
+<body>
+<a class="skip mono" href="#main" style="position:absolute;left:-999px">Skip to content</a>
+<div class="grain" aria-hidden="true"></div>
+<div class="cursor" aria-hidden="true"></div>
+<div class="cs-progress" aria-hidden="true"></div>
+<header class="nav">
+  <a class="nav-name" href="../index.html" aria-label="Harshal Rathod, home">Harshal Rathod</a>
+  <nav class="nav-links" aria-label="Primary">
+    <a href="../index.html#work">Work</a>
+    <a href="../index.html#about">About</a>
+    <a href="../harshal-rathod-resume.pdf" target="_blank" rel="noopener">Résumé</a>
+    <a class="pill pill-light magnetic" href="../index.html#contact"><span class="dot"></span>Let’s talk</a>
+  </nav>
+</header>
+<main id="main">
+  <div id="top"></div>
+  <section class="cs-hero wrap">
+    <a class="back-link" href="../index.html#work">← All work</a>
+    <div class="cs-kicker mono"><b>Personal product</b><span>2021 · redesigned 2026</span><span>Hyperlocal fashion · Mobile app</span></div>
+    <h1 class="cs-title display" data-split>SHAZX</h1>
+    <div class="cs-intro">
+      <dl class="cs-facts" data-reveal>
+        <div><dt class="mono">Company</dt><dd>Personal product</dd></div>
+        <div><dt class="mono">Timeline</dt><dd>2021 · redesigned 2026</dd></div>
+        <div><dt class="mono">Role</dt><dd>Product design, end to end</dd></div>
+        <div><dt class="mono">Area</dt><dd>Hyperlocal fashion · Mobile app</dd></div>
+      </dl>
+      <div data-reveal>
+        <p class="cs-lede">SHAZX is a hyperlocal fashion marketplace I first designed in 2021: shop the clothing stores in your neighbourhood from one app, and get your order at the door in hours rather than days. In 2026 I rebuilt it from scratch as a working prototype covering the whole shopper journey, from sign-in to live tracking, with every error and empty state designed alongside the happy path.</p>
+        
+      </div>
+    </div>
+  </section>
+  <div class="wrap"><figure class="cs-cover"><img src="../assets/img/cover-shazx.webp" alt="SHAZX — overview" decoding="async" /></figure></div>
+  <article class="wrap" style="margin-top:clamp(56px,7vw,96px)">
+    <section class="cs-sec">
+      <div class="cs-sec-h"><span class="mono">01</span><h2>The idea</h2></div>
+      <div class="cs-sec-b">
+        <p>Quick commerce changed how people buy groceries, but clothes still mean either a trip to the market or a multi-day wait for an online order. Meanwhile, the boutiques around you, the ones with the best local labels, have almost no online presence.</p>
+        <p>SHAZX treats your neighbourhood as one closet. It shows real stores near you, what they have in stock, and how long delivery will take, then gets a rider to your door.</p>
+        <div class="chips"><span class="chip">Hyperlocal</span><span class="chip">Fashion</span><span class="chip">Quick delivery</span><span class="chip">Two-sided marketplace</span><span class="chip">Mobile app</span></div>
+      </div>
+    </section>
+    <section class="cs-sec">
+      <div class="cs-sec-h"><span class="mono">02</span><h2>Designing around distance</h2></div>
+      <div class="cs-sec-b">
+        <p>In fashion delivery, distance is the product. So every store and product card carries a live ETA and distance, and the home screen leads with the stores near you rather than an endless catalogue. Shoppers can switch between a list and a map of stores, and onboarding asks for location first, because without it the app has nothing useful to show.</p>
+        <div class="cs-phones"><figure data-cursor="Zoom" class="cs-phone"><img src="../assets/img/shazx-onboarding.webp" alt="A2 · Onboarding" loading="lazy" decoding="async" width="520" height="1128" /><figcaption class="mono">A2 · Onboarding</figcaption></figure><figure data-cursor="Zoom" class="cs-phone"><img src="../assets/img/shazx-home.webp" alt="B1 · Home" loading="lazy" decoding="async" width="520" height="1128" /><figcaption class="mono">B1 · Home</figcaption></figure><figure data-cursor="Zoom" class="cs-phone"><img src="../assets/img/shazx-stores-map.webp" alt="C2 · Stores on a map" loading="lazy" decoding="async" width="520" height="1128" /><figcaption class="mono">C2 · Stores on a map</figcaption></figure></div>
+      </div>
+    </section>
+    <section class="cs-sec">
+      <div class="cs-sec-h"><span class="mono">03</span><h2>Built for clothes, not groceries</h2></div>
+      <div class="cs-sec-b">
+        <p>Clothing has problems groceries don’t: sizes run out, one outfit can come from two stores, and fit is personal. Product pages show which sizes are actually available in that store right now, with unavailable sizes struck out rather than hidden. The cart groups items by store, each with its own delivery time, and the app warns you before you mix orders it can’t deliver together.</p>
+        <div class="cs-phones"><figure data-cursor="Zoom" class="cs-phone"><img src="../assets/img/shazx-product.webp" alt="D2 · Product detail" loading="lazy" decoding="async" width="520" height="1128" /><figcaption class="mono">D2 · Product detail</figcaption></figure><figure data-cursor="Zoom" class="cs-phone"><img src="../assets/img/shazx-size-unavailable.webp" alt="D2 · Size unavailable" loading="lazy" decoding="async" width="520" height="1128" /><figcaption class="mono">D2 · Size unavailable</figcaption></figure><figure data-cursor="Zoom" class="cs-phone"><img src="../assets/img/shazx-cart.webp" alt="F1 · Multi-store cart" loading="lazy" decoding="async" width="520" height="1128" /><figcaption class="mono">F1 · Multi-store cart</figcaption></figure></div>
+      </div>
+    </section>
+    <section class="cs-sec">
+      <div class="cs-sec-h"><span class="mono">04</span><h2>From checkout to the door</h2></div>
+      <div class="cs-sec-b">
+        <p>Mobile number and OTP sign-in keeps the first purchase quick. Checkout puts UPI first, as most Indian shoppers expect, with cards, net banking and cash on delivery as fallbacks. After payment, live tracking shows the rider on the map, the order’s stage, and a direct line to call or chat with them.</p>
+        <div class="cs-phones"><figure data-cursor="Zoom" class="cs-phone"><img src="../assets/img/shazx-login.webp" alt="A3 · Sign in" loading="lazy" decoding="async" width="520" height="1128" /><figcaption class="mono">A3 · Sign in</figcaption></figure><figure data-cursor="Zoom" class="cs-phone"><img src="../assets/img/shazx-payment.webp" alt="F5 · Payment" loading="lazy" decoding="async" width="520" height="1128" /><figcaption class="mono">F5 · Payment</figcaption></figure><figure data-cursor="Zoom" class="cs-phone"><img src="../assets/img/shazx-tracking.webp" alt="G1 · Live tracking" loading="lazy" decoding="async" width="520" height="1128" /><figcaption class="mono">G1 · Live tracking</figcaption></figure></div>
+      </div>
+    </section>
+    <section class="cs-sec">
+      <div class="cs-sec-h"><span class="mono">05</span><h2>Every state, not just the happy path</h2></div>
+      <div class="cs-sec-b">
+        <p>A prototype that only shows the ideal flow hides the hardest design decisions. I mapped the full product as 99 screens and states across 11 flows: auth, home, stores, products, search, cart and checkout, tracking, notifications, modals, system screens and account. Each failure gets a clear next step instead of a dead end.</p>
+        <div class="cs-grid"><div class="cs-card"><h4>Wrong or expired otp</h4><p>Inline error with attempts left, a resend timer, and a lockout state after too many tries.</p></div><div class="cs-card"><h4>Outside the delivery zone</h4><p>The address is flagged right in the list, so shoppers fix it before checkout, not after.</p></div><div class="cs-card"><h4>Upi timed out</h4><p>The order is kept, with one tap to retry or switch payment method.</p></div><div class="cs-card"><h4>Rider running late</h4><p>A revised ETA with the reason, shown up front instead of letting the old time silently pass.</p></div><div class="cs-card"><h4>Cancel after pickup</h4><p>Explains why it’s no longer possible and offers support, instead of a disabled button.</p></div><div class="cs-card"><h4>No stores nearby yet</h4><p>A notify-me option and a quick way to change location, so the first visit still ends with an action.</p></div></div>
+        <div class="cs-phones"><figure data-cursor="Zoom" class="cs-phone"><img src="../assets/img/shazx-otp-wrong.webp" alt="A4 · Wrong OTP" loading="lazy" decoding="async" width="520" height="1128" /><figcaption class="mono">A4 · Wrong OTP</figcaption></figure><figure data-cursor="Zoom" class="cs-phone"><img src="../assets/img/shazx-out-of-zone.webp" alt="F2 · Out of delivery zone" loading="lazy" decoding="async" width="520" height="1128" /><figcaption class="mono">F2 · Out of delivery zone</figcaption></figure><figure data-cursor="Zoom" class="cs-phone"><img src="../assets/img/shazx-upi-timeout.webp" alt="F5 · UPI timeout" loading="lazy" decoding="async" width="520" height="1128" /><figcaption class="mono">F5 · UPI timeout</figcaption></figure><figure data-cursor="Zoom" class="cs-phone"><img src="../assets/img/shazx-running-late.webp" alt="G1 · Running late" loading="lazy" decoding="async" width="520" height="1128" /><figcaption class="mono">G1 · Running late</figcaption></figure><figure data-cursor="Zoom" class="cs-phone"><img src="../assets/img/shazx-cancel-blocked.webp" alt="G6 · Already picked up" loading="lazy" decoding="async" width="520" height="1128" /><figcaption class="mono">G6 · Already picked up</figcaption></figure><figure data-cursor="Zoom" class="cs-phone"><img src="../assets/img/shazx-no-stores.webp" alt="B3 · No stores nearby" loading="lazy" decoding="async" width="520" height="1128" /><figcaption class="mono">B3 · No stores nearby</figcaption></figure></div>
+      </div>
+    </section>
+    <section class="cs-sec">
+      <div class="cs-sec-h"><span class="mono">06</span><h2>Both sides of the marketplace</h2></div>
+      <div class="cs-sec-b">
+        <p>A marketplace only works if stores can keep up. Alongside the shopper app, I designed a partner app for store owners to accept orders, keep stock in sync and hand orders over to riders, which is what lets the shopper side promise live availability.</p>
+      </div>
+    </section>
+    <section class="cs-sec">
+      <div class="cs-sec-h"><span class="mono">07</span><h2>What I’d test next</h2></div>
+      <div class="cs-sec-b">
+        <p>The open question is how small the delivery radius can be while still showing enough choice. The next step is testing radius and store density against how often shoppers actually find their size, before committing to it in the product.</p>
+      </div>
+    </section>
+  </article>
+  <div class="wrap">
+    <a class="next" href="yellow-spiders.html" data-cursor="Next">
+      <span class="mono">Next case study</span>
+      <div class="next-t display">Yellowspiders Pottery&nbsp;→</div>
+    </a>
+  <footer class="foot mono">
+    <span>© 2026 Harshal Rathod</span>
+    <span>Mumbai · <span data-clock>--:--</span> IST</span>
+    <a href="#top" class="muted">Back to top ↑</a>
+  </footer>
+  </div>
+</main>
+<div class="lightbox" role="dialog" aria-label="Image viewer"><button class="lightbox-x pill pill-light">Close ✕</button><img alt="" /></div>
+</body>
+</html>

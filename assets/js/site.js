@@ -37,7 +37,7 @@
   const lb = $('.lightbox')
   if (lb) {
     const img = $('img', lb)
-    $$('.cs-fig').forEach(f => f.addEventListener('click', () => { img.src = $('img', f).src; img.alt = $('img', f).alt; lb.classList.add('open'); lb.scrollTop = 0; document.documentElement.style.overflow = 'hidden'; window.__lenis && window.__lenis.stop() }))
+    $$('.cs-fig, .cs-phone').forEach(f => f.addEventListener('click', () => { img.src = $('img', f).src; img.alt = $('img', f).alt; lb.classList.add('open'); lb.scrollTop = 0; document.documentElement.style.overflow = 'hidden'; window.__lenis && window.__lenis.stop() }))
     const close = () => { lb.classList.remove('open'); document.documentElement.style.overflow = ''; window.__lenis && window.__lenis.start() }
     lb.addEventListener('click', close)
     addEventListener('keydown', e => { if (e.key === 'Escape') close() })
